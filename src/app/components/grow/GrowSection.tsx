@@ -29,7 +29,7 @@ const GrowSection = () => {
     ];
 
     return (
-        <div className="mt-[3%]">
+        <div className="mt-[-8%]">
             {/* Hero Section */}
             <div className="container mx-auto px-4 py-16">
                 <div className="text-center max-w-4xl mx-auto mb-16">

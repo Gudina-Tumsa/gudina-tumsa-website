@@ -12,7 +12,7 @@ const Footer = () => {
                             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
                                 <span className="text-white font-bold text-sm">B</span>
                             </div>
-                            <span className="text-xl font-bold text-gray-900">Blinkist</span>
+                            <span className="text-xl font-bold text-gray-900">Gudina Legacy Foundation</span>
                         </div>
                         <div className="bg-blue-600 text-white px-3 py-2 rounded-md inline-block mb-4">
                             <div className="text-sm font-semibold">Powerful ideas—</div>
