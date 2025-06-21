@@ -38,7 +38,7 @@ const GrowSection = () => {
                     </h1>
                     <p className="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
                         Forget carving out time. Slip in a little learning in the car, waiting in line, over
-                        lunch, before bed, or whenever you've got a moment.
+                        lunch, before bed, or whenever youve got a moment.
                     </p>
                 </div>
 
@@ -54,7 +54,7 @@ const GrowSection = () => {
                                 <LearningCardGrow
                                     title={scenario.title}
                                     image={scenario.image}
-                                    badge={scenario.badge}
+
                                     className={scenario.className}
                                 />
                             </div>

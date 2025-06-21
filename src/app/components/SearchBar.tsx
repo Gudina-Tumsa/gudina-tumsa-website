@@ -1,6 +1,6 @@
 "use client"
-import { Search, ChevronDown } from "lucide-react";
-import {useState} from "react"
+import { Search } from "lucide-react";
+
 import ProfileDropdown from "@/app/components/ProfileDropdown";
 const SearchBar = () => {
     return (

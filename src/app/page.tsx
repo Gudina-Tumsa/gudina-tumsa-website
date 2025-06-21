@@ -4,7 +4,7 @@ import Header from '@/app/components/Header';
 import HeroSection from '@/app/components/HeroSection';
 import BookPreview from '@/app/components/BookPreview';
 import HomePageCategory from "@/app/components/HomePageCategory";
-import MobileAppSection from "@/app/components/MobileAppSection";
+
 import LearningCarousel from './components/LearningCarousal/LearningCarousel';
 import GrowSection from "@/app/components/grow/GrowSection";
 import Faq from "@/app/components/Faq/faq";

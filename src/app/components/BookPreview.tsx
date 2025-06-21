@@ -1,5 +1,6 @@
 "use client"
-import React, { useEffect, useState, useRef } from 'react';
+
+import React, {  useRef } from 'react';
 import {ArrowDown, Leaf, Star} from "lucide-react";
 
 const sentences = [
@@ -9,30 +10,7 @@ const sentences = [
 ];
 
 const BookPreview = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const pRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-    const [widths, setWidths] = useState<number[]>([]);
-
-    useEffect(() => {
-        const updateWidths = () => {
-            const newWidths = pRefs.current.map((p) => p?.offsetWidth || 0);
-            setWidths(newWidths);
-        };
-
-        updateWidths();
-
-        window.addEventListener('resize', updateWidths);
-        return () => window.removeEventListener('resize', updateWidths);
-    }, []);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % sentences.length);
-        }, 3500);
-
-        return () => clearInterval(interval);
-    }, []);
-
+    const pRefs = useRef<HTMLParagraphElement[]>([]);
 
     return (
         <div className=" px-6 py-16 flex flex-col items-center ">
@@ -58,22 +36,10 @@ const BookPreview = () => {
                                 className="relative overflow-hidden "
                                 style={{ position: 'relative', display: 'inline-block' }}
                             >
-                                {/* Roller overlay */}
-                                {/*{activeIndex === index && (*/}
-                                {/*    <div*/}
-                                {/*        className="absolute top-0 left-0 h-full bg-orange-300 opacity-40"*/}
-                                {/*        style={{*/}
-                                {/*            width: widths[index] ? widths[index] + 'px' : '0px',*/}
-                                {/*            animation: 'slideRoller 3s linear forwards',*/}
-                                {/*            borderRadius: '4px',*/}
-                                {/*        }}*/}
-                                {/*    />*/}
-                                {/*)}*/}
 
-                                <p
-                                    ref={(el) => (pRefs.current[index] = el)}
-
-                                >
+                                <p ref={(el) => {
+                                    if (el) pRefs.current[index] = el;
+                                }}>
                                     {sentence}
                                 </p>
                             </div>
@@ -136,32 +102,3 @@ const BookPreview = () => {
 export default BookPreview;
 
 
-
-/*
-
-import React from 'react';
-
-const BookPreview = () => {
-    // const useImage = true; // Set to false to use gradient background
-
-    return (
-        <div className="bg-gray-50  px-6">
-            <div className="max-w-6xl mx-auto">
-                <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-                    <div className="h-[400px] w-full">
-                        {useImage ? (
-   <img
-        src="https://source.unsplash.com/featured/?book"
-        alt="Book preview"
-        className="w-full h-full object-cover"
-    />
-) : (
-// <div className="w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600" />
-//  )}
-// </div>
-// </div>
-// </div>
-// </div>
-// );
-// };
- */

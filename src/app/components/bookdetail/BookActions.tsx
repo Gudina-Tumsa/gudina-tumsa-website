@@ -1,4 +1,4 @@
-import { ChevronDown, Share } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const BookActions = () => {
     return (

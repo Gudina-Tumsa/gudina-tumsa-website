@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {ChevronLeft, ChevronRight} from "lucide-react";
-import LearningCard from "@/app/components/grow/LearningCardGrow";
 
 interface LearningMethod {
     id: number;

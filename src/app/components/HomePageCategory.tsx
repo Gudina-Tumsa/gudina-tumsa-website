@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+
 
 const HomePageCategory = () => {
     const [activeCategory, setActiveCategory] = useState('Architecture');
@@ -74,14 +74,7 @@ const HomePageCategory = () => {
         }
     ];
 
-    const publishers = [
-        'CAMBRIDGE',
-        'Taylor & Francis Group',
-        'ELSEVIER',
-        'STANFORD UNIVERSITY PRESS',
-        'WILEY',
-        'Harvard University Press'
-    ];
+
 
     return (
         <div className="min-h-screen bg-white">

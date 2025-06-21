@@ -17,7 +17,7 @@ export const FormInput: React.FC<FormInputProps> = ({
                                                         maxLength = 50
                                                     }) => {
     const [isFocused, setIsFocused] = useState(false);
-
+    console.log(isFocused)
     const handleClear = () => {
         onChange('');
     };

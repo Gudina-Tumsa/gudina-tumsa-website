@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Search, BookOpen, BookMarked, CheckCircle, Notebook, Plus, type LucideIcon } from "lucide-react"
+import { Home, Search, BookOpen, BookMarked, CheckCircle, Notebook, Plus } from "lucide-react"
 import {
   SidebarGroup,
   SidebarGroupLabel,

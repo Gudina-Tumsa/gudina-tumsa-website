@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const BookCover = () => {
     const [imageError, setImageError] = useState(false);
+    console.log(imageError)
 
     return (
         <div className="sticky top-8">
