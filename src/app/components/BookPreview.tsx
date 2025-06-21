@@ -15,7 +15,7 @@ const BookPreview = () => {
     return (
         <div className=" px-6 py-16 flex flex-col items-center ">
             <div className="max-w-6xl w-full">
-                <div className={"text-center my-[2%]"}>
+                <div className={"text-center my-[2%] mt-[5%]"}>
                     <p className={"font-bold text-4xl"}>Understand key ideas <br/> in 15 minutes</p>
                 </div>
 
@@ -25,7 +25,7 @@ const BookPreview = () => {
                     </div>
                 </div>
             </div>
-            {/* Sentences with roller */}
+
 <div className={"w-full "}>
 
     <div className="max-w-6xl w-full mx-auto pt-[2%]">

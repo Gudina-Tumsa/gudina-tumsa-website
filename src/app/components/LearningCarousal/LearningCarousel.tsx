@@ -16,6 +16,7 @@ interface LearningCardProps {
     method: LearningMethod;
 }
 
+
 const LearningCard = ({ method }: LearningCardProps) => {
     return (
         <div className="bg-gradient-to-br from-purple-100 to-blue-100 py-[2%]">
@@ -172,19 +173,7 @@ const LearningCarousel = () => {
                 </div>
 
                 {/* Navigation Arrows */}
-                <button
-                    onClick={prevSlide}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all duration-200 hover:scale-110"
-                >
-                    <ChevronLeft className="w-6 h-6 text-slate-700" />
-                </button>
 
-                <button
-                    onClick={nextSlide}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all duration-200 hover:scale-110"
-                >
-                    <ChevronRight className="w-6 h-6 text-slate-700" />
-                </button>
 
                 {/* Dots Indicator */}
                 <div className="flex justify-center mt-8 space-x-3">
@@ -192,7 +181,7 @@ const LearningCarousel = () => {
                         <button
                             key={index}
                             onClick={() => setCurrentIndex(index)}
-                            className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                            className={` mt-[1%] w-[7%] h-1 rounded-full transition-all duration-200 ${
                                 index === currentIndex
                                     ? 'bg-slate-700 w-8'
                                     : 'bg-slate-300 hover:bg-slate-400'
@@ -200,7 +189,27 @@ const LearningCarousel = () => {
                         />
                     ))}
                 </div>
+
             </div>
+            <div className={"flex flex-row  justify-between"}>
+                <div></div>
+                <div className={"mr-[5%]"}>
+                    <button
+                        onClick={prevSlide}
+                        className=" mt-[1%] -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 transition-all duration-200 hover:scale-110"
+                    >
+                        <ChevronLeft className="w-6 h-6 text-slate-700 hover:text-black" />
+                    </button>
+
+                    <button
+                        onClick={nextSlide}
+                        className=" mt-[1%] -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 transition-all duration-200 hover:scale-110"
+                    >
+                        <ChevronRight className="w-6 h-6 text-slate-700 hover:text-black" />
+                    </button>
+                </div>
+            </div>
+
         </div>
     );
 };

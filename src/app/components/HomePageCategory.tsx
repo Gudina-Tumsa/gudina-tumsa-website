@@ -1,20 +1,66 @@
 "use client"
 import React, { useState } from 'react';
-
+import {
+    Landmark,
+    Palette,
+    BookOpenCheck,
+    Brain,
+    BarChart,
+    Briefcase,
+    Laptop,
+    Book,
+    Users,
+} from "lucide-react";
 
 const HomePageCategory = () => {
     const [activeCategory, setActiveCategory] = useState('Architecture');
 
     const categories = [
-        { name: 'Architecture', icon: '🏛️', color: 'bg-yellow-100 text-yellow-800' },
-        { name: 'Art', icon: '🎨', color: 'bg-orange-100 text-orange-800' },
-        { name: 'Philosophy', icon: '🤔', color: 'bg-purple-100 text-purple-800' },
-        { name: 'History', icon: '📚', color: 'bg-purple-100 text-purple-800' },
-        { name: 'Economics', icon: '📊', color: 'bg-red-100 text-red-800' },
-        { name: 'Business', icon: '💼', color: 'bg-red-100 text-red-800' },
-        { name: 'Computer Science', icon: '💻', color: 'bg-blue-100 text-blue-800' },
-        { name: 'Literature', icon: '📖', color: 'bg-yellow-100 text-yellow-800' },
-        { name: 'Social Sciences', icon: '🏛️', color: 'bg-pink-100 text-pink-800' },
+        {
+            name: "Architecture",
+            icon: <Landmark className="w-5 h-5" />,
+            color: "bg-yellow-100 text-yellow-800",
+        },
+        {
+            name: "Art",
+            icon: <Palette className="w-5 h-5" />,
+            color: "bg-orange-100 text-orange-800",
+        },
+        {
+            name: "Philosophy",
+            icon: <Brain className="w-5 h-5" />,
+            color: "bg-purple-100 text-purple-800",
+        },
+        {
+            name: "History",
+            icon: <BookOpenCheck className="w-5 h-5" />,
+            color: "bg-purple-100 text-purple-800",
+        },
+        {
+            name: "Economics",
+            icon: <BarChart className="w-5 h-5" />,
+            color: "bg-red-100 text-red-800",
+        },
+        {
+            name: "Business",
+            icon: <Briefcase className="w-5 h-5" />,
+            color: "bg-red-100 text-red-800",
+        },
+        {
+            name: "Computer Science",
+            icon: <Laptop className="w-5 h-5" />,
+            color: "bg-blue-100 text-blue-800",
+        },
+        {
+            name: "Literature",
+            icon: <Book className="w-5 h-5" />,
+            color: "bg-yellow-100 text-yellow-800",
+        },
+        {
+            name: "Social Sciences",
+            icon: <Users className="w-5 h-5" />,
+            color: "bg-pink-100 text-pink-800",
+        },
     ];
 
     const books = [
@@ -77,7 +123,7 @@ const HomePageCategory = () => {
 
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className=" bg-white">
             {/* Hero Section */}
             <div className="text-center py-16 px-4">
                 <h1 className="text-5xl md:text-6xl font-bold text-black mb-4">
@@ -86,6 +132,8 @@ const HomePageCategory = () => {
                 <h2 className="text-4xl md:text-5xl font-bold text-blue-600 italic">
                     One membership.
                 </h2>
+                <p className={"text-center text-lg mt-[2%] text-gray-600"}>What are you interested in?</p>
+
             </div>
 
             {/* Category Tabs */}
@@ -103,8 +151,11 @@ const HomePageCategory = () => {
                             }
               `}
                         >
-                            <span className="mr-2">{category.icon}</span>
-                            {category.name}
+                           <div className={"flex flex-row"}>
+                               <span className="mr-2">{category.icon}</span>
+                               {category.name}
+
+                           </div>
                         </button>
                     ))}
                 </div>
