@@ -206,12 +206,12 @@ const HomePageCategory = () => {
                     </div>
 
                     {/* View All Button */}
-                    <div className="text-center mb-16">
-                        <button className="inline-flex items-center px-8 py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group">
-                            <span className="font-medium mr-2">View all in Architecture</span>
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </div>
+                    {/*<div className="text-center mb-16">*/}
+                    {/*    <button className="inline-flex items-center px-8 py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group">*/}
+                    {/*        <span className="font-medium mr-2">View all in Architecture</span>*/}
+                    {/*        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                 </div>
             </div>
 

@@ -1,8 +1,8 @@
 const MobileAppSection = () => {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="  mx-[2%] py-[5%]">
             {/* Header */}
-            <div className="text-center pt-16 pb-8">
+            <div className="text-center  ">
                 <p className="font-medium text-black tracking-wider uppercase mb-4">
                     OUR APP
                 </p>
@@ -15,7 +15,7 @@ const MobileAppSection = () => {
             </div>
 
             {/* Main Content */}
-            <div className="w-[45%] mx-auto px-6 py-16">
+            <div className="w-[50%] mx-auto px-6 py-5">
                 <div className="grid lg:grid-cols-2 "> {/* Changed gap-16 to gap-8 */}
                     {/* Left Content */}
                     <div className=""> {/* Added right padding */}

@@ -1,22 +1,12 @@
 import { AppSidebar } from "@/app/components/app-sidebar"
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/app/components/ui/breadcrumb"
-import { Separator } from "@/app/components/ui/separator"
-import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
+
 } from "@/app/components/ui/sidebar"
-import Sidebar from "@/app/components/Sidebar";
 import SearchBar from "@/app/components/SearchBar";
-import ProgressWidget from "@/app/components/ProgressWidget";
 import BookGrid from "@/app/components/BookGrid";
+import SidebarLayout from "@/app/components/sidebar-layout";
 
 export default function Page() {
   const currentlyReadingBooks = [
@@ -68,26 +58,8 @@ export default function Page() {
   ];
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
+      <SidebarLayout>
 
-      <SidebarInset>
-        {/*<header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">*/}
-        {/*  <div className="flex items-center gap-2 px-4">*/}
-        {/*    <SidebarTrigger className="-ml-1" />*/}
-
-
-        {/*  </div>*/}
-        {/*</header>*/}
-
-
-        <div className=" w-[70%] mx-auto">
-
-
-
-
-          <main className="">
-            <div className="p-8 max-w-7xl mx-auto">
               <SearchBar />
               <div className="flex flex-row justify-between">
                 <div className="mb-8">
@@ -96,21 +68,7 @@ export default function Page() {
                   </h1>
                   <p className="text-gray-600">Welcome back!</p>
                 </div>
-                {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">*/}
-                {/*  <ProgressWidget*/}
-                {/*      title="Weekly reading progress"*/}
-                {/*      subtitle="Complete 3 reading sessions"*/}
-                {/*      value="0/3"*/}
-                {/*      unit=""*/}
-                {/*      linkText="Why am I seeing this?"*/}
-                {/*  />*/}
-                {/*  <ProgressWidget*/}
-                {/*      title="Reading history"*/}
-                {/*      subtitle=""*/}
-                {/*      value="0"*/}
-                {/*      unit="books used"*/}
-                {/*  />*/}
-                {/*</div>*/}
+
               </div>
 
               <BookGrid
@@ -123,10 +81,74 @@ export default function Page() {
                   title="Top Picks for you"
                   books={topPicksBooks}
               />
-            </div>
-          </main>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+
+      </SidebarLayout>
   )
 }
+
+
+
+
+// return (
+//     <SidebarProvider>
+//       <AppSidebar />
+//
+//       <SidebarInset>
+//         {/*<header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">*/}
+// {/*  <div className="flex items-center gap-2 px-4">*/}
+// {/*    <SidebarTrigger className="-ml-1" />*/}
+//
+//
+// {/*  </div>*/}
+// {/*</header>*/}
+//
+//
+// <div className=" w-[70%] mx-auto">
+//
+//
+//
+//
+//   <main className="">
+//     <div className="p-8 max-w-7xl mx-auto">
+//       <SearchBar />
+//       <div className="flex flex-row justify-between">
+//         <div className="mb-8">
+//           <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+//             Good evening abenezer 👋
+//           </h1>
+//           <p className="text-gray-600">Welcome back!</p>
+//         </div>
+//         {/*<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">*/}
+//         {/*  <ProgressWidget*/}
+//         {/*      title="Weekly reading progress"*/}
+//         {/*      subtitle="Complete 3 reading sessions"*/}
+//         {/*      value="0/3"*/}
+//         {/*      unit=""*/}
+//         {/*      linkText="Why am I seeing this?"*/}
+//         {/*  />*/}
+//         {/*  <ProgressWidget*/}
+//         {/*      title="Reading history"*/}
+//         {/*      subtitle=""*/}
+//         {/*      value="0"*/}
+//         {/*      unit="books used"*/}
+//         {/*  />*/}
+//         {/*</div>*/}
+//       </div>
+//
+//       <BookGrid
+//           title="Reading"
+//           books={currentlyReadingBooks}
+//           showCurrentlyReading={true}
+//       />
+//
+//       <BookGrid
+//           title="Top Picks for you"
+//           books={topPicksBooks}
+//       />
+//     </div>
+//   </main>
+// </div>
+// </SidebarInset>
+// </SidebarProvider>
+// )
+
