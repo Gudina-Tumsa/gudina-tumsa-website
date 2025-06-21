@@ -12,6 +12,7 @@ import Faq from "@/app/components/Faq/faq";
 import Footer from "@/app/components/Footer";
 
 import {motion,  useScroll, useTransform} from "framer-motion";
+import {ArrowRight} from "lucide-react";
 
 interface LearningMethod {
     id: number;
@@ -37,6 +38,7 @@ const ScrollingLearningCards = ({ methods }: ScrollingLearningCardsProps) => {
 
     return (
         <div ref={containerRef} className="relative">
+
             {methods.map((method, index) => (
                 <LearningCardWithScroll
                     key={method.id}
@@ -102,6 +104,7 @@ const LearningCardWithScroll = ({
             }}
             className="h-screen flex items-center justify-center sticky top-0 w-[70%] mx-auto"
         >
+            {/*<p className>asdf</p>*/}
             <div className="bg-gradient-to-br from-purple-100 to-blue-100 w-full py-[2%]">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Left Content */}
@@ -229,12 +232,16 @@ const Index = () => {
             <BookPreview />
 
             <HomePageCategory />
-          <div className="w-[50%] mx-auto px-6 bg-blue-900 text-white rounded-lg p-8 flex flex-col items-center justify-center mt-[8%]">
-              <h1 className="text-4xl font-bold mb-4">Join now</h1>
-              <p className="text-xl mb-8">Get access to over a million books, right now.</p>
-              <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg">
-                  Get started
-              </button>
+          <div className="w-[50%] mx-auto px-6  text-white rounded-lg p-8 flex flex-col items-center justify-center ">
+              <h1 className="text-4xl font-bold mb-4  text-black">Join now</h1>
+              <p className="text-xl mb-8 text-black">Get access to over a million books, right now.</p>
+
+              <div className=" mb-16">
+                  <button className="inline-flex items-center px-8 py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group">
+                      <span className="font-medium mr-2">Get Started</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+              </div>
           </div>
           {/*carousal*/}
           {/*<LearningCarousel />*/}
