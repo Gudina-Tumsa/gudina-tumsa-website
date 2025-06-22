@@ -5,6 +5,7 @@ interface Book {
     id: string;
     title: string;
     year: string;
+    writer : string;
     coverImage: string;
 }
 
@@ -23,6 +24,7 @@ const BookGrid = ({ title, books, showCurrentlyReading }: BookGridProps) => {
                     <BookCard
                         key={book.id}
                         title={book.title}
+                        writer={book.writer}
                         year={book.year}
                         coverImage={book.coverImage}
                         isCurrentlyReading={showCurrentlyReading}

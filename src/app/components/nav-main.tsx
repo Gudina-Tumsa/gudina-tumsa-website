@@ -8,17 +8,19 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/app/components/ui/sidebar"
+import { Settings, Mail, LogOut } from "lucide-react";
+import Link from "next/link";
 
 export function NavMain() {
   const navigationItems = [
-    { title: "Home", url: "/", icon: Home },
-    { title: "Research Assistant", url: "/research", icon: Search },
-    { title: "Browse", url: "/browse", icon: BookOpen },
+    { title: "Home", url: "/home", icon: Home },
+    { title: "My library", url: "/toread", icon: BookMarked },
+    { title: "Browse", url: "/browse", icon: Search },
   ];
 
   const activityItems = [
     { title: "Reading", url: "/reading", icon: BookOpen, count: 1 },
-    { title: "Want to read", url: "/want-to-read", icon: BookMarked, count: 0 },
+
     { title: "Completed", url: "/completed", icon: CheckCircle, count: 0 },
   ];
 
@@ -31,10 +33,10 @@ export function NavMain() {
             {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center">
+                    <Link href={item.url} className="flex items-center">
                       {item.icon && <item.icon className="mr-3 h-5 w-5" />}
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
             ))}
@@ -60,28 +62,37 @@ export function NavMain() {
           </SidebarMenu>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/notebook" className="flex items-center">
-                  <Notebook className="mr-3 h-5 w-5" />
-                  <span>Notebook</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+
 
         <SidebarGroup>
-          <SidebarGroupLabel>My Bookshelves</SidebarGroupLabel>
+          <div className="border-t border-gray-200 my-4" />
+
+
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <button className="flex items-center w-full">
-                  <Plus className="mr-3 h-5 w-5" />
-                  <span>Create first bookshelf</span>
+                <Link  href="/settings" className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
+                  <Settings className="mr-3 h-5 w-5" />
+                  <span>Settings</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <button className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
+                  <Mail className="mr-3 h-5 w-5" />
+                  <span>Contact Us</span>
                 </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link href={"/"} className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600">
+                  <LogOut className="mr-3 h-5 w-5" />
+                  <span>Logout</span>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

@@ -8,6 +8,7 @@ export default function Page() {
     {
       id: "1",
       title: "National Parks of Europe",
+      writer : "Mr writer",
       year: "2017",
       coverImage: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400&h=600&fit=crop"
     }
@@ -17,36 +18,42 @@ export default function Page() {
     {
       id: "2",
       title: "The Art of War",
+      writer : "Mr writer",
       year: "2020",
       coverImage: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=600&fit=crop"
     },
     {
       id: "3",
       title: "Digital Marketing",
+      writer : "Mr writer",
       year: "2021",
       coverImage: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=400&h=600&fit=crop"
     },
     {
       id: "4",
       title: "Psychology Today",
+      writer : "Mr writer",
       year: "2019",
       coverImage: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=600&fit=crop"
     },
     {
       id: "5",
       title: "Modern Architecture",
+      writer : "Mr writer",
       year: "2022",
       coverImage: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=600&fit=crop"
     },
     {
       id: "6",
       title: "Climate Change",
+      writer : "Mr writer",
       year: "2021",
       coverImage: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=600&fit=crop"
     },
     {
       id: "7",
       title: "Data Science",
+      writer : "Mr writer",
       year: "2023",
       coverImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=600&fit=crop"
     }

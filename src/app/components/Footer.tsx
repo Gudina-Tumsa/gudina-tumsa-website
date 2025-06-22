@@ -10,13 +10,13 @@ const Footer = () => {
                     <div className="lg:col-span-1">
                         <div className="flex items-center mb-4">
                             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                                <span className="text-white font-bold text-sm">B</span>
+                                <span className="text-white font-bold text-sm">G</span>
                             </div>
-                            <span className="text-xl font-bold text-gray-900">Gudina Legacy Foundation</span>
+                            <span className="text-xl font-bold text-gray-900">GTL</span>
                         </div>
-                        <div className="bg-blue-600 text-white px-3 py-2 rounded-md inline-block mb-4">
-                            <div className="text-sm font-semibold">Powerful ideas—</div>
-                            <div className="text-sm">15 minutes at a time</div>
+                        <div className=" text-black px-3 py-2 rounded-md inline-block mb-4">
+                            <div className="text-sm font-semibold">My name is lorem ipusm</div>
+                            <div className="text-sm">My name is lorem ipusm</div>
                         </div>
 
                         {/* App Store Buttons */}
@@ -74,17 +74,18 @@ const Footer = () => {
                     <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
                         {/* Copyright and Legal Links */}
                         <div className="flex flex-wrap items-center text-sm text-gray-500 space-x-4">
-                            <span>© Blinkist 2025</span>
+                            <span>© GTL 2025</span>
                             <span>|</span>
-                            <a href="#" className="hover:text-gray-700 transition-colors">Sitemap</a>
-                            <span>|</span>
+
                             <a href="#" className="hover:text-gray-700 transition-colors">Legal Notice</a>
                             <span>|</span>
+                            <a href="#" className="hover:text-gray-700 transition-colors">content-policy</a>
+                            <span>|</span>
+
                             <a href="#" className="hover:text-gray-700 transition-colors">Terms of Service</a>
                             <span>|</span>
                             <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a>
-                            <span>|</span>
-                            <a href="#" className="hover:text-gray-700 transition-colors">Cookie Consent</a>
+
                         </div>
 
                         {/* Social Media Icons */}

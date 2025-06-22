@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const LoginForm = () => {
     return (
         <div className="w-full max-w-md mx-auto">
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2">Log in to Perlego</h1>
+                <h1 className="text-2xl font-semibold text-gray-900 mb-2">Log in to GTL</h1>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -35,7 +36,7 @@ const LoginForm = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
+                        <label htmlFor="password" className="text-sm font-medium text-gray-700">
                             Password
                         </label>
                         <input
@@ -48,7 +49,12 @@ const LoginForm = () => {
                         />
                     </div>
                 </div>
-
+                <div className="flex justify-between items-center mb-1">
+                    <div></div>
+                    <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                        Forgot password?
+                    </Link>
+                </div>
                 <div className="flex items-center">
                     <input
                         id="keepLoggedIn"
@@ -69,6 +75,15 @@ const LoginForm = () => {
                     Continue
                 </button>
             </form>
+
+            <div className="mt-6 text-center">
+                <p className="text-sm text-gray-700">
+                    Don’t have an account?{' '}
+                    <Link href="/signup" className="text-blue-600 hover:underline">
+                        Sign up
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 };
