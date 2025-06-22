@@ -1,44 +1,156 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { loginStart, loginSuccess, loginFailure } from "@/app/store/features/userSlice";
+import { AppDispatch } from "@/app/store/store";
+import {UserResponse} from "@/types/auth";
+import {useRouter} from "next/navigation";
+
+
+interface CreateUserResponse {
+    data: {
+        user: UserResponse;
+        session: {
+            token: string;
+            refreshToken: string;
+            deviceId: string;
+            createdAt: Date;
+            expiresAt: Date;
+        };
+    };
+}
 
 const SignUpForm = () => {
-    const [fullName, setFullName] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [phone, setPhone] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [error, setError] = useState("");
+    const role = "basic"
+    const languagePreference = "en"
+    const readingPreferences = "en"
+
+    const router = useRouter();
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Signup attempt:", { fullName, email, password, confirmPassword });
-        // Handle sign-up logic here
+
+        // Basic validation
+        if (password !== confirmPassword) {
+            setError("Passwords don't match");
+            return;
+        }
+
+        if (!firstName || !lastName || !email || !password) {
+            setError("Please fill in all required fields");
+            return;
+        }
+
+        dispatch(loginStart());
+
+        try {
+            const response = await fetch("http://localhost:3000/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    username,
+                    password,
+                    role,
+                    languagePreference,
+                    readingPreferences,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Signup failed");
+            }
+
+            const data: CreateUserResponse = await response.json();
+            dispatch(loginSuccess({
+                data: {
+                    user: data.data.user,
+                    session: data.data.session
+                }
+            }));
+            router.push('/home');
+
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "Signup failed";
+            setError(errorMessage);
+            dispatch(loginFailure(errorMessage));
+        }
     };
 
     return (
         <div className="w-full max-w-md mx-auto">
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2">Create your GTL account</h1>
+                <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                    Create your GTL account
+                </h1>
             </div>
+
+            {error && (
+                <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md">
+                    {error}
+                </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
-                    <div>
-                        <label htmlFor="fullName" className="text-sm font-medium text-gray-700 block mb-1">
-                            Full Name
-                        </label>
-                        <input
-                            id="fullName"
-                            type="text"
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
-                            className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                            required
-                        />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                htmlFor="firstName"
+                                className="text-sm font-medium text-gray-700 block mb-1"
+                            >
+                                First Name *
+                            </label>
+                            <input
+                                id="firstName"
+                                type="text"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="lastName"
+                                className="text-sm font-medium text-gray-700 block mb-1"
+                            >
+                                Last Name *
+                            </label>
+                            <input
+                                id="lastName"
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div>
-                        <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
-                            Email
+                        <label
+                            htmlFor="email"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Email *
                         </label>
                         <input
                             id="email"
@@ -51,8 +163,44 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
-                            Password
+                        <label
+                            htmlFor="username"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Username *
+                        </label>
+                        <input
+                            id="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            htmlFor="phone"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Phone Number
+                        </label>
+                        <input
+                            id="phone"
+                            type="tel"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label
+                            htmlFor="password"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Password *
                         </label>
                         <input
                             id="password"
@@ -65,8 +213,11 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 block mb-1">
-                            Confirm Password
+                        <label
+                            htmlFor="confirmPassword"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Confirm Password *
                         </label>
                         <input
                             id="confirmPassword"
@@ -77,11 +228,15 @@ const SignUpForm = () => {
                             required
                         />
                     </div>
+
+                    {/* Hidden fields with default values */}
+                    <input type="hidden" name="role" value={role} />
+                    <input type="hidden" name="languagePreference" value={languagePreference} />
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                 >
                     Sign up
                 </button>

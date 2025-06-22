@@ -20,12 +20,10 @@ function LanguageSelector() {
 
     const selectLanguage = (lang: string) => {
 
-        // @ts-ignore
+
         const locale = languageMap[lang]
         setUserLocale(locale)
-        // // Set cookie and reload with new locale
-        // document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000`
-        // // window.location.href = `/${locale}`
+
     }
 
     return (

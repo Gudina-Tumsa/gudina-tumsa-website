@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { FormInput } from './FormInput';
-
+import {RootState} from "@/app/store/store";
+import {useSelector} from "react-redux";
 export const PersonalDetailsForm = () => {
+    const user = useSelector((state: RootState) => state.user);
+
     const [formData, setFormData] = useState({
-        firstName: 'abenezer',
-        lastName: 'seifh',
-        email: 'webgoat12@gmail.com'
+        firstName: user?.user?.firstName || "",
+        lastName: user?.user?.lastName || "",
+        email: user?.user?.email || ""
     });
 
     const handleInputChange = (field: string, value: string) => {

@@ -1,9 +1,14 @@
-
+"use client"
 import SearchBar from "@/app/components/SearchBar";
 import BookGrid from "@/app/components/BookGrid";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
+import { useSelector } from 'react-redux';
+import {RootState} from "@/app/store/store";
 
 export default function Page() {
+
+  const user = useSelector((state: RootState) => state.user);
+
   const currentlyReadingBooks = [
     {
       id: "1",
@@ -58,7 +63,7 @@ export default function Page() {
       coverImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=600&fit=crop"
     }
   ];
-
+  console.log("the user is " ,user)
   return (
       <SidebarLayout>
 
@@ -66,7 +71,7 @@ export default function Page() {
               <div className="flex flex-row justify-between">
                 <div className="mb-8">
                   <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-                    Good evening abenezer 👋
+                    Good evening {user?.user?.firstName || " user "} 👋
                   </h1>
                   <p className="text-gray-600">Welcome back!</p>
                 </div>
