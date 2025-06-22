@@ -1,8 +1,8 @@
 
 import SearchBar from "@/app/components/SearchBar";
 
-import SidebarLayout from "@/app/components/sidebar-layout";
-import {CategoryCard} from "@/app/components/browse/CategoryCard";
+import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
+import {CategoryCard} from "@/components/elements/index/browse/CategoryCard";
 
 export default function Page() {
 

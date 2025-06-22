@@ -1,6 +1,7 @@
 import React from 'react';
-import Header from '../components/Header';
-import LoginForm from '../components/LoginForm';
+
+import LoginForm from '../../components/elements/login/LoginForm';
+import Header from "@/components/layout/Header";
 
 const Index = () => {
     return (

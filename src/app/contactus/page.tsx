@@ -1,4 +1,4 @@
-import SidebarLayout from "@/app/components/sidebar-layout";
+import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 
 export default function ContactPage() {
     return (

@@ -2,10 +2,10 @@
 
 import * as React from "react"
 import {AudioWaveform,BookOpen,Bot,Command,Frame,GalleryVerticalEnd,Map,PieChart,Settings2,SquareTerminal,} from "lucide-react"
-import { NavMain } from "@/app/components/nav-main"
+import { NavMain } from "@/components/layout/sidebar/nav-main"
 
-import { TeamSwitcher } from "@/app/components/team-switcher"
-import {Sidebar,SidebarContent,SidebarHeader} from "@/app/components/ui/sidebar"
+import { TeamSwitcher } from "@/components/layout/sidebar/team-switcher"
+import {Sidebar,SidebarContent,SidebarHeader} from "@/components/ui/sidebar"
 
 
 const data = {

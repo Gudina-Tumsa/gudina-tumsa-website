@@ -3,16 +3,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React , {useRef} from 'react';
-import Header from '@/app/components/Header';
+import Header from '@/components/layout/Header';
 import HeroSection from '@/app/components/HeroSection';
 import BookPreview from '@/app/components/BookPreview';
 import HomePageCategory from "@/app/components/HomePageCategory";
-import GrowSection from "@/app/components/grow/GrowSection";
-import Faq from "@/app/components/Faq/faq";
-import Footer from "@/app/components/Footer";
+import GrowSection from "@/components/elements/index/grow/GrowSection";
+import Faq from "@/components/elements/index/faq";
+import Footer from "@/components/layout/Footer";
 
 import {ArrowRight} from "lucide-react";
-import ScrollingLearningCards from "@/app/components/ScrollingLearningCards/ScrollingLearningCards";
+import ScrollingLearningCards from "@/components/elements/index/ScrollingLearningCards/ScrollingLearningCards";
 
 
 

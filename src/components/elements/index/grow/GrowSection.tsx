@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LearningCardGrow from "@/app/components/grow/LearningCardGrow";
+import LearningCardGrow from "@/components/elements/index/grow/LearningCardGrow";
 
 const GrowSection = () => {
     const learningScenarios = [

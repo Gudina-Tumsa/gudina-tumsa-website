@@ -51,7 +51,7 @@ const LoginForm = () => {
                 </div>
                 <div className="flex justify-between items-center mb-1">
                     <div></div>
-                    <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                    <Link href="/reset" className="text-sm text-blue-600 hover:underline">
                         Forgot password?
                     </Link>
                 </div>

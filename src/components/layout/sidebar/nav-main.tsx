@@ -7,7 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/app/components/ui/sidebar"
+} from "@/components/ui/sidebar"
 import { Settings, Mail, LogOut } from "lucide-react";
 import Link from "next/link";
 

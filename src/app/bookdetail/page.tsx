@@ -1,8 +1,8 @@
-import BookCover from "@/app/components/bookdetail/BookCover";
-import BookDetails from "@/app/components/bookdetail/BookDetails";
-import BookActions from "@/app/components/bookdetail/BookActions";
-import BookTabs from "@/app/components/bookdetail/BookTabs";
-import SidebarLayout from "@/app/components/sidebar-layout";
+import BookCover from "@/components/elements/bookdetail/BookCover";
+import BookDetails from "@/components/elements/bookdetail/BookDetails";
+import BookActions from "@/components/elements/bookdetail/BookActions";
+import BookTabs from "@/components/elements/bookdetail/BookTabs";
+import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 
 const Index = () => {
     return (

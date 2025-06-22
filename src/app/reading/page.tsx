@@ -1,7 +1,7 @@
 
 import SearchBar from "@/app/components/SearchBar";
 import BookGrid from "@/app/components/BookGrid";
-import SidebarLayout from "@/app/components/sidebar-layout";
+import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 
 export default function Page() {
 

@@ -1,12 +1,12 @@
 "use client"
 import React, { useState } from 'react';
-import { PersonalDetailsForm } from '../components/settings/PersonalDetailsForm';
-import { PasswordSection } from '../components/settings/PasswordSection';
+import { PersonalDetailsForm } from '../../components/elements/settings/PersonalDetailsForm';
+import { PasswordSection } from '../../components/elements/settings/PasswordSection';
 import { User, Lock } from 'lucide-react';
-import SidebarLayout from "@/app/components/sidebar-layout";
+import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 
 const Settings = () => {
-    const [activeTab, setActiveTab] = useState<'account' | 'preferences'>('account');
+    const [activeTab, setActiveTab] = useState<'account' | 'preferences' | 'sessions'>('account');
 
     return (
         <SidebarLayout>
@@ -38,6 +38,16 @@ const Settings = () => {
                                     }`}
                                 >
                                     Preferences
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('sessions')}
+                                    className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
+                                        activeTab === 'sessions'
+                                            ? 'text-blue-600 border-blue-600'
+                                            : 'text-gray-500 border-transparent hover:text-gray-700'
+                                    }`}
+                                >
+                                    sessions
                                 </button>
                             </div>
                         </div>
@@ -83,6 +93,12 @@ const Settings = () => {
                             {activeTab === 'preferences' && (
                                 <div className="text-center py-12">
                                     <p className="text-gray-500">Preferences settings coming soon...</p>
+                                </div>
+                            )}
+
+                            {activeTab === 'sessions' && (
+                                <div className="text-center py-12">
+                                    <p className="text-gray-500">Sessions settings coming soon...</p>
                                 </div>
                             )}
                         </div>

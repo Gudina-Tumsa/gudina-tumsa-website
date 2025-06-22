@@ -1,7 +1,6 @@
 import React from 'react';
-
-import SignUpForm from "@/components/elements/signup/SignupForm";
-import Header from "@/components/layout/Header";
+import Header from '@/components/layout/Header';
+import ResetPasswordForm from "@/components/elements/reset/ResetPasswordForm";
 
 const Index = () => {
     return (
@@ -9,7 +8,7 @@ const Index = () => {
             <Header />
 
             <div className="flex items-center justify-center px-4" style={{ minHeight: 'calc(100vh - 80px)' }}>
-                <SignUpForm />
+                <ResetPasswordForm />
             </div>
         </div>
     );
