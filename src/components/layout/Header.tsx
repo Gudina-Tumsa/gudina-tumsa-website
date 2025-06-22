@@ -4,16 +4,28 @@ import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import { Globe } from 'lucide-react';
 import Link from "next/link"
-
+import {useTranslations} from 'next-intl'
+import {Locale, locales} from "@/i18n/config";
+import {setUserLocale} from "@/services/locale";
+const languageMap: Record<string, Locale> = {
+    English: 'en',
+    Amharic: 'am',
+    Oromiffa: 'om',
+};
 function LanguageSelector() {
     const [open, setOpen] = useState(false)
-    const [selected, setSelected] = useState("English")
-    console.log(selected)
+
+
     const toggleDropdown = () => setOpen(!open)
 
     const selectLanguage = (lang: string) => {
-        setSelected(lang)
-        setOpen(false)
+
+        // @ts-ignore
+        const locale = languageMap[lang]
+        setUserLocale(locale)
+        // // Set cookie and reload with new locale
+        // document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000`
+        // // window.location.href = `/${locale}`
     }
 
     return (
@@ -49,13 +61,14 @@ function LanguageSelector() {
 }
 
 const Header = () => {
+    const t = useTranslations('header')
     return (
         //px-[3%]
         <header className="bg-white border-b border-gray-200  py-4">
             <div className={"w-[60%] mx-auto "}>
                 <div className=" flex items-center justify-between">
                     <div className="flex items-center">
-                        <h1 className="text-2xl font-bold text-black">GTL</h1>
+                        <h1 className="text-2xl font-bold text-black">{t('logo')}</h1>
                     </div>
 
                     <nav className="hidden md:flex items-center space-x-8">
