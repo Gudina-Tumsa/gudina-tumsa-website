@@ -1,4 +1,4 @@
-import { LoginResponse, UserResponse } from '@/types/auth';
+import { LoginResponse } from '@/types/auth';
 
 interface LoginRequest {
     email: string;

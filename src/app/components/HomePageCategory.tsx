@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Landmark,
     Palette,
@@ -11,57 +11,17 @@ import {
     Book,
     Users,
 } from "lucide-react";
+import {useAppDispatch} from "@/lib/hooks";
+
+import {getCategories} from "@/lib/api/category";
+import {getCategoriesSuccess} from "@/app/store/features/categorySlice";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
 
 const HomePageCategory = () => {
     const [activeCategory, setActiveCategory] = useState('Architecture');
+    const categories = useSelector((state: RootState) => state.category);
 
-    const categories = [
-        {
-            name: "Architecture",
-            icon: <Landmark className="w-5 h-5" />,
-            color: "bg-yellow-100 text-yellow-800",
-        },
-        {
-            name: "Art",
-            icon: <Palette className="w-5 h-5" />,
-            color: "bg-orange-100 text-orange-800",
-        },
-        {
-            name: "Philosophy",
-            icon: <Brain className="w-5 h-5" />,
-            color: "bg-purple-100 text-purple-800",
-        },
-        {
-            name: "History",
-            icon: <BookOpenCheck className="w-5 h-5" />,
-            color: "bg-purple-100 text-purple-800",
-        },
-        {
-            name: "Economics",
-            icon: <BarChart className="w-5 h-5" />,
-            color: "bg-red-100 text-red-800",
-        },
-        {
-            name: "Business",
-            icon: <Briefcase className="w-5 h-5" />,
-            color: "bg-red-100 text-red-800",
-        },
-        {
-            name: "Computer Science",
-            icon: <Laptop className="w-5 h-5" />,
-            color: "bg-blue-100 text-blue-800",
-        },
-        {
-            name: "Literature",
-            icon: <Book className="w-5 h-5" />,
-            color: "bg-yellow-100 text-yellow-800",
-        },
-        {
-            name: "Social Sciences",
-            icon: <Users className="w-5 h-5" />,
-            color: "bg-pink-100 text-pink-800",
-        },
-    ];
 
     const books = [
         {
@@ -119,8 +79,20 @@ const HomePageCategory = () => {
             isNature: true
         }
     ];
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await getCategories({ page: 1, limit: 20 });
+                dispatch(getCategoriesSuccess(response));
+                console.log(response);
+            } catch (err: unknown) {
+                console.error("Failed to fetch categories:", err);
+            }
+        };
 
-
+        fetchCategories();
+    }, [dispatch]);
 
     return (
         <div className=" bg-white">
@@ -139,23 +111,24 @@ const HomePageCategory = () => {
             {/* Category Tabs */}
             <div className="px-4 mb-8">
                 <div className="flex flex-wrap justify-center gap-2 mb-12">
-                    {categories.map((category) => (
+
+                    {categories?.categories?.data.categories.map((category) => (
                         <button
                             key={category.name}
                             onClick={() => setActiveCategory(category.name)}
                             className={`
                 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105
                 ${activeCategory === category.name
-                                ? category.color + ' shadow-lg'
+                                ? ' shadow-lg'
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }
               `}
                         >
-                           <div className={"flex flex-row"}>
-                               <span className="mr-2">{category.icon}</span>
-                               {category.name}
+                            <div className={"flex flex-row"}>
+                                <span className="mr-2">{category.icon}</span>
+                                {category.name}
 
-                           </div>
+                            </div>
                         </button>
                     ))}
                 </div>
@@ -207,7 +180,8 @@ const HomePageCategory = () => {
                                     {book.id === 4 && (
                                         <div className="text-center text-gray-800">
                                             <h3 className="font-bold text-lg mb-2">{book.coverText}</h3>
-                                            <div className="w-full h-24 bg-green-200 rounded mb-2 flex items-center justify-center">
+                                            <div
+                                                className="w-full h-24 bg-green-200 rounded mb-2 flex items-center justify-center">
                                                 <div className="text-xs">🏙️ City Illustration</div>
                                             </div>
                                         </div>
@@ -225,7 +199,8 @@ const HomePageCategory = () => {
                                     )}
                                     {book.id === 6 && (
                                         <div className="relative h-full">
-                                            <div className="absolute inset-0 bg-gradient-to-b from-green-600 to-green-900"></div>
+                                            <div
+                                                className="absolute inset-0 bg-gradient-to-b from-green-600 to-green-900"></div>
                                             <div className="relative z-10 h-full flex flex-col justify-between">
                                                 <div></div>
                                                 <div className="text-center">
