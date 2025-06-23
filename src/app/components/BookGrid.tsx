@@ -1,33 +1,30 @@
 
 import BookCard from "./BookCard";
+import {BookListResponse} from "@/types/book";
 
-interface Book {
-    id: string;
-    title: string;
-    year: string;
-    writer : string;
-    coverImage: string;
-}
 
 interface BookGridProps {
+    userId: string;
     title: string;
-    books: Book[];
+    books:  BookListResponse | null;
     showCurrentlyReading?: boolean;
 }
 
-const BookGrid = ({ title, books, showCurrentlyReading }: BookGridProps) => {
+const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps) => {
     return (
         <section className="mb-12">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">{title}</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-                {books.map((book) => (
+                {books && books.data.books.map((book) => (
                     <BookCard
-                        key={book.id}
+                        key={book._id}
                         title={book.title}
-                        writer={book.writer}
-                        year={book.year}
-                        coverImage={book.coverImage}
+                        writer={book.author}
+                        year={book.publicationYear}
+                        coverImage={`http://localhost:3000${book.coverImageUrl}`}
                         isCurrentlyReading={showCurrentlyReading}
+                        userId={userId}
+                        id={book._id}
                     />
                 ))}
             </div>

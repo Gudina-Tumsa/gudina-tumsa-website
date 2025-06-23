@@ -4,66 +4,30 @@ import BookGrid from "@/app/components/BookGrid";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import { useSelector } from 'react-redux';
 import {RootState} from "@/app/store/store";
+import {useAppDispatch} from "@/lib/hooks";
+import {useEffect} from "react";
+import {getBooks} from "@/lib/api/book";
+import {getBooksSuccess} from "@/app/store/features/bookSlice";
 
 export default function Page() {
 
   const user = useSelector((state: RootState) => state.user);
+  const books = useSelector((state: RootState) => state.book)
 
-  const currentlyReadingBooks = [
-    {
-      id: "1",
-      title: "National Parks of Europe",
-      writer : "Mr writer",
-      year: "2017",
-      coverImage: "https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=400&h=600&fit=crop"
-    }
-  ];
+  const dispatch = useAppDispatch();
+  useEffect(() => {
 
-  const topPicksBooks = [
-    {
-      id: "2",
-      title: "The Art of War",
-      writer : "Mr writer",
-      year: "2020",
-      coverImage: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=600&fit=crop"
-    },
-    {
-      id: "3",
-      title: "Digital Marketing",
-      writer : "Mr writer",
-      year: "2021",
-      coverImage: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=400&h=600&fit=crop"
-    },
-    {
-      id: "4",
-      title: "Psychology Today",
-      writer : "Mr writer",
-      year: "2019",
-      coverImage: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=600&fit=crop"
-    },
-    {
-      id: "5",
-      title: "Modern Architecture",
-      writer : "Mr writer",
-      year: "2022",
-      coverImage: "https://images.unsplash.com/photo-1527576539890-dfa815648363?w=400&h=600&fit=crop"
-    },
-    {
-      id: "6",
-      title: "Climate Change",
-      writer : "Mr writer",
-      year: "2021",
-      coverImage: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=600&fit=crop"
-    },
-    {
-      id: "7",
-      title: "Data Science",
-      writer : "Mr writer",
-      year: "2023",
-      coverImage: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=600&fit=crop"
+    const fetchBooks = async () => {
+      try {
+        const response = await getBooks({page: 1, limit: 20})
+        dispatch(getBooksSuccess(response))
+      } catch (err: unknown) {
+        console.error("failed to fetch books:", err)
+      }
     }
-  ];
-  console.log("the user is " ,user)
+
+    fetchBooks()
+  }, [dispatch]);
   return (
       <SidebarLayout>
 
@@ -80,13 +44,15 @@ export default function Page() {
 
               <BookGrid
                   title="Reading"
-                  books={currentlyReadingBooks}
+                  userId={user?.user?._id ?? ""}
+                  books={books?.books}
                   showCurrentlyReading={true}
               />
 
               <BookGrid
+                  userId={user?.user?._id ?? ""}
                   title="Top Picks for you"
-                  books={topPicksBooks}
+                  books={books?.books}
               />
 
       </SidebarLayout>

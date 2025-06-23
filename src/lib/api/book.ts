@@ -12,6 +12,7 @@ export interface GetBooksRequest {
     page?: number;
     limit?: number;
     sort?: 'recent' | 'popular' | 'downloads' | 'views';
+    savedByUser : string;
 }
 
 interface ApiError {
@@ -35,6 +36,7 @@ export const getBooks = async (request: GetBooksRequest): Promise<BookListRespon
         if (request.page) params.append('page', String(request.page));
         if (request.limit) params.append('limit', String(request.limit));
         if (request.sort) params.append('sort', request.sort);
+        if (request.savedByUser) params.append('savedByUser' , request.savedByUser)
 
         const response = await fetch(`http://localhost:3000/api/book?${params.toString()}`, {
             method: 'GET',

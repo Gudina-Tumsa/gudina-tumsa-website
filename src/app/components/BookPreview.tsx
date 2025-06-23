@@ -7,7 +7,6 @@ import { motion, useInView } from "framer-motion";
 const sentences = [
     "We exist to make knowledge more accessible.",
     "Working with educators and publishers to create a digital library of more than a million books, available anywhere in the world."
-
 ];
 
 const BookPreview = () => {
@@ -16,12 +15,12 @@ const BookPreview = () => {
     const isInView = useInView(ref, { once: false, margin: "-20% 0px -20% 0px" });
 
     return (
-        <div className=" px-6 py-16 flex flex-col items-center ">
+        <div className="px-4 sm:px-6 py-12 md:py-16 flex flex-col items-center">
             <div className="max-w-6xl w-full mx-auto">
-                <div className="text-center my-[2%] mt-[5%]">
-                    <p className="font-bold text-4xl">
-                        Understand key ideas <br /> in 15 minutes
-                    </p>
+                <div className="text-center mb-6 md:mb-8 mt-4 md:mt-[5%]">
+                    <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">
+                        Understand key ideas <br className="hidden sm:block" /> in 15 minutes
+                    </h2>
                 </div>
 
                 <motion.div
@@ -35,24 +34,23 @@ const BookPreview = () => {
                         damping: 18,
                         mass: 1.2,
                     }}
-                    className="rounded-lg shadow-2xl overflow-hidden mb-12 mt-[5%]"
+                    className="rounded-lg shadow-2xl overflow-hidden mb-8 sm:mb-12 mt-4 md:mt-[5%]"
                 >
-                    <div className="h-[50vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] xl:h-[70vh] w-full">
+                    <div className="h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] w-full">
                         <div className="w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600" />
                     </div>
                 </motion.div>
             </div>
 
-            <div className={"w-full "}>
-                <div className="max-w-6xl w-full mx-auto pt-[2%]">
-                    <div className=" text-gray-800 text-3xl relative text-center w-[90%] sm:w-[80%] mx-auto ">
+            <div className="w-full">
+                <div className="max-w-6xl w-full mx-auto pt-4 md:pt-[2%]">
+                    <div className="text-gray-800 text-xl sm:text-2xl md:text-3xl relative text-center w-full sm:w-[90%] md:w-[80%] mx-auto space-y-4">
                         {sentences.map((sentence, index) => (
                             <div
                                 key={index}
-                                className="relative overflow-hidden "
+                                className="relative overflow-hidden"
                                 style={{position: 'relative', display: 'inline-block'}}
                             >
-
                                 <p ref={(el) => {
                                     if (el) pRefs.current[index] = el;
                                 }}>
@@ -62,59 +60,41 @@ const BookPreview = () => {
                         ))}
                     </div>
                 </div>
-                <div className={"mt-[2%]  max-w-7xl mx-auto"}>
-                    <div className="flex justify-center items-center space-x-16 p-8">
+                <div className="mt-6 md:mt-[2%] max-w-7xl mx-auto">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8 md:gap-16 p-4 sm:p-8">
                         {/* Downloads Section */}
-                        <div className="text-center ">
-                            <div className={"w-full flex justify-center"}>
-                                <ArrowDown size={32} strokeWidth={2} color="#007bff"/>
+                        <div className="text-center">
+                            <div className="w-full flex justify-center">
+                                <ArrowDown className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
                             </div>
-                            <h2 className="text-3xl font-bold mt-2">37 Million</h2>
-                            <p className="text-gray-500">Downloads on all platforms</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold mt-2">37 Million</h2>
+                            <p className="text-gray-500 text-sm sm:text-base">Downloads on all platforms</p>
                         </div>
 
                         {/* Ratings Section */}
                         <div className="text-center">
                             <div className="flex justify-center items-center space-x-1">
-                                <Star size={24} strokeWidth={2} color="#FFD700"/>
-                                <Star size={24} strokeWidth={2} color="#FFD700"/>
-                                <Star size={24} strokeWidth={2} color="#FFD700"/>
-                                <Star size={24} strokeWidth={2} color="#FFD700"/>
-                                <Star size={24} strokeWidth={2} color="#FFD700"/>
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className="w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6" strokeWidth={2} color="#FFD700"/>
+                                ))}
                             </div>
-                            <h2 className="text-3xl font-bold mt-2">4.7 Stars</h2>
-                            <p className="text-gray-500">Average ratings on iOS and Google Play</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold mt-2">4.7 Stars</h2>
+                            <p className="text-gray-500 text-sm sm:text-base">Average ratings on iOS and Google Play</p>
                         </div>
 
                         {/* Experience Section */}
                         <div className="text-center">
-
-                            <div className={"w-full flex justify-center"}>
-                                <Leaf size={32} strokeWidth={2} color="#007bff"/>
+                            <div className="w-full flex justify-center">
+                                <Leaf className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
                             </div>
-
-                            <h2 className="text-3xl font-bold mt-2">10+ years</h2>
-                            <p className="text-gray-500">Experience igniting personal growth</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold mt-2">10+ years</h2>
+                            <p className="text-gray-500 text-sm sm:text-base">Experience igniting personal growth</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Animation Keyframes */}
-            <style>{`
-        @keyframes slideRoller {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(0%);
-          }
-        }
-      `}</style>
         </div>
     );
 };
 
 export default BookPreview;
-
-
