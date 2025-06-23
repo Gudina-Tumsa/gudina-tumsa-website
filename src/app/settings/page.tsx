@@ -5,6 +5,90 @@ import { PasswordSection } from '../../components/elements/settings/PasswordSect
 import { User, Lock } from 'lucide-react';
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 
+const Sessions = () => {
+    return (
+        <div className="space-y-6">
+            <h2 className="text-lg font-semibold text-gray-900">Active Sessions</h2>
+
+            <div className="border rounded-2xl shadow-sm divide-y">
+                {[
+                    {
+                        id: 1,
+                        device: 'Chrome on Windows',
+                        location: 'Addis Ababa, Ethiopia',
+                        lastActive: '2 hours ago',
+                        current: true,
+                    },
+                    {
+                        id: 2,
+                        device: 'Safari on iPhone',
+                        location: 'Dire Dawa, Ethiopia',
+                        lastActive: 'Yesterday at 9:15 PM',
+                        current: false,
+                    },
+                    {
+                        id: 3,
+                        device: 'Firefox on Linux',
+                        location: 'Bahir Dar, Ethiopia',
+                        lastActive: 'June 20, 10:34 AM',
+                        current: false,
+                    },
+                ].map((session) => (
+                    <div key={session.id} className="p-4 flex items-center justify-between">
+                        <div>
+                            <p className="font-medium text-gray-800">{session.device}</p>
+                            <p className="text-sm text-gray-500">{session.location}</p>
+                            <p className="text-xs text-gray-400">Last active: {session.lastActive}</p>
+                        </div>
+                        {session.current ? (
+                            <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Current session</span>
+                        ) : (
+                            <button className="text-sm text-red-600 hover:underline">Log out</button>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+
+    )
+}
+
+const Preference = () => {
+    return (
+        <div className="space-y-8">
+            {/* Theme Selection */}
+            <div className="bg-white border rounded-2xl shadow-sm p-6">
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Theme</h2>
+                <div className="flex items-center space-x-4">
+                    <label className="flex items-center space-x-2">
+                        <input type="radio" name="theme" value="light" className="form-radio" />
+                        <span className="text-gray-700">Light</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                        <input type="radio" name="theme" value="dark" className="form-radio" />
+                        <span className="text-gray-700">Dark</span>
+                    </label>
+                    <label className="flex items-center space-x-2">
+                        <input type="radio" name="theme" value="system" className="form-radio" />
+                        <span className="text-gray-700">System</span>
+                    </label>
+                </div>
+            </div>
+
+            {/* Language Selection */}
+            <div className="bg-white border rounded-2xl shadow-sm p-6">
+                <h2 className="text-lg font-medium text-gray-900 mb-4">Language</h2>
+                <select className="block w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="en">English</option>
+                    <option value="am">Amharic</option>
+                    <option value="om">Oromo</option>
+
+                </select>
+            </div>
+        </div>
+    )
+}
+
 const Settings = () => {
     const [activeTab, setActiveTab] = useState<'account' | 'preferences' | 'sessions'>('account');
 
@@ -91,16 +175,13 @@ const Settings = () => {
                             )}
 
                             {activeTab === 'preferences' && (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-500">Preferences settings coming soon...</p>
-                                </div>
+                                <Preference/>
                             )}
 
                             {activeTab === 'sessions' && (
-                                <div className="text-center py-12">
-                                    <p className="text-gray-500">Sessions settings coming soon...</p>
-                                </div>
-                            )}
+
+                                    <Sessions/>
+                                )}
                         </div>
                     </div>
                 </div>
