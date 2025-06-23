@@ -1,16 +1,6 @@
 "use client"
 import React, {useState, useEffect} from 'react';
-import {
-    Landmark,
-    Palette,
-    BookOpenCheck,
-    Brain,
-    BarChart,
-    Briefcase,
-    Laptop,
-    Book,
-    Users,
-} from "lucide-react";
+
 import {useAppDispatch} from "@/lib/hooks";
 
 import {getCategories} from "@/lib/api/category";
