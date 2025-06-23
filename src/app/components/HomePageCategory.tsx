@@ -7,68 +7,16 @@ import {getCategories} from "@/lib/api/category";
 import {getCategoriesSuccess} from "@/app/store/features/categorySlice";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
+import {getBooks} from "@/lib/api/book";
+import {getBooksSuccess} from "@/app/store/features/bookSlice";
+import {BookData} from "@/types/book";
 
 const HomePageCategory = () => {
     const [activeCategory, setActiveCategory] = useState('Architecture');
     const categories = useSelector((state: RootState) => state.category);
+    const books = useSelector((state: RootState) => state.book)
 
 
-    const books = [
-        {
-            id: 1,
-            title: 'The Interior Design Reference & Specification Book',
-            author: 'Chris Grimley',
-            year: '2018',
-            cover: 'bg-yellow-400',
-            coverText: 'Interior Design',
-            subtitle: 'EVERYTHING INTERIOR DESIGNERS NEED TO KNOW EVERY DAY'
-        },
-        {
-            id: 2,
-            title: 'The Sources of Modern Architecture and Design',
-            author: 'Nikolaus Pevsner',
-            year: '2024',
-            cover: 'bg-gray-100',
-            coverText: 'World of Art',
-            isVertical: true
-        },
-        {
-            id: 3,
-            title: '25 Concepts in Modern Architecture',
-            author: 'Stephanie Travis',
-            year: '2021',
-            cover: 'bg-pink-500',
-            coverText: '25 CONCEPTS IN MODERN ARCHITECTURE',
-            subtitle: 'A GUIDE FOR VISUAL THINKERS'
-        },
-        {
-            id: 4,
-            title: 'Restorative Cities',
-            author: 'Jenny Roe',
-            year: '2021',
-            cover: 'bg-green-100',
-            coverText: 'RESTORATIVE CITIES',
-            isIllustrated: true
-        },
-        {
-            id: 5,
-            title: 'Architecture in the Age of Artificial Intelligence',
-            author: 'Neil Leach',
-            year: '2021',
-            cover: 'bg-gray-800',
-            coverText: 'Architecture',
-            subtitle: 'AN INTRODUCTION TO AI FOR THE ARCHITECTURAL PROFESSION'
-        },
-        {
-            id: 6,
-            title: 'Biophilic Design',
-            author: 'Stephen R. Kellert',
-            year: '2011',
-            cover: 'bg-green-800',
-            coverText: 'Biophilic Design',
-            isNature: true
-        }
-    ];
     const dispatch = useAppDispatch();
     useEffect(() => {
         const fetchCategories = async () => {
@@ -81,7 +29,18 @@ const HomePageCategory = () => {
             }
         };
 
+        const fetchBooks = async () => {
+            try {
+                const response = await getBooks({page :1 , limit : 20})
+                dispatch(getBooksSuccess(response))
+                console.log(response)
+            } catch ( err : unknown) {
+                console.error("failed to fetch books:" , err)
+            }
+        }
+
         fetchCategories();
+        fetchBooks()
     }, [dispatch]);
 
     return (
@@ -126,89 +85,26 @@ const HomePageCategory = () => {
                 {/* Books Grid */}
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-                        {books.map((book) => (
-                            <div key={book.id} className="group cursor-pointer">
+                        {books?.books?.data.books.map((book: BookData) => (
+                            <div key={book._id} className="group cursor-pointer">
                                 {/* Book Cover */}
                                 <div className={`
-                  ${book.cover} rounded-lg p-4 mb-3 aspect-[3/4] flex flex-col justify-between
-                  transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl
-                  ${book.id === 1 ? 'text-black' : ''}
-                  ${book.id === 3 ? 'text-white' : ''}
-                  ${book.id === 5 ? 'text-white' : ''}
-                  ${book.id === 6 ? 'text-white' : ''}
-                  relative overflow-hidden
-                `}>
-                                    {book.id === 1 && (
-                                        <>
-                                            <div>
-                                                <h3 className="font-bold text-lg mb-2">{book.coverText}</h3>
-                                                <div className="w-12 h-12 border-2 border-black rounded mb-2"></div>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-medium">{book.subtitle}</p>
-                                            </div>
-                                        </>
-                                    )}
-                                    {book.id === 2 && (
-                                        <div className="bg-white h-full rounded flex items-center justify-center">
-                                            <div className="text-center text-gray-800">
-                                                <p className="font-bold text-sm mb-2">{book.coverText}</p>
-                                                <div className="w-full h-32 bg-gray-200 rounded mb-2"></div>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {book.id === 3 && (
-                                        <>
-                                            <div>
-                                                <h3 className="font-bold text-sm leading-tight mb-4">{book.coverText}</h3>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs">{book.subtitle}</p>
-                                            </div>
-                                        </>
-                                    )}
-                                    {book.id === 4 && (
-                                        <div className="text-center text-gray-800">
-                                            <h3 className="font-bold text-lg mb-2">{book.coverText}</h3>
-                                            <div
-                                                className="w-full h-24 bg-green-200 rounded mb-2 flex items-center justify-center">
-                                                <div className="text-xs">🏙️ City Illustration</div>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {book.id === 5 && (
-                                        <>
-                                            <div>
-                                                <h3 className="font-bold text-sm mb-2">{book.coverText}</h3>
-                                            </div>
-                                            <div>
-                                                <div className="w-full h-16 bg-gray-600 rounded mb-2"></div>
-                                                <p className="text-xs">{book.subtitle}</p>
-                                            </div>
-                                        </>
-                                    )}
-                                    {book.id === 6 && (
-                                        <div className="relative h-full">
-                                            <div
-                                                className="absolute inset-0 bg-gradient-to-b from-green-600 to-green-900"></div>
-                                            <div className="relative z-10 h-full flex flex-col justify-between">
-                                                <div></div>
-                                                <div className="text-center">
-                                                    <h3 className="font-bold text-lg">{book.coverText}</h3>
-                                                    <div className="text-xs mt-2">🌿 Nature Pattern</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
+      ${book.coverImageUrl ? 'bg-cover bg-center' : 'bg-gray-200'} 
+      rounded-lg p-4 mb-3 aspect-[3/4] flex flex-col justify-between
+      transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-xl
+   
+      relative overflow-hidden
+    `} style={book.coverImageUrl ? { backgroundImage: `url(${'http://localhost:3000'+book.coverImageUrl})` } : {}}>
+
+
                                 </div>
 
-                                {/* Book Details */}
                                 <div className="space-y-1">
                                     <h4 className="font-semibold text-sm text-gray-900 leading-tight group-hover:text-blue-600 transition-colors">
                                         {book.title}
                                     </h4>
                                     <p className="text-sm text-gray-600">{book.author}</p>
-                                    <p className="text-sm text-gray-500">{book.year}</p>
+                                    <p className="text-sm text-gray-500">{book.publicationYear}</p>
                                 </div>
                             </div>
                         ))}

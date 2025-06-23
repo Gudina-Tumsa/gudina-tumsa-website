@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 export default function PDFViewer() {
     const [pdfUrl, setPdfUrl] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchPDF = async () => {
@@ -19,9 +19,9 @@ export default function PDFViewer() {
                 const url = URL.createObjectURL(blob);
                 setPdfUrl(url);
                 setIsLoading(false);
-            } catch (err) {
+            } catch (err: unknown) {
                 console.error('Error fetching PDF:', err);
-                setError(err.message);
+                setError("Error");
                 setIsLoading(false);
             }
         };
