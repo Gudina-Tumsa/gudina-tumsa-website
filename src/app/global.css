@@ -31,3 +31,22 @@
         transform: translateX(0%);
     }
 }
+
+
+/* In your global.css or equivalent */
+@media (max-width: 767px) {
+    [data-sidebar] {
+        width: 80%;
+        max-width: 300px;
+    }
+}
+
+.sidebar-content {
+    overflow-y: auto;
+    height: calc(100vh - 4rem);
+}
+
+/* Prevent body scrolling when sidebar is open */
+body.sidebar-open {
+    overflow: hidden;
+}

@@ -16,14 +16,14 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
 
     const router = useRouter();
 
-
-    function saveBook(id: string, userId: string) {
-        try{
-            createUserBookInteraction({userId : userId,  bookId : id , interactionType : 'save'})
-        }catch(err : unknown){
-            console.log(err)
-        }
-    }
+    console.log(userId)
+    // function saveBook(id: string, userId: string) {
+    //     try{
+    //         createUserBookInteraction({userId : userId,  bookId : id , interactionType : 'save'})
+    //     }catch(err : unknown){
+    //         console.log(err)
+    //     }
+    // }
 
     function readBookNavigate(id: string) {
 
@@ -33,7 +33,11 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
 
     return (
 
-        <div className="relative group w-full max-w-xs mx-auto sm:w-48 md:w-52 p-3 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer">
+        <div className="relative group w-full max-w-xs mx-auto sm:w-48 md:w-52 p-3 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+        onClick={() => {
+            readBookNavigate(id);
+        }}
+        >
             <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden relative">
                 <img
                     src={coverImage}
@@ -49,23 +53,23 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
                     </div>
                 )}
 
-                <div className="absolute inset-0 flex flex-col space-y-2 items-center justify-center bg-black/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                    <button className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"
-                            onClick={() => {
-                                readBookNavigate(id);
-                            }}
-                    >
-                        Read
-                    </button>
-                    <button
-                        className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"
-                        onClick={() => {
-                            saveBook(id, userId);
-                        }}
-                    >
-                        Save
-                    </button>
-                </div>
+                {/*<div className="absolute inset-0 flex flex-col space-y-2 items-center justify-center bg-black/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-10">*/}
+                {/*    <button className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"*/}
+                {/*            onClick={() => {*/}
+                {/*                readBookNavigate(id);*/}
+                {/*            }}*/}
+                {/*    >*/}
+                {/*        Read*/}
+                {/*    </button>*/}
+                {/*    <button*/}
+                {/*        className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"*/}
+                {/*        onClick={() => {*/}
+                {/*            saveBook(id, userId);*/}
+                {/*        }}*/}
+                {/*    >*/}
+                {/*        Save*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
 
             <div className="mt-4 px-1">
