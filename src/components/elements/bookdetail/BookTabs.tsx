@@ -2,6 +2,10 @@
 
 import { useState , useEffect } from "react";
 import {BookData} from "@/types/book";
+import {crateComment, getComments} from "@/lib/api/comment";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
+import {CommentData} from "@/types/comments";
 
 const BookDetail = ({bookData } : {bookData : BookData | null}) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
@@ -62,29 +66,40 @@ const BookDetail = ({bookData } : {bookData : BookData | null}) => {
 
 function BookComment({ bookData}  :{bookData : BookData | null}) {
 
-    const [comments, setComments] = useState<{id: number, author: string, text: string, date: string}[]>([ ]);
+    const [comments, setComments] = useState<{id: string, author: string, text: string, date: string}[]>([ ]);
     const [newComment, setNewComment] = useState("");
-
+    const user = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
-        setComments([{
-            id: 1,
-            author: "the author",
-            text: "this is hte textas lk;jsadfl;kajsdfl kljasdfl",
-            date: "2098"
-        }]);
+
+        getComments({page : 1 , limit : 20 , bookId : bookData?._id}).then((data)=>{
+            console.log("the data is ")
+            data?.data?.comments.map((n:CommentData )=>{
+                console.log(n)
+                const comment = {
+                    id: n._id,
+                    author: n.userId.username,
+                    text: n.content,
+                    date: n.createdAt.toString(),
+                };
+                setComments([...comments, comment]);
+            })
+        })
     }, []);
+
     const handleAddComment = () => {
-        console.log(bookData)
+
         if (newComment.trim()) {
             const comment = {
-                id: Date.now(),
-                author: "You", // In a real app, this would be the logged-in user
+                id: Date.now().toString(),
+                author: user?.user?.username ?? "you",
                 text: newComment,
                 date: new Date().toLocaleDateString(),
             };
             setComments([...comments, comment]);
             setNewComment("");
+
+            crateComment(bookData?._id ?? "" ,  user?.user?._id ?? "", newComment)
         }
     };
     return (

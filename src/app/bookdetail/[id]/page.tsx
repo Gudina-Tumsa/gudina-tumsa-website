@@ -25,6 +25,7 @@ const Index = () => {
         const foundBook = books?.books?.data.books.find(bookData  => bookData._id === id)
         setCurrentBook(foundBook || null)
     }, [id, books])
+
     return (
         <SidebarLayout>
             <div className="min-h-screen mt-[6%]">

@@ -1,0 +1,75 @@
+import {CommentListResponse} from "@/types/comments";
+
+export interface GetCommentsRequest {
+    bookId?: string;
+    userId?: string;
+    parentCommentId?: string | null;
+    page?: number;
+    limit?: number;
+    sort?: 'newest' | 'oldest' | 'popular';
+}
+
+interface ApiError {
+    message: string;
+    statusCode: number;
+}
+
+export const getComments = async (request: GetCommentsRequest): Promise<CommentListResponse> => {
+    try {
+        const params = new URLSearchParams();
+
+
+        if (request.bookId) params.append('bookId', request.bookId);
+        if (request.userId) params.append('userId', request.userId);
+        if (request.page) params.append('page', String(request.page));
+        if (request.limit) params.append('limit', String(request.limit));
+        if (request.sort) params.append('sort', request.sort);
+
+
+        const response = await fetch(`http://localhost:3000/api/comments?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Getting comments failed');
+        }
+
+        const data: CommentListResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Get books error:', error);
+        throw error;
+    }
+};
+
+export  const crateComment = async (bookId : string , userId : string , content : string) => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookId : bookId,
+                userId : userId,
+                content : content
+            }),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Failed to create comment');
+        }
+
+      await response.json();
+
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
+}
