@@ -1,20 +1,143 @@
 "use client"
 
-import { useState } from "react";
+import { useState , useEffect } from "react";
+import {BookData} from "@/types/book";
 
-
-const BookTabs = () => {
-    const [activeTab, setActiveTab] = useState("details");
+const BookDetail = ({bookData } : {bookData : BookData | null}) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
+    return (
+        <div className="space-y-6">
+            <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">About This Book</h3>
+                <div className="prose prose-gray max-w-none">
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                        {bookData?.description}
+                    </p>
+
+                    {!showFullDescription ? (
+                        <button
+                            onClick={() => setShowFullDescription(true)}
+                            className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
+                        >
+                            Read More
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => setShowFullDescription(false)}
+                            className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
+                        >
+                            Read Less
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            <div>
+                <div className="bg-gray-50 rounded-lg p-6">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Information</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 className="text-sm font-medium text-gray-600 mb-2">Publisher</h5>
+                            <p className="text-gray-900">Wiley</p>
+                        </div>
+                        <div>
+                            <h5 className="text-sm font-medium text-gray-600 mb-2">Topic</h5>
+                            <p className="text-gray-900">{bookData?.category}</p>
+                        </div>
+                        <div>
+                            <h5 className="text-sm font-medium text-gray-600 mb-2">Year</h5>
+                            <p className="text-gray-900">{bookData?.publicationYear}</p>
+                        </div>
+                        <div>
+                            <h5 className="text-sm font-medium text-gray-600 mb-2">Edition</h5>
+                            <p className="text-gray-900">7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+function BookComment({ bookData}  :{bookData : BookData | null}) {
+
+    const [comments, setComments] = useState<{id: number, author: string, text: string, date: string}[]>([ ]);
+    const [newComment, setNewComment] = useState("");
+
+
+    useEffect(() => {
+        setComments([{
+            id: 1,
+            author: "the author",
+            text: "this is hte textas lk;jsadfl;kajsdfl kljasdfl",
+            date: "2098"
+        }]);
+    }, []);
+    const handleAddComment = () => {
+        console.log(bookData)
+        if (newComment.trim()) {
+            const comment = {
+                id: Date.now(),
+                author: "You", // In a real app, this would be the logged-in user
+                text: newComment,
+                date: new Date().toLocaleDateString(),
+            };
+            setComments([...comments, comment]);
+            setNewComment("");
+        }
+    };
+    return (
+        <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Leave a Comment</h3>
+                <div className="mb-4">
+                            <textarea
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                rows={4}
+                                placeholder="Share your thoughts about this book..."
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                            />
+                </div>
+                <button
+                    onClick={handleAddComment}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                    Post Comment
+                </button>
+            </div>
+
+            <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Comments ({comments.length})</h3>
+
+                {comments.map((comment) => (
+                    <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex justify-between items-start mb-2">
+                            <span className="font-medium text-gray-900">{comment.author}</span>
+                            <span className="text-sm text-gray-500">{comment.date}</span>
+                        </div>
+                        <p className="text-gray-700">{comment.text}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const BookTabs = ({bookData } : {bookData : BookData | null}) => {
+    const [activeTab, setActiveTab] = useState("details");
 
     const tabs = [
         { id: "details", label: "Book details" },
-        // { id: "contents", label: "Table of contents" }
+        { id: "comments", label: "Comments" },
     ];
+
+
 
     return (
         <div className={"mb-[5%]"}>
-            {/* Tab Navigation */}
+
             <div className="border-b border-gray-200 mb-6">
                 <div className="flex gap-8">
                     {tabs.map((tab) => (
@@ -33,101 +156,15 @@ const BookTabs = () => {
                 </div>
             </div>
 
-            {/* Tab Content */}
             {activeTab === "details" && (
-                <div className="space-y-6">
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">About This Book</h3>
-                        <div className="prose prose-gray max-w-none">
-                            <p className="text-gray-700 leading-relaxed mb-4">
-                                <strong>THE #1 REFERENCE ON BUILDING CONSTRUCTION—UPDATED FROM THE GROUND UP</strong>
-                            </p>
-
-                            <p className="text-gray-700 leading-relaxed mb-4">
-                                Edward Allen and Joseph Ianos Fundamentals of Building Construction has been the go-to reference for thousands
-                                of professionals and students of architecture, engineering, and construction technology for over thirty years. The
-                                materials and methods described in this new Seventh Edition have been thoroughly updated to reflect the latest
-                                advancements in the industry. Carefully selected and logically arranged topics—ranging from basic building
-                                methods to the principles of structure and enclosure—help readers gain a working knowledge of the field in an
-                                enjoyable, easy-to-understand manner.
-                                {showFullDescription && (
-                                    <span> All major construction systems, including light wood frame, mass timber, masonry, steel frame, light gauge steel, and reinforced concrete construction, are addressed.</span>
-                                )}
-                            </p>
-
-                            {!showFullDescription ? (
-                                <button
-                                    onClick={() => setShowFullDescription(true)}
-                                    className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
-                                >
-                                    Read More
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={() => setShowFullDescription(false)}
-                                    className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
-                                >
-                                    Read Less
-                                </button>
-                            )}
-
-                        </div>
-                    </div>
-
-                    {/* Information Section */}
-                    <div >
-
-                        <div className="flex flex-wrap gap-2 mb-6">
-                            <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
-                                Edward Allen
-                            </a>
-                            <span className="text-gray-400">,</span>
-                            <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
-                                Joseph Iano
-                            </a>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-lg p-6">
-                            <h4 className="text-lg font-semibold text-gray-900 mb-4">Information</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">Publisher</h5>
-                                    <p className="text-gray-900">Wiley</p>
-                                </div>
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">Topic</h5>
-                                    <p className="text-gray-900">Architecture</p>
-                                </div>
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">Year</h5>
-                                    <p className="text-gray-900">2019</p>
-                                </div>
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">Subtopic</h5>
-                                    <p className="text-gray-900">Architecture Methods & Materials</p>
-                                </div>
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">Edition</h5>
-                                    <p className="text-gray-900">7</p>
-                                </div>
-                                <div>
-                                    <h5 className="text-sm font-medium text-gray-600 mb-2">ISBN</h5>
-                                    <p className="text-gray-900">9781119450252, 9781119446194</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               <BookDetail bookData={bookData} />
             )}
 
-            {activeTab === "contents" && (
-                <div className="space-y-4">
-                    <div className="text-center py-12 text-gray-500">
-                        <p>Table of contents will be available here.</p>
-                        <p className="text-sm mt-2">Content loading...</p>
-                    </div>
-                </div>
+            {activeTab === "comments" && (
+               <BookComment bookData ={bookData}/>
             )}
+
+
         </div>
     );
 };

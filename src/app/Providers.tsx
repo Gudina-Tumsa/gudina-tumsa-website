@@ -1,7 +1,8 @@
 'use client'
 
 import { Provider } from 'react-redux'
-import { store } from './store/store'
+import { store , persistor } from './store/store'
+import { PersistGate} from "redux-persist/integration/react";
 import { NextIntlClientProvider } from 'next-intl'
 
 export function Providers({
@@ -15,9 +16,12 @@ export function Providers({
 }) {
     return (
         <Provider store={store}>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-                {children}
-            </NextIntlClientProvider>
+            <PersistGate loading={null} persistor={persistor}>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    {children}
+                </NextIntlClientProvider>
+            </PersistGate>
+
         </Provider>
     )
 }

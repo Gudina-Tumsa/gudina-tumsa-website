@@ -1,15 +1,17 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import {useParams} from "next/navigation";
 
 export default function PDFViewer() {
     const [pdfUrl, setPdfUrl] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
-
+    const params = useParams();
+    const id = params?.id as string;
     useEffect(() => {
         const fetchPDF = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/book/5deef59a-c59a-43d3-aa8d-0f8dfa93a451.pdf/pages?page=1&limit=4');
+                const response = await fetch(`http://localhost:3000/api/book/${id}/pages?page=1&limit=4`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch PDF');
@@ -95,3 +97,4 @@ export default function PDFViewer() {
         </div>
     );
 }
+
