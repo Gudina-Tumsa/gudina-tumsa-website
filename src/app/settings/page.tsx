@@ -17,7 +17,7 @@ const Sessions = () => {
     useEffect(() => {
         const fetchSessions = async () => {
             const data = await getSessions(user?.user?._id ?? "");
-            setSessions(data.data.sessions); // set all at once
+            setSessions(data.data.sessions);
         };
 
         fetchSessions();

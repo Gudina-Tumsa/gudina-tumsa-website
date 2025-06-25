@@ -33,3 +33,32 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
         throw error;
     }
 };
+
+
+
+export const logout = async (userId : string , deviceId : string) => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/users/logout`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId : userId,
+                deviceId : deviceId
+            }),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Login failed');
+        }
+
+         await response.json();
+
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
+};

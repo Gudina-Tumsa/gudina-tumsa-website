@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Search, BookOpen, BookMarked, CheckCircle, Notebook, Plus } from "lucide-react"
+import { Home, Search, BookOpen, BookMarked, CheckCircle } from "lucide-react"
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,6 +10,11 @@ import {
 } from "@/components/ui/sidebar"
 import { Settings, Mail, LogOut } from "lucide-react";
 import Link from "next/link";
+import {logout} from "@/lib/api/auth";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
+import {useRouter} from "next/navigation";
+
 
 export function NavMain() {
   const navigationItems = [
@@ -23,6 +28,9 @@ export function NavMain() {
 
     { title: "Completed", url: "/completed", icon: CheckCircle, count: 0 },
   ];
+  const user = useSelector((state: RootState) => state.user);
+    const router = useRouter();
+  const currentDeviceId = navigator.userAgent;
 
   return (
       <>
@@ -89,10 +97,18 @@ export function NavMain() {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <Link href={"/"} className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600">
-                  <LogOut className="mr-3 h-5 w-5" />
-                  <span>Logout</span>
-                </Link>
+                {/*<Link href={"/"} onClick={} className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600">*/}
+               <div onClick={()=>{
+                 logout(user?.user?._id ?? "" , currentDeviceId).then((data)=>{
+                     console.log(data)
+                     router.push('/');
+                 }).catch((err : unknown)=>{console.log(err)})
+               }}>
+                   <LogOut className="mr-3 h-5 w-5" />
+                   <span>Logout</span>
+               </div>
+
+                {/*</Link>*/}
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
