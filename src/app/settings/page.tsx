@@ -1,52 +1,54 @@
 "use client"
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { PersonalDetailsForm } from '../../components/elements/settings/PersonalDetailsForm';
 import { PasswordSection } from '../../components/elements/settings/PasswordSection';
 import { User, Lock } from 'lucide-react';
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
+import {getSessions, logoutSession} from "@/lib/api/sessions";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
+import {SessionResponse} from "@/types/sessions";
 
 const Sessions = () => {
+    const user = useSelector((state: RootState) => state.user);
+    const [sessions, setSessions] = useState<SessionResponse[]>([]);
+    const currentDeviceId = navigator.userAgent;
+
+    useEffect(() => {
+        const fetchSessions = async () => {
+            const data = await getSessions(user?.user?._id ?? "");
+            setSessions(data.data.sessions); // set all at once
+        };
+
+        fetchSessions();
+    }, []);
     return (
         <div className="space-y-6">
             <h2 className="text-lg font-semibold text-gray-900">Active Sessions</h2>
 
             <div className="border rounded-2xl shadow-sm divide-y">
-                {[
-                    {
-                        id: 1,
-                        device: 'Chrome on Windows',
-                        location: 'Addis Ababa, Ethiopia',
-                        lastActive: '2 hours ago',
-                        current: true,
-                    },
-                    {
-                        id: 2,
-                        device: 'Safari on iPhone',
-                        location: 'Dire Dawa, Ethiopia',
-                        lastActive: 'Yesterday at 9:15 PM',
-                        current: false,
-                    },
-                    {
-                        id: 3,
-                        device: 'Firefox on Linux',
-                        location: 'Bahir Dar, Ethiopia',
-                        lastActive: 'June 20, 10:34 AM',
-                        current: false,
-                    },
-                ].map((session) => (
-                    <div key={session.id} className="p-4 flex items-center justify-between">
+                {sessions.map((session) =>
+
+                { const isCurrent = session.deviceId === currentDeviceId;
+                    return (
+
+                    <div key={session._id} className="p-4 flex items-center justify-between">
                         <div>
-                            <p className="font-medium text-gray-800">{session.device}</p>
-                            <p className="text-sm text-gray-500">{session.location}</p>
-                            <p className="text-xs text-gray-400">Last active: {session.lastActive}</p>
+                            <p className="font-medium text-gray-800">{session.deviceId}</p>
+                            <p className="text-sm text-gray-500">Addis Ababa</p>
+
                         </div>
-                        {session.current ? (
+                        {isCurrent ? (
                             <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">Current session</span>
                         ) : (
-                            <button className="text-sm text-red-600 hover:underline">Log out</button>
+                            <button className="text-sm text-red-600 hover:underline"
+                            onClick={()=>{
+                                logoutSession(session._id).then((data)=>{console.log(data)}).catch((error)=>{console.log(error)})
+                            }}
+                            >Log out</button>
                         )}
                     </div>
-                ))}
+                )})}
             </div>
         </div>
 
