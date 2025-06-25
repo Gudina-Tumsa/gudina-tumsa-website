@@ -1,36 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormInput } from './FormInput';
-import {RootState} from "@/app/store/store";
-import {useSelector} from "react-redux";
-export const PersonalDetailsForm = () => {
-    const user = useSelector((state: RootState) => state.user);
 
-    const [formData, setFormData] = useState({
-        firstName: user?.user?.firstName || "",
-        lastName: user?.user?.lastName || "",
-        email: user?.user?.email || ""
-    });
 
-    const handleInputChange = (field: string, value: string) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
+
+interface PersonalDetailsFormProps {
+    formData: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        username: string;
     };
+    onChange: (field: string, value: string) => void;
+}
+export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormProps) => {
 
     return (
         <div className="space-y-6">
             <FormInput
                 label="First name"
                 value={formData.firstName}
-                onChange={(value) => handleInputChange('firstName', value)}
+                onChange={(value) => onChange('firstName', value)}
                 maxLength={30}
             />
+
+
 
             <FormInput
                 label="Last name"
                 value={formData.lastName}
-                onChange={(value) => handleInputChange('lastName', value)}
+                onChange={(value) => onChange('lastName', value)}
                 maxLength={30}
             />
 
@@ -38,8 +36,15 @@ export const PersonalDetailsForm = () => {
                 label="Email"
                 type="email"
                 value={formData.email}
-                onChange={(value) => handleInputChange('email', value)}
+                onChange={(value) => onChange('email', value)}
                 maxLength={50}
+            />
+
+            <FormInput
+                label="username"
+                value={formData.username}
+                onChange={(value) => onChange('username', value)}
+                maxLength={30}
             />
         </div>
     );

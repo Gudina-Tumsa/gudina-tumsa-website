@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { PersonalDetailsForm } from '../../components/elements/settings/PersonalDetailsForm';
 import { PasswordSection } from '../../components/elements/settings/PasswordSection';
 import { User, Lock } from 'lucide-react';
@@ -8,6 +8,7 @@ import {getSessions, logoutSession} from "@/lib/api/sessions";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {SessionResponse} from "@/types/sessions";
+import {updateUser} from "@/lib/api/user";
 
 const Sessions = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -93,7 +94,57 @@ const Preference = () => {
 
 const Settings = () => {
     const [activeTab, setActiveTab] = useState<'account' | 'preferences' | 'sessions'>('account');
+    const user = useSelector((state: RootState) => state.user);
+    const [password, setPassword] = useState('');
 
+    const [formData, setFormData] = useState({
+        firstName: user?.user?.firstName || "",
+        lastName: user?.user?.lastName || "",
+        email: user?.user?.email || "",
+        username: user?.user?.username || ""
+    });
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    };
+
+    const handleSavePassword = async () => {
+        try {
+            updateUser({password : password } , user?.user?._id ?? "").catch((err : unknown)=>{
+                console.log(err)
+            })
+
+        } catch (error) {
+            console.error('Error updating password:', error);
+            alert('Failed to update password. Please try again.');
+        }
+    };
+
+    const handleSave = () => {
+        const obj: {
+            firstName?: string;
+            lastName?: string;
+            email?: string;
+            username?: string;
+        } = {};
+        if (formData.firstName !== "") obj.firstName = formData.firstName;
+        if (formData.lastName !== "") obj.lastName = formData.lastName;
+        if (formData.email !== "") obj.email = formData.email;
+        if (formData.username !== "") obj.username = formData.username;
+
+
+        updateUser(obj , user?.user?._id ?? "").catch((err : unknown)=>{
+            console.log(err)
+        })
+
+    };
+
+    const handleFormChange = (field: string, value: string) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
     return (
         <SidebarLayout>
             <div className="py-8">
@@ -150,11 +201,16 @@ const Settings = () => {
                                             </div>
                                             <h2 className="text-lg font-medium text-gray-900">Personal details</h2>
                                             <div className="flex-1" />
-                                            <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors">
+                                            <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
+                                                    onClick={handleSave}
+                                            >
                                                 Save changes
                                             </button>
                                         </div>
-                                        <PersonalDetailsForm />
+                                        <PersonalDetailsForm
+                                            formData={formData}
+                                            onChange={handleFormChange}
+                                        />
                                     </div>
 
 
@@ -166,11 +222,17 @@ const Settings = () => {
                                             </div>
                                             <h2 className="text-lg font-medium text-gray-900">Password</h2>
                                             <div className="flex-1" />
-                                            <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors">
+                                            <button className="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-md hover:bg-gray-800 transition-colors"
+                                                    onClick={handleSavePassword}
+                                            >
                                                 Save changes
                                             </button>
                                         </div>
-                                        <PasswordSection />
+                                        <PasswordSection
+                                            password={password}
+                                            onPasswordChange={handlePasswordChange}
+                                            email={user?.user?.email ?? ""}
+                                        />
                                     </div>
 
                                 </>
