@@ -150,30 +150,24 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false); // Start closed on mobile
 
-  // Close sidebar when clicking on a nav item (for mobile)
-  // const closeSidebar = () => {
-  //   if (window.innerWidth < 768) {
-  //     setIsOpen(false)
-  //   }
-  // }
   React.useEffect(() => {
     const handleResize = () => {
-
-      setIsOpen(window.innerWidth >= 768)
+      // Only auto-open if desktop, keep closed if mobile
+      setIsOpen(window.innerWidth >= 768);
     }
 
-    handleResize()
+    // Set initial state based on current screen size
+    handleResize();
 
-    window.addEventListener('resize', handleResize)
-
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
       <>
-        {/* Mobile header - appears only on mobile */}
+        {/* Mobile header with toggle button */}
         <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b h-16 flex items-center px-4">
           <button
               className="p-2 rounded-md bg-background border"
@@ -184,17 +178,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <div className="ml-4 font-semibold">GTL</div>
         </header>
 
-        {/* Main content area with padding to account for mobile header */}
-        <div className="pt-16 md:pt-0">
-          {/* Sidebar component */}
+        {/* Sidebar container */}
+        <div
+            className={`
+          fixed 
+          inset-y-0 left-0 z-30
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+          md:translate-x-0
+          transition-transform duration-300 ease-in-out
+          bg-white
+          w-64 /* Explicit width */
+        `}
+        >
           <Sidebar
               collapsible="icon"
               {...props}
-              style={{
-                transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
-                transition: 'transform 300ms ease-in-out',
-              }}
-              className={`fixed md:relative inset-y-0 left-0 z-30 w-64 bg-white border-r`}
+              className="w-full h-full bg-white border-r" /* Use full width of container */
           >
             <SidebarHeader>
               <TeamSwitcher teams={data.teams} />
@@ -203,28 +202,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <NavMain />
             </SidebarContent>
           </Sidebar>
-
-          {/* Mobile overlay and sidebar */}
-          {isOpen && (
-              <div className="md:hidden fixed inset-0 z-20">
-                {/* Overlay background */}
-                <div
-                    className="absolute inset-0 bg-black/50"
-                    onClick={() => setIsOpen(false)}
-                />
-
-                {/* Mobile sidebar positioned below header */}
-                <div className="absolute top-16 left-0 w-full h-[calc(100vh-4rem)] bg-white border-r shadow-lg">
-                  {/*<div className="p-4 border-b">*/}
-                  {/*  <TeamSwitcher teams={data.teams} />*/}
-                  {/*</div>*/}
-                  <div className="overflow-y-auto h-[calc(100%-4rem)]">
-                    <NavMain />
-                  </div>
-                </div>
-              </div>
-          )}
         </div>
+
+        {/* Overlay - only visible when sidebar is open on mobile */}
+        {isOpen && (
+            <div
+                className="md:hidden fixed inset-0 z-20 bg-black/50"
+                onClick={() => setIsOpen(false)}
+            />
+        )}
+
+        {/* Main content */}
+        <main className={`
+        md:ml-64 /* Shift content when sidebar is open on desktop */
+        pt-16 md:pt-0 /* Account for mobile header */
+        min-h-screen
+        transition-all duration-300 /* Match sidebar animation */
+      `}>
+          {/* Your main content here */}
+        </main>
       </>
   )
 }
