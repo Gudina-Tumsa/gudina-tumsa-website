@@ -3,7 +3,7 @@
 import React, {useRef, useState} from 'react';
 import {ArrowDown, Leaf, Star} from "lucide-react";
 import {motion, useInView} from "framer-motion";
-import { Play, Pause } from "lucide-react";
+
 const sentences = [
     "We exist to make knowledge more accessible.",
     "Working with educators and publishers to create a digital library of more than a million books, available anywhere in the world."
@@ -39,7 +39,7 @@ const BookPreview = () => {
     };
 
     return (
-        <div className="px-4 sm:px-6 py-12 md:py-16 flex flex-col items-center">
+        <div className="px-4 sm:px-6 py-4 md:py-4 flex flex-col items-center">
             <div className="max-w-6xl w-full mx-auto">
 
                 <div className="w-full">

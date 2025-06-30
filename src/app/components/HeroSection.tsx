@@ -3,10 +3,10 @@ import React from "react";
 
 const HeroSection = () => {
     return (
-        <div className="">
+        <div className="flex flex-col justify-between h-screen">
             <div className=" flex flex-col lg:flex-row justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
                 {/* Text Content */}
-                <div className="lg:w-1/2 mb-8  lg:mb-0 flex flex-col justify-center sm:space-x-10">
+                <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10">
                     <div className="text-center lg:text-left">
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-2">
                             Knowledge{' '}
@@ -55,11 +55,12 @@ const HeroSection = () => {
             </div>
 
             {/* Scroll indicator */}
-            <div className="text-center mt-4 sm:mt-8 animate-bounce">
+            <div className="text-center animate-bounce">
                 <p className="text-lg font-medium text-gray-700 flex items-center justify-center gap-1">
                     <ChevronDown size={24} className="sm:size-[30px]" />
                 </p>
             </div>
+            <div></div>
         </div>
     );
 };
