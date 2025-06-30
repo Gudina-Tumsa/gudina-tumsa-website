@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React , {useRef} from 'react';
+import React from 'react';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/app/components/HeroSection';
 import BookPreview from '@/app/components/BookPreview';
