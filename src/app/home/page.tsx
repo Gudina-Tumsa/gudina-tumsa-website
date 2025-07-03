@@ -5,30 +5,52 @@ import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import { useSelector } from 'react-redux';
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getBooks} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
+import {useRouter} from "next/navigation";
+
 
 const BookCard = () => {
-    return (
-        <div className="bg-yellow-50  rounded-lg shadow-md w-full h-full  p-6 ">
-            <div className="flex flex-col md:flex-row gap-6 h-full">
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const user = useSelector((state: RootState) => state.user);
+    const router = useRouter();
 
+    useEffect(() => {
+        setIsUserLoggedIn(user?.user != null);
+    }, [user]);
+
+    const handleReadClick = () => {
+        if (!isUserLoggedIn) {
+            router.push('/login');
+            return;
+        }
+        // Handle read action for logged-in users
+        console.log("Read book");
+    };
+
+    const handleSaveClick = () => {
+        if (!isUserLoggedIn) {
+            router.push('/login');
+            return;
+        }
+        // Handle save action for logged-in users
+        console.log("Save book");
+    };
+
+    return (
+        <div className="bg-yellow-50 rounded-lg shadow-md w-full h-full p-6">
+            <div className="flex flex-col md:flex-row gap-6 h-full">
                 <div className="md:w-1/2">
                     <h3 className="text-xl font-semibold text-gray-800">The New Psychology of Success</h3>
                     <p className="text-gray-600 mt-2">Carol Dweck</p>
-
-
                     <hr className="my-4 border-gray-200 md:hidden" />
                 </div>
 
-
                 <div className="hidden md:block border-l border-gray-200"></div>
-
 
                 <div className="md:w-1/2 h-full">
                     <div className="flex flex-col sm:flex-row gap-6 items-center h-full">
-
                         <div className="w-full sm:w-[50%] h-[100%] bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 overflow-hidden">
                             <img
                                 className="w-full h-full object-cover"
@@ -38,18 +60,31 @@ const BookCard = () => {
                         </div>
 
                         <div className="flex flex-col gap-3 w-full sm:w-auto">
-                            <button className="bg-black hover:bg-gray-800 text-white rounded-md px-4 py-2 transition-colors">
-                                Read
+                            <button
+                                onClick={handleReadClick}
+                                className={`rounded-md px-4 py-2 transition-colors ${
+                                    isUserLoggedIn
+                                        ? "bg-black hover:bg-gray-800 text-white"
+                                        : "bg-black hover:bg-gray-800 text-white"
+                                }`}
+                            >
+                                {isUserLoggedIn ? "Read" : "Login to Read"}
                             </button>
-                            <button className="bg-white hover:bg-gray-100 border border-gray-300 text-gray-800 rounded-md px-4 py-2 transition-colors">
-                                Save
+                            <button
+                                onClick={handleSaveClick}
+                                className={`rounded-md px-4 py-2 transition-colors ${
+                                    isUserLoggedIn
+                                        ? "bg-white hover:bg-gray-100 border border-gray-300 text-gray-800"
+                                        : "bg-white hover:bg-gray-100 border border-gray-300 text-gray-800"
+                                }`}
+                            >
+                                {isUserLoggedIn ? "Save" : "Login to Save"}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     );
 };
 

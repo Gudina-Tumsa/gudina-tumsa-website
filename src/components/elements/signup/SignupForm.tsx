@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { loginStart, loginSuccess, loginFailure } from "@/app/store/features/userSlice";
 import { AppDispatch } from "@/app/store/store";
-import {UserResponse} from "@/types/auth";
-import {useRouter} from "next/navigation";
-
+import { UserResponse } from "@/types/auth";
+import { useRouter } from "next/navigation";
 
 interface CreateUserResponse {
     data: {
@@ -23,6 +22,8 @@ interface CreateUserResponse {
 
 const SignUpForm = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -30,25 +31,33 @@ const SignUpForm = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phone, setPhone] = useState("");
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
     const [error, setError] = useState("");
-    const role = "basic"
-    const languagePreference = "en"
-    const readingPreferences = "en"
 
-    const router = useRouter();
+    const role = "basic";
+    const languagePreference = "en";
+    const readingPreferences = "en";
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        if (!agreedToTerms){
+            setError("Please fill in all required fields");
+            return;
+        }
         // Basic validation
+        if (!firstName || !lastName || !email || !password || !username) {
+            setError("Please fill in all required fields");
+            return;
+        }
+
         if (password !== confirmPassword) {
             setError("Passwords don't match");
             return;
         }
 
-        if (!firstName || !lastName || !email || !password) {
-            setError("Please fill in all required fields");
+        if (!agreedToTerms) {
+            setError("You must agree to the Terms and Conditions");
             return;
         }
 
@@ -79,14 +88,17 @@ const SignUpForm = () => {
             }
 
             const data: CreateUserResponse = await response.json();
-            dispatch(loginSuccess({
-                data: {
-                    user: data.data.user,
-                    session: data.data.session
-                }
-            }));
-            router.push('/home');
 
+            dispatch(
+                loginSuccess({
+                    data: {
+                        user: data.data.user,
+                        session: data.data.session,
+                    },
+                })
+            );
+
+            router.push("/home");
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : "Signup failed";
             setError(errorMessage);
@@ -112,10 +124,7 @@ const SignUpForm = () => {
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label
-                                htmlFor="firstName"
-                                className="text-sm font-medium text-gray-700 block mb-1"
-                            >
+                            <label htmlFor="firstName" className="text-sm font-medium text-gray-700 block mb-1">
                                 First Name *
                             </label>
                             <input
@@ -128,10 +137,7 @@ const SignUpForm = () => {
                             />
                         </div>
                         <div>
-                            <label
-                                htmlFor="lastName"
-                                className="text-sm font-medium text-gray-700 block mb-1"
-                            >
+                            <label htmlFor="lastName" className="text-sm font-medium text-gray-700 block mb-1">
                                 Last Name *
                             </label>
                             <input
@@ -146,10 +152,7 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="email"
-                            className="text-sm font-medium text-gray-700 block mb-1"
-                        >
+                        <label htmlFor="email" className="text-sm font-medium text-gray-700 block mb-1">
                             Email *
                         </label>
                         <input
@@ -163,10 +166,7 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="username"
-                            className="text-sm font-medium text-gray-700 block mb-1"
-                        >
+                        <label htmlFor="username" className="text-sm font-medium text-gray-700 block mb-1">
                             Username *
                         </label>
                         <input
@@ -180,10 +180,7 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="phone"
-                            className="text-sm font-medium text-gray-700 block mb-1"
-                        >
+                        <label htmlFor="phone" className="text-sm font-medium text-gray-700 block mb-1">
                             Phone Number
                         </label>
                         <input
@@ -196,10 +193,7 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="password"
-                            className="text-sm font-medium text-gray-700 block mb-1"
-                        >
+                        <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">
                             Password *
                         </label>
                         <input
@@ -213,10 +207,7 @@ const SignUpForm = () => {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="confirmPassword"
-                            className="text-sm font-medium text-gray-700 block mb-1"
-                        >
+                        <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 block mb-1">
                             Confirm Password *
                         </label>
                         <input
@@ -229,9 +220,23 @@ const SignUpForm = () => {
                         />
                     </div>
 
-                    {/* Hidden fields with default values */}
-                    <input type="hidden" name="role" value={role} />
-                    <input type="hidden" name="languagePreference" value={languagePreference} />
+                    {/* Terms and Conditions */}
+                    <div className="flex items-start">
+                        <input
+                            id="terms"
+                            type="checkbox"
+                            checked={agreedToTerms}
+                            onChange={(e) => setAgreedToTerms(e.target.checked)}
+                            className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            required
+                        />
+                        <label htmlFor="terms" className="ml-2 text-sm text-gray-700">
+                            I agree to the{" "}
+                            <Link href="/terms" target="_blank" className="text-blue-600 hover:underline">
+                                Terms and Conditions
+                            </Link>
+                        </label>
+                    </div>
                 </div>
 
                 <button

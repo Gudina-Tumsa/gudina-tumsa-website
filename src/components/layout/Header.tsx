@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { useState } from "react"
-import { ChevronDown, Menu, X } from "lucide-react" // Added Menu and X icons for mobile
+import { ChevronDown, Menu, X } from "lucide-react"
 import { Globe } from 'lucide-react';
 import Link from "next/link"
 import {useTranslations} from 'next-intl'
@@ -57,69 +57,117 @@ function LanguageSelector() {
 const Header = () => {
     const t = useTranslations('header')
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [showNotification, setShowNotification] = useState(true)
+
+    // Example event data - replace with your actual event data
+    const currentEvent = {
+        title: "Special Event: Annual Conference 2024",
+        link: "/events/conference-2024",
+        date: "June 15-17, 2024"
+    }
 
     return (
-        <header className="bg-white border-b border-gray-200 py-4">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between">
-                    {/* Logo */}
-                    <div className="flex items-center">
-                        <h1 className="text-2xl font-bold text-black">{t('logo')}</h1>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center space-x-8">
-                        <Link
-                            href="/login"
-                            className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
-                        >
-                            Login
-                        </Link>
-                        <div className="flex items-center space-x-4">
+        <>
+            {/* Notification Banner */}
+            {showNotification && (
+                <div className="bg-blue-600 text-white">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center">
+                        <div className="flex items-center">
+                            <span className="font-medium mr-2">📢</span>
                             <Link
-                                href="/signup"
-                                className="border-[0.5px] border-black text-black px-6 py-2 rounded-md transition-transform duration-200 hover:-translate-y-1"
+                                href={currentEvent.link}
+                                className="hover:underline"
                             >
-                                Sign up
+                                {currentEvent.title} - {currentEvent.date}
                             </Link>
-                            <LanguageSelector/>
                         </div>
-                    </nav>
-
-                    {/* Mobile menu button */}
-                    <div className="md:hidden flex items-center">
-                        <LanguageSelector/>
                         <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="ml-4 p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
-                            aria-label="Toggle menu"
+                            onClick={() => setShowNotification(false)}
+                            className="p-1 rounded-full hover:bg-blue-700"
+                            aria-label="Close notification"
                         >
-                            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                            <X className="h-4 w-4" />
                         </button>
                     </div>
                 </div>
+            )}
 
-                {/* Mobile Navigation */}
-                {mobileMenuOpen && (
-                    <div className="md:hidden mt-4 pb-4 space-y-4 ">
-                        <Link
-                            href="/login"
-                            className="block font-bold text-gray-700 hover:text-gray-900 transition-colors py-2"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            Login
-                        </Link>
-                        <Link
-                            href="/signup"
-                            className="block border-[0.5px] border-black text-black px-6 py-2 rounded-md w-max"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            Sign up
-                        </Link>
+            {/* Main Header */}
+            <header className="bg-white border-b border-gray-200 py-4">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between">
+                        {/* Logo */}
+                        <div className="flex items-center">
+                            <h1 className="text-2xl font-bold text-black">{t('logo')}</h1>
+                        </div>
+
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex items-center space-x-8">
+                            {/*<Link*/}
+                            {/*    href="/login"*/}
+                            {/*    className="font-bold text-gray-700 hover:text-gray-900 transition-colors"*/}
+                            {/*>*/}
+                            {/*    Login*/}
+                            {/*</Link>*/}
+                            <Link
+                                href="/home"
+                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
+                            >
+                                Get Started
+                            </Link>
+                            <div className="flex items-center space-x-4">
+                                <Link
+                                    href="/signup"
+                                    className="border-[0.5px] border-black text-black px-6 py-2 rounded-md transition-transform duration-200 hover:-translate-y-1"
+                                >
+                                    Sign up
+                                </Link>
+                                <LanguageSelector/>
+                            </div>
+                        </nav>
+
+                        {/* Mobile menu button */}
+                        <div className="md:hidden flex items-center">
+                            <LanguageSelector/>
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className="ml-4 p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
+                                aria-label="Toggle menu"
+                            >
+                                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                            </button>
+                        </div>
                     </div>
-                )}
-            </div>
-        </header>
+
+                    {/* Mobile Navigation */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden mt-4 pb-4 space-y-4 ">
+                            <Link
+                                href="/home"
+                                className="block font-bold text-gray-700 hover:text-gray-900 transition-colors py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Get Started
+                            </Link>
+                            {/*<Link*/}
+                            {/*    href="/login"*/}
+                            {/*    className="block font-bold text-gray-700 hover:text-gray-900 transition-colors py-2"*/}
+                            {/*    onClick={() => setMobileMenuOpen(false)}*/}
+                            {/*>*/}
+                            {/*    Login*/}
+                            {/*</Link>*/}
+                            <Link
+                                href="/signup"
+                                className="block border-[0.5px] border-black text-black px-6 py-2 rounded-md w-max"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Sign up
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </header>
+        </>
     );
 };
 

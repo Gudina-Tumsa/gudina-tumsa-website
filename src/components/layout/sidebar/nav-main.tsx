@@ -2,118 +2,155 @@
 
 import { Home, Search, BookOpen, BookMarked, CheckCircle } from "lucide-react"
 import {
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Settings, Mail, LogOut } from "lucide-react";
 import Link from "next/link";
-import {logout} from "@/lib/api/auth";
+import {logoutAuth} from "@/lib/api/auth";
 import {useSelector} from "react-redux";
-import {RootState} from "@/app/store/store";
+import {persistor, RootState} from "@/app/store/store";
 import {useRouter} from "next/navigation";
-
+import { useDispatch } from 'react-redux';
+import { logout } from '@/app/store/features/userSlice';
+import {useEffect, useState} from "react";
 
 export function NavMain() {
-  const navigationItems = [
-    { title: "Home", url: "/home", icon: Home },
-    { title: "My library", url: "/toread", icon: BookMarked },
-    { title: "Browse", url: "/browse", icon: Search },
-  ];
-
-  const activityItems = [
-    { title: "Reading", url: "/reading", icon: BookOpen, count: 1 },
-
-    { title: "Completed", url: "/completed", icon: CheckCircle, count: 0 },
-  ];
-  const user = useSelector((state: RootState) => state.user);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+    const dispatch = useDispatch();
     const router = useRouter();
-  const currentDeviceId = navigator.userAgent;
+    const currentDeviceId = navigator.userAgent;
+    const user = useSelector((state: RootState) => state.user);
 
-  return (
-      <>
-        <SidebarGroup>
+    const activityItems = [
+        { title: "Reading", url: "/reading", icon: BookOpen, count: 1, requireLogin: true },
+        { title: "Completed", url: "/completed", icon: CheckCircle, count: 0, requireLogin: true },
+    ];
 
+    const navigationItems = [
+        { title: "Home", url: "/home", icon: Home, requireLogin: false },
+        { title: "My library", url: "/toread", icon: BookMarked, requireLogin: true },
+        { title: "Browse", url: "/browse", icon: Search, requireLogin: false },
+    ];
 
-          <SidebarMenu>
-            {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url} className="flex items-center">
-                      {item.icon && <item.icon className="mr-3 h-5 w-5" />}
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+    useEffect(() => {
+        if(user?.user != null){
+            setIsUserLoggedIn(true);
+        } else {
+            setIsUserLoggedIn(false);
+        }
+    }, [user]);
 
-        <SidebarGroup>
-          <SidebarGroupLabel>My Activity</SidebarGroupLabel>
-          <SidebarMenu>
-            {activityItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center justify-between w-full">
-                      <div className="flex items-center">
-                        {item.icon && <item.icon className="mr-3 h-5 w-5" />}
-                        <span>{item.title}</span>
-                      </div>
-                      <span className="text-gray-400 text-xs">{item.count}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+    const handleLogout = async () => {
+        try {
+            await logoutAuth(user?.user?._id ?? "", currentDeviceId);
+            dispatch(logout());
+            await persistor.purge();
+            router.push('/');
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-
-
-        <SidebarGroup>
-          <div className="border-t border-gray-200 my-4" />
-
-
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <Link  href="/settings" className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
-                  <Settings className="mr-3 h-5 w-5" />
-                  <span>Settings</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <button className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
-                  <Mail className="mr-3 h-5 w-5" />
-                  <span>Contact Us</span>
+    const renderLinkOrButton = (item: any) => {
+        if (item.requireLogin && !isUserLoggedIn) {
+            return (
+                <button
+                    className="flex items-center w-full px-3 py-2 opacity-50 cursor-not-allowed"
+                    disabled
+                >
+                    {item.icon && <item.icon className="mr-3 h-5 w-5" />}
+                    <span>{item.title}</span>
+                    {item.count !== undefined && (
+                        <span className="text-gray-400 text-xs ml-auto">{item.count}</span>
+                    )}
                 </button>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            );
+        }
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                {/*<Link href={"/"} onClick={} className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600">*/}
-               <div onClick={()=>{
-                 logout(user?.user?._id ?? "" , currentDeviceId).then((data)=>{
-                     console.log(data)
-                     router.push('/');
-                 }).catch((err : unknown)=>{console.log(err)})
-               }}>
-                   <LogOut className="mr-3 h-5 w-5" />
-                   <span>Logout</span>
-               </div>
+        return (
+            <Link
+                href={item.url}
+                className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md"
+            >
+                {item.icon && <item.icon className="mr-3 h-5 w-5" />}
+                <span>{item.title}</span>
+                {item.count !== undefined && (
+                    <span className="text-gray-400 text-xs ml-auto">{item.count}</span>
+                )}
+            </Link>
+        );
+    };
 
-                {/*</Link>*/}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-      </>
-  )
+    return (
+        <>
+            <SidebarGroup>
+                <SidebarMenu>
+                    {navigationItems.map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                            <SidebarMenuButton asChild>
+                                {renderLinkOrButton(item)}
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup>
+                <SidebarGroupLabel>My Activity</SidebarGroupLabel>
+                <SidebarMenu>
+                    {activityItems.map((item) => (
+                        <SidebarMenuItem key={item.title}>
+                            <SidebarMenuButton asChild>
+                                {renderLinkOrButton(item)}
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroup>
+
+            <SidebarGroup>
+                <div className="border-t border-gray-200 my-4" />
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <Link
+                                href="/settings"
+                                className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md"
+                            >
+                                <Settings className="mr-3 h-5 w-5" />
+                                <span>Settings</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild>
+                            <button className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
+                                <Mail className="mr-3 h-5 w-5" />
+                                <span>Contact Us</span>
+                            </button>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    {isUserLoggedIn && (
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600"
+                                >
+                                    <LogOut className="mr-3 h-5 w-5" />
+                                    <span>Logout</span>
+                                </button>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    )}
+                </SidebarMenu>
+            </SidebarGroup>
+        </>
+    );
 }
-

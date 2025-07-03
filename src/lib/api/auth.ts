@@ -36,7 +36,7 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
 
 
 
-export const logout = async (userId : string , deviceId : string) => {
+export const logoutAuth = async (userId : string , deviceId : string) => {
     try {
         const response = await fetch(`http://localhost:3000/api/users/logout`, {
             method: 'POST',

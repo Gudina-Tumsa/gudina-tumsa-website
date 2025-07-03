@@ -17,7 +17,6 @@ const Index = () => {
     const id = params?.id as string;
     const books = useSelector((state: RootState) => state.book)
 
-
     const [currentbook , setCurrentBook] = useState<BookData | null>(null)
     useEffect(() => {
         if (!id || !books) return

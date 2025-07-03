@@ -29,13 +29,14 @@ const HeroSection = () => {
                     </p>
 
                     <div className="flex justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16">
-                        <button
+                        <a
                             className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group"
                             aria-label="Get Started"
+                            href={"/home"}
                         >
                             <span className="font-medium mr-2">Get Started</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </a>
                     </div>
                 </div>
 

@@ -8,12 +8,13 @@ import {RootState} from "@/app/store/store";
 import {getBooks} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {BookData} from "@/types/book";
+import {useRouter} from "next/navigation";
 
 const HomePageCategory = () => {
     const [activeCategory, setActiveCategory] = useState('Architecture');
     const categories = useSelector((state: RootState) => state.category);
     const books = useSelector((state: RootState) => state.book)
-
+    const router = useRouter();
     const dispatch = useAppDispatch();
     useEffect(() => {
         const fetchCategories = async () => {
@@ -37,7 +38,11 @@ const HomePageCategory = () => {
         fetchCategories();
         fetchBooks()
     }, [dispatch]);
+    function readBookNavigate(id: string) {
 
+        router.push(`/bookdetail/${id}`);
+
+    }
     return (
         <div className="bg-white">
             {/* Hero Section */}
@@ -85,7 +90,10 @@ const HomePageCategory = () => {
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
                         {books?.books?.data.books.map((book: BookData) => (
-                            <div key={book._id} className="group cursor-pointer">
+                            <div key={book._id} className="group cursor-pointer" onClick={()=>{
+                                readBookNavigate(book._id)
+
+                            }}>
                                 {/* Book Cover */}
                                 <div className={`
                                     ${book.coverImageUrl ? 'bg-cover bg-center' : 'bg-gray-200'} 
