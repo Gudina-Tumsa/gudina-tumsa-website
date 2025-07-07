@@ -17,7 +17,10 @@ import {
 import { NavMain } from "@/components/layout/sidebar/nav-main"
 
 import { TeamSwitcher } from "@/components/layout/sidebar/team-switcher"
-import {Sidebar,SidebarContent,SidebarHeader} from "@/components/ui/sidebar"
+import {
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu,
+  SidebarMenuButton, SidebarMenuItem, SidebarTrigger
+} from "@/components/ui/sidebar"
 
 
 const data = {
@@ -166,61 +169,39 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }, []);
 
   return (
-      <>
-        {/* Mobile header with toggle button */}
-        <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b h-16 flex items-center px-4">
-          <button
-              className="p-2 rounded-md bg-background border"
-              onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-          <div className="ml-4 font-semibold">GTL</div>
-        </header>
+      <Sidebar collapsible="icon" {...props}>
+        <SidebarHeader>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <div className={" flex flex-row"}>
+                <SidebarMenuButton
+                    asChild
+                    className="data-[slot=sidebar-menu-button]:!p-1.5"
+                >
+                  <a href="#">
+                    {/*<IconInnerShadowTop className="!size-5" />*/}
+                    <span className="text-base font-semibold">GTL</span>
+                  </a>
 
-        {/* Sidebar container */}
-        <div
-            className={`
-          fixed 
-          inset-y-0 left-0 z-30
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-          md:translate-x-0
-          transition-transform duration-300 ease-in-out
-          bg-white
-          w-64 /* Explicit width */
-        `}
-        >
-          <Sidebar
-              collapsible="icon"
-              {...props}
-              className="w-full h-full bg-white border-r" /* Use full width of container */
-          >
-            <SidebarHeader>
-              <TeamSwitcher teams={data.teams} />
-            </SidebarHeader>
-            <SidebarContent className="overflow-y-auto h-[calc(100vh-4rem)]">
-              <NavMain />
-            </SidebarContent>
-          </Sidebar>
-        </div>
 
-        {/* Overlay - only visible when sidebar is open on mobile */}
-        {isOpen && (
-            <div
-                className="md:hidden fixed inset-0 z-20 bg-black/50"
-                onClick={() => setIsOpen(false)}
-            />
-        )}
+                </SidebarMenuButton>
 
-        {/* Main content */}
-        <main className={`
-        md:ml-64 /* Shift content when sidebar is open on desktop */
-        pt-16 md:pt-0 /* Account for mobile header */
-        min-h-screen
-        transition-all duration-300 /* Match sidebar animation */
-      `}>
-          {/* Your main content here */}
-        </main>
-      </>
+              </div>
+
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          <NavMain  />
+
+
+        </SidebarContent>
+        <SidebarFooter>
+
+        </SidebarFooter>
+
+
+      </Sidebar>
+
   )
 }

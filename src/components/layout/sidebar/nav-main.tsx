@@ -90,8 +90,8 @@ export function NavMain() {
             <SidebarGroup>
                 <SidebarMenu>
                     {navigationItems.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild>
+                        <SidebarMenuItem key={item.title} className="min-w-[200px]">
+                            <SidebarMenuButton asChild className="w-full truncate">
                                 {renderLinkOrButton(item)}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -103,8 +103,8 @@ export function NavMain() {
                 <SidebarGroupLabel>My Activity</SidebarGroupLabel>
                 <SidebarMenu>
                     {activityItems.map((item) => (
-                        <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild>
+                        <SidebarMenuItem key={item.title} className="min-w-[200px]">
+                            <SidebarMenuButton asChild className="w-full truncate">
                                 {renderLinkOrButton(item)}
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -115,8 +115,9 @@ export function NavMain() {
             <SidebarGroup>
                 <div className="border-t border-gray-200 my-4" />
                 <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
+                    <SidebarMenuItem className="min-w-[200px]">
+                        <SidebarMenuButton asChild className="w-full truncate">
+
                             <Link
                                 href="/settings"
                                 className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md"
@@ -127,8 +128,8 @@ export function NavMain() {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
 
-                    <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
+                    <SidebarMenuItem className="min-w-[200px]">
+                        <SidebarMenuButton asChild className="w-full truncate">
                             <button className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
                                 <Mail className="mr-3 h-5 w-5" />
                                 <span>Contact Us</span>
@@ -137,8 +138,8 @@ export function NavMain() {
                     </SidebarMenuItem>
 
                     {isUserLoggedIn && (
-                        <SidebarMenuItem>
-                            <SidebarMenuButton asChild>
+                        <SidebarMenuItem className="min-w-[200px]">
+                            <SidebarMenuButton asChild className="w-full truncate">
                                 <button
                                     onClick={handleLogout}
                                     className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600"
