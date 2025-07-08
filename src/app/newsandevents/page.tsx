@@ -1,15 +1,24 @@
 "use client"
 import Header from '@/components/layout/Header';
 import {ArrowRightIcon, CalendarIcon, NewspaperIcon} from 'lucide-react';
-import { Link } from 'react-router-dom';
 import Footer from "@/components/layout/Footer";
 import { useEffect, useState } from 'react';
+import {getEvents} from "@/lib/api/events";
+import {EventData} from "@/types/events";
 
 const Page = () => {
     const [isClient, setIsClient] = useState(false);
-
+    const [events, setEvents] = useState<EventData[]>([]);
     useEffect(() => {
         setIsClient(true);
+    }, []);
+
+    useEffect(() => {
+        getEvents({page : 1 , limit : 100}).then((data)=>{
+            setEvents(data?.data?.events ?? [])
+        }).catch((err)=>{
+            console.log(err);
+        })
     }, []);
 
     const formatDate = (dateString: string) => {
@@ -70,24 +79,7 @@ const Page = () => {
 
     ];
 
-    const events = [
-        {
-            id: 1,
-            title: "Author Meet & Greet",
-            date: "2023-06-15",
-            time: "6:00 PM",
-            location: "Main Library Auditorium",
-            description: "Meet bestselling author Jane Doe as she discusses her new novel."
-        },
-        {
-            id: 2,
-            title: "Author Meet & Greet",
-            date: "2023-06-25",
-            time: "6:00 PM",
-            location: "Main Library Auditorium",
-            description: "Meet bestselling author Jane Doe as she discusses her new novel."
-        },
-    ];
+
 
     return (
         <div className="bg-white min-h-screen">
@@ -148,16 +140,16 @@ const Page = () => {
                     </div>
                 
                     <div className="space-y-6">
-                        {events.slice(0, 3).map((event) => (
+                        {events.map((event) => (
                             <div key={event.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                                 <div className="p-6 md:flex md:items-center md:justify-between">
                                     <div className="md:flex md:items-center md:space-x-6">
                                         <div className="bg-blue-50 text-blue-600 rounded-lg p-4 text-center mb-4 md:mb-0 min-w-[100px]">
                                             <div className="text-2xl font-bold">
-                                                {getDay(event.date)}
+                                                {getDay(event.startDate)}
                                             </div>
                                             <div className="text-sm uppercase">
-                                                {getMonth(event.date)}
+                                                {getMonth(event.startDate)}
                                             </div>
                                         </div>
                                         <div>
@@ -166,8 +158,23 @@ const Page = () => {
                                             <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                                                 <span className="flex items-center">
                                                     <CalendarIcon className="h-4 w-4 mr-1" />
-                                                    {formatEventDate(event.date)}
-                                                    {event.time && ` • ${event.time}`}
+
+                                                    {event.startDate && (
+                                                        <>
+                                                            {new Date(event.startDate).toLocaleDateString('en-US', {
+                                                                weekday: 'short',
+                                                                month: 'short',
+                                                                day: 'numeric',
+                                                            })}
+                                                            {event.endDate && (
+                                                                <> - {new Date(event.endDate).toLocaleDateString('en-US', {
+                                                                    weekday: 'short',
+                                                                    month: 'short',
+                                                                    day: 'numeric',
+                                                                })}</>
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </span>
                                                 {event.location && (
                                                     <span className="flex items-center">

@@ -1,5 +1,54 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useEffect} from "react";
+import {resetUser, updateUser} from "@/lib/api/user";
+const createOtpEmail = async (email: string): Promise<boolean> => {
+    try {
+        const response = await fetch('http://localhost:3000/api/otp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address: email,
+                addressType: 'EMAIL',
+            }),
+        });
+
+        if (response.status === 201) {
+            return true;
+        } else {
+            const data = await response.json();
+            throw new Error(data.message || 'Failed to create OTP');
+        }
+    } catch (error: any) {
+
+        throw new Error(error.message || 'Network or server error');
+    }
+};
+
+
+const verifyOtp = async (address:string, otpCode :string) : Promise<boolean> => {
+    try {
+        const response = await fetch('http://localhost:3000/api/otp/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                address,
+                password : otpCode,
+            }),
+        });
+
+        if (response.status === 200) {
+            // Assuming 200 means OTP verified successfully
+            return true;
+        } else {
+            const data = await response.json();
+            throw new Error(data.message || 'Failed to verify OTP');
+        }
+    } catch (error: any) {
+        throw new Error(error.message || 'Network or server error');
+    }
+};
+
+
 
 const OtpInput = ({
                       length = 6,
@@ -11,6 +60,9 @@ const OtpInput = ({
     onChange: (otp: string) => void;
 }) => {
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+    const [timer, setTimer] = useState(180); // 3 minutes = 180 seconds
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
         const val = e.target.value;
@@ -58,23 +110,79 @@ const ResetPasswordForm = () => {
     const [otp, setOtp] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [resending, setResending] = useState(false);
+    const [timer, setTimer] = useState(180);
+
+
+    useEffect(() => {
+        if (step !== 2) return;
+
+        setTimer(180); // Reset timer when entering step 2
+
+        const interval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [step]);
+
+
+    useEffect(() => {
+        if (timer <= 0) return;
+
+        const interval = setInterval(() => {
+            setTimer((prev) => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [timer]);
+
+    const handleResend = async () => {
+        setResending(true);
+        try {
+            await createOtpEmail(email);
+            setTimer(180); // Restart countdown on successful resend
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setResending(false);
+        }
+    };
 
     const handleEmailSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Sending OTP to:", email);
-        // TODO: call API to send OTP
-        setStep(2);
+      e.preventDefault()
+
+        // Todo call
+        createOtpEmail(email).then((data)=>{
+            setStep(2);
+        }).catch((err)=>{
+            console.log(err)
+        })
+
+
     };
 
     const handleOtpSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+
         if (otp.length !== 6) {
             alert("Please enter the 6-digit OTP.");
             return;
         }
-        console.log("Verifying OTP:", otp);
-        // TODO: call API to verify OTP
-        setStep(3);
+
+        verifyOtp(email , otp).then((data) =>{
+            setStep(3);
+        }).catch((err)=>{
+            alert("Error happened")
+        })
+
     };
 
     const handleResetPassword = (e: React.FormEvent) => {
@@ -83,6 +191,16 @@ const ResetPasswordForm = () => {
             alert("Passwords do not match.");
             return;
         }
+
+        resetUser({password : newPassword } , email ).then((data)=>{
+
+        })
+        .catch((err : unknown)=>{
+            alert("hello there")
+        })
+
+
+
         console.log("Resetting password for:", email, newPassword);
         // TODO: call API to reset password
         alert("Password reset successfully!");
@@ -124,14 +242,36 @@ const ResetPasswordForm = () => {
                 </form>
             )}
 
+
             {step === 2 && (
                 <form onSubmit={handleOtpSubmit} className="space-y-6">
                     <div>
-                        <label className="mb-[5%] text-center text-sm font-medium text-gray-700 block ">
+                        <label className="mb-2 text-center text-sm font-medium text-gray-700 block">
                             Enter OTP sent to {email}
                         </label>
-                        <OtpInput value={otp} onChange={setOtp} length={6} />
+                        <OtpInput
+                            value={otp}
+                            onChange={setOtp}
+                            numInputs={6}
+                            inputStyle="border border-gray-300 rounded-md w-10 h-10 text-center mx-1"
+                        />
                     </div>
+
+                    <div className="text-center text-sm text-gray-500">
+                        {timer > 0 ? (
+                            <span>Resend available in {timer}s</span>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={handleResend}
+                                disabled={resending}
+                                className="text-blue-600 hover:underline disabled:opacity-50"
+                            >
+                                {resending ? "Sending..." : "Resend OTP"}
+                            </button>
+                        )}
+                    </div>
+
                     <button
                         type="submit"
                         className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
@@ -140,6 +280,7 @@ const ResetPasswordForm = () => {
                     </button>
                 </form>
             )}
+
 
             {step === 3 && (
                 <form onSubmit={handleResetPassword} className="space-y-6">
