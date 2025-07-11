@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { useEffect, useState } from 'react';
 import {getEvents} from "@/lib/api/events";
 import {EventData} from "@/types/events";
+import Link from "next/link";
 
 const Page = () => {
     const [isClient, setIsClient] = useState(false);
@@ -101,31 +102,35 @@ const Page = () => {
                             <NewspaperIcon className="h-6 w-6 mr-2 text-blue-600" />
                             Latest News
                         </h2>
-                        {/*<a href="/news" className="text-blue-600 hover:underline flex items-center">*/}
-                        {/*    View all news*/}
-                        {/*    <ArrowRightIcon className="h-4 w-4 ml-1" />*/}
-                        {/*</a>*/}
                     </div>
-                
+
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {news.slice(0, 3).map((item) => (
                             <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                                 <div className="p-6">
-                                    <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-50 rounded-full mb-3">
-                                        {item.category}
-                                    </span>
+                    <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-50 rounded-full mb-3">
+                        {item.category}
+                    </span>
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
                                     <p className="text-gray-600 mb-4">{item.excerpt}</p>
-                                    <div className="flex items-center text-sm text-gray-500">
-                                        <CalendarIcon className="h-4 w-4 mr-1" />
-                                        {formatDate(item.date)}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center text-sm text-gray-500">
+                                            <CalendarIcon className="h-4 w-4 mr-1" />
+                                            {formatDate(item.date)}
+                                        </div>
+                                        <Link
+                                            href={`/news/${item.id}`}
+                                            className="text-blue-600 hover:underline flex items-center text-sm font-medium"
+                                        >
+                                            Read more
+                                            <ArrowRightIcon className="h-4 w-4 ml-1" />
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </section>
-                
                 {/* Events Section */}
                 <section>
                     <div className="flex items-center justify-between mb-8">

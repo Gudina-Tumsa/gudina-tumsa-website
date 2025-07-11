@@ -8,17 +8,16 @@ import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
 
 
-
-const AudioPlayer = ({ audioUrl, audioRef }) => {
+const AudioPlayer = ({audioUrl, audioRef}) => {
     return (
         <audio ref={audioRef} controls className="mt-2 w-full">
-            <source src={audioUrl} type="audio/mp3" />
+            <source src={audioUrl} type="audio/mp3"/>
             Your browser does not support the audio element.
         </audio>
     );
 };
 
-const BookDetail = ({bookData } : {bookData : BookData | null}) => {
+const BookDetail = ({bookData}: { bookData: BookData | null }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [showAudio, setShowAudio] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -147,17 +146,17 @@ const BookDetail = ({bookData } : {bookData : BookData | null}) => {
 }
 
 
-function BookComment({ bookData}  :{bookData : BookData | null}) {
+function BookComment({bookData}: { bookData: BookData | null }) {
 
-    const [comments, setComments] = useState<{id: string, author: string, text: string, date: string}[]>([ ]);
+    const [comments, setComments] = useState<{ id: string, author: string, text: string, date: string }[]>([]);
     const [newComment, setNewComment] = useState("");
     const user = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
 
-        getComments({page : 1 , limit : 20 , bookId : bookData?._id}).then((data)=>{
+        getComments({page: 1, limit: 20, bookId: bookData?._id}).then((data) => {
             console.log("the data is ")
-            data?.data?.comments.map((n:CommentData )=>{
+            data?.data?.comments.map((n: CommentData) => {
                 console.log(n)
                 const comment = {
                     id: n._id,
@@ -182,14 +181,20 @@ function BookComment({ bookData}  :{bookData : BookData | null}) {
             setComments([...comments, comment]);
             setNewComment("");
 
-            crateComment(bookData?._id ?? "" ,  user?.user?._id ?? "", newComment)
+            crateComment(bookData?._id ?? "", user?.user?._id ?? "", newComment)
         }
     };
     return (
         <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Leave a Comment</h3>
-                <div className="mb-4">
+
+
+                {
+                    user?.user != null ?
+
+                        <>
+                            <h3 className="text-xl font-semibold text-gray-900 mb-4">Leave a Comment</h3>
+                            <div className="mb-4">
                             <textarea
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={4}
@@ -197,13 +202,20 @@ function BookComment({ bookData}  :{bookData : BookData | null}) {
                                 value={newComment}
                                 onChange={(e) => setNewComment(e.target.value)}
                             />
-                </div>
-                <button
-                    onClick={handleAddComment}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                >
-                    Post Comment
-                </button>
+                            </div>
+                            <button
+                                onClick={handleAddComment}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                            >
+                                Post Comment
+                            </button>
+                        </>
+                        : ""
+                }
+                {
+
+                }
+
             </div>
 
             <div className="space-y-6">
@@ -223,14 +235,13 @@ function BookComment({ bookData}  :{bookData : BookData | null}) {
     )
 }
 
-const BookTabs = ({bookData } : {bookData : BookData | null}) => {
+const BookTabs = ({bookData}: { bookData: BookData | null }) => {
     const [activeTab, setActiveTab] = useState("details");
 
     const tabs = [
-        { id: "details", label: "Book details" },
-        { id: "comments", label: "Comments" },
+        {id: "details", label: "Book details"},
+        {id: "comments", label: "Comments"},
     ];
-
 
 
     return (
@@ -255,11 +266,11 @@ const BookTabs = ({bookData } : {bookData : BookData | null}) => {
             </div>
 
             {activeTab === "details" && (
-               <BookDetail bookData={bookData} />
+                <BookDetail bookData={bookData}/>
             )}
 
             {activeTab === "comments" && (
-               <BookComment bookData ={bookData}/>
+                <BookComment bookData={bookData}/>
             )}
 
 
