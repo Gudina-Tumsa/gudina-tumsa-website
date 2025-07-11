@@ -1,14 +1,53 @@
 "use client"
 
-import { useState , useEffect } from "react";
+import {useState, useEffect, useRef} from "react";
 import {BookData} from "@/types/book";
 import {crateComment, getComments} from "@/lib/api/comment";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
 
+
+
+const AudioPlayer = ({ audioUrl, audioRef }) => {
+    return (
+        <audio ref={audioRef} controls className="mt-2 w-full">
+            <source src={audioUrl} type="audio/mp3" />
+            Your browser does not support the audio element.
+        </audio>
+    );
+};
+
 const BookDetail = ({bookData } : {bookData : BookData | null}) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
+    const [showAudio, setShowAudio] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+        const handleEnded = () => setIsPlaying(false);
+
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('pause', handlePause);
+        audio.addEventListener('ended', handleEnded);
+
+        return () => {
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
+            audio.removeEventListener('ended', handleEnded);
+        };
+    }, [showAudio]);
+    const handleListenClick = async () => {
+        setShowAudio(true);
+        setTimeout(() => {
+            audioRef.current?.play();
+        }, 100);
+    };
     return (
         <div className="space-y-6">
             <div>
@@ -33,6 +72,50 @@ const BookDetail = ({bookData } : {bookData : BookData | null}) => {
                             Read Less
                         </button>
                     )}
+
+                    <div className="mt-6">
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">Audio Summary</h4>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                            <button
+                                onClick={handleListenClick}
+                                className={`px-4 py-2 rounded-md font-medium text-sm sm:text-base flex items-center justify-center gap-2 ${
+                                    isPlaying
+                                        ? 'bg-green-700 text-white'
+                                        : 'bg-green-600 hover:bg-green-700 text-white'
+                                }`}
+                                disabled={isPlaying}
+                            >
+                                {isPlaying ? (
+                                    <>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
+                                        </svg>
+                                        <span>Playing</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
+                                        </svg>
+                                        <span>Listen to Summary</span>
+                                    </>
+                                )}
+                            </button>
+
+                            {showAudio && (
+                                <div className="w-full sm:w-auto flex-1">
+                                    <AudioPlayer
+                                        audioUrl={`http://localhost:3000${bookData.audioSummarizationUrl}`}
+                                        audioRef={audioRef}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
 
