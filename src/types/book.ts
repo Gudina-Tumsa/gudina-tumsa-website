@@ -6,6 +6,7 @@ export interface BookData {
     authorTranslations: Record<string, string>;
     description: string;
     descriptionTranslations: Record<string, string>;
+    audioSummarizationUrl: string;
     publisher: string;
     publicationYear: number;
     isbn: string;
