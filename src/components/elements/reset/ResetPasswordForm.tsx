@@ -1,6 +1,9 @@
 "use client";
 import React, {useState, useRef, useEffect} from "react";
 import {resetUser, updateUser} from "@/lib/api/user";
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+
 const createOtpEmail = async (email: string): Promise<boolean> => {
     try {
         const response = await fetch('http://localhost:3000/api/otp', {
@@ -19,12 +22,31 @@ const createOtpEmail = async (email: string): Promise<boolean> => {
             throw new Error(data.message || 'Failed to create OTP');
         }
     } catch (error: any) {
-
         throw new Error(error.message || 'Network or server error');
     }
 };
+const changePasswordWithOtp = async (address : string, otpCode : string , newPassowrd : string ) =>{
+    try {
+        const response = await fetch(`http://localhost:3000/api/users/reset/${address}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: address,
+                password : newPassowrd,
+                otpCode: otpCode,
+            }),
+        });
 
-
+        if (response.status === 200) {
+            return true;
+        } else {
+            const data = await response.json();
+            throw new Error(data.message || 'Failed to verify OTP');
+        }
+    } catch (error: any) {
+        throw new Error(error.message || 'Network or server error');
+    }
+}
 const verifyOtp = async (address:string, otpCode :string) : Promise<boolean> => {
     try {
         const response = await fetch('http://localhost:3000/api/otp/verify', {
@@ -37,7 +59,6 @@ const verifyOtp = async (address:string, otpCode :string) : Promise<boolean> => 
         });
 
         if (response.status === 200) {
-            // Assuming 200 means OTP verified successfully
             return true;
         } else {
             const data = await response.json();
@@ -47,8 +68,6 @@ const verifyOtp = async (address:string, otpCode :string) : Promise<boolean> => 
         throw new Error(error.message || 'Network or server error');
     }
 };
-
-
 
 const OtpInput = ({
                       length = 6,
@@ -60,13 +79,10 @@ const OtpInput = ({
     onChange: (otp: string) => void;
 }) => {
     const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
-    const [timer, setTimer] = useState(180); // 3 minutes = 180 seconds
-
-
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
         const val = e.target.value;
-        if (!/^\d*$/.test(val)) return; // Only digits
+        if (!/^\d*$/.test(val)) return;
 
         let otpArr = value.split("");
         otpArr[idx] = val;
@@ -112,12 +128,11 @@ const ResetPasswordForm = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [resending, setResending] = useState(false);
     const [timer, setTimer] = useState(180);
-
-
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
     useEffect(() => {
         if (step !== 2) return;
-
-        setTimer(180); // Reset timer when entering step 2
+        setTimer(180);
 
         const interval = setInterval(() => {
             setTimer((prev) => {
@@ -131,7 +146,6 @@ const ResetPasswordForm = () => {
 
         return () => clearInterval(interval);
     }, [step]);
-
 
     useEffect(() => {
         if (timer <= 0) return;
@@ -147,73 +161,100 @@ const ResetPasswordForm = () => {
         setResending(true);
         try {
             await createOtpEmail(email);
-            setTimer(180); // Restart countdown on successful resend
-        } catch (err) {
-            console.error(err);
+            setTimer(180);
+            toast.success('OTP resent successfully!');
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to resend OTP');
         } finally {
             setResending(false);
         }
     };
 
-    const handleEmailSubmit = (e: React.FormEvent) => {
-      e.preventDefault()
-
-        // Todo call
-        createOtpEmail(email).then((data)=>{
+    const handleEmailSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await createOtpEmail(email);
             setStep(2);
-        }).catch((err)=>{
-            console.log(err)
-        })
-
-
+            toast.success('OTP sent to your email!');
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to send OTP');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleOtpSubmit = (e: React.FormEvent) => {
+    const handleOtpSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
 
         if (otp.length !== 6) {
-            alert("Please enter the 6-digit OTP.");
+            toast.error('Please enter the 6-digit OTP.');
             return;
         }
 
-        verifyOtp(email , otp).then((data) =>{
-            setStep(3);
-        }).catch((err)=>{
-            alert("Error happened")
-        })
-
+        setLoading(true);
+        // try {
+        //     await verifyOtp(email, otp);
+        //     setStep(3);
+        //     toast.success('OTP verified successfully!');
+        // } catch (err: any) {
+        //     toast.error(err.message || 'Failed to verify OTP');
+        // } finally {
+        //     setLoading(false);
+        // }
+        setStep(3)
+        setLoading(false)
     };
 
-    const handleResetPassword = (e: React.FormEvent) => {
+    const changePassword = async (e : React.FormEvent) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            alert("Passwords do not match.");
+            toast.error('Password doesnt match');
+            return;
+        }
+        setLoading(true);
+        try {
+            await changePasswordWithOtp(email, otp , newPassword);
+            setStep(3);
+            toast.success('Password changed succesfully');
+
+            router.push('/login');
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to chagne password');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleResetPassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (newPassword !== confirmPassword) {
+            toast.error('Passwords do not match.');
             return;
         }
 
-        resetUser({password : newPassword } , email ).then((data)=>{
-
-        })
-        .catch((err : unknown)=>{
-            alert("hello there")
-        })
-
-
-
-        console.log("Resetting password for:", email, newPassword);
-        // TODO: call API to reset password
-        alert("Password reset successfully!");
-        // Optionally reset form or redirect to login page
-        setStep(1);
-        setEmail("");
-        setOtp("");
-        setNewPassword("");
-        setConfirmPassword("");
+        setLoading(true);
+        try {
+            await resetUser({password: newPassword}, email);
+            toast.success('Password reset successfully!');
+            // Reset form
+            setStep(1);
+            setEmail("");
+            setOtp("");
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to reset password');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="w-full max-w-md mx-auto">
+            <Toaster position="top-center" />
+
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-semibold text-gray-900 mb-2">Reset your password</h1>
             </div>
@@ -235,13 +276,21 @@ const ResetPasswordForm = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                        disabled={loading}
+                        className={`w-full ${loading ? 'bg-gray-300' : 'bg-gray-400 hover:bg-gray-500'} text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex justify-center items-center`}
                     >
-                        Send OTP
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Sending...
+                            </>
+                        ) : 'Send OTP'}
                     </button>
                 </form>
             )}
-
 
             {step === 2 && (
                 <form onSubmit={handleOtpSubmit} className="space-y-6">
@@ -252,8 +301,7 @@ const ResetPasswordForm = () => {
                         <OtpInput
                             value={otp}
                             onChange={setOtp}
-                            numInputs={6}
-                            inputStyle="border border-gray-300 rounded-md w-10 h-10 text-center mx-1"
+                            length={6}
                         />
                     </div>
 
@@ -267,20 +315,36 @@ const ResetPasswordForm = () => {
                                 disabled={resending}
                                 className="text-blue-600 hover:underline disabled:opacity-50"
                             >
-                                {resending ? "Sending..." : "Resend OTP"}
+                                {resending ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-1 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Sending...
+                                    </>
+                                ) : 'Resend OTP'}
                             </button>
                         )}
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                        disabled={loading}
+                        className={`w-full ${loading ? 'bg-gray-300' : 'bg-gray-400 hover:bg-gray-500'} text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex justify-center items-center`}
                     >
-                        Verify OTP
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Verifying...
+                            </>
+                        ) : 'Verify OTP'}
                     </button>
                 </form>
             )}
-
 
             {step === 3 && (
                 <form onSubmit={handleResetPassword} className="space-y-6">
@@ -312,9 +376,19 @@ const ResetPasswordForm = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                        disabled={loading}
+                        onClick={changePassword}
+                        className={`w-full ${loading ? 'bg-gray-300' : 'bg-gray-400 hover:bg-gray-500'} text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 flex justify-center items-center`}
                     >
-                        Reset Password
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Resetting...
+                            </>
+                        ) : 'Reset Password'}
                     </button>
                 </form>
             )}
