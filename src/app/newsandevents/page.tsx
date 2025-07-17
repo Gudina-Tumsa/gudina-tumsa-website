@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import {getEvents} from "@/lib/api/events";
 import {EventData} from "@/types/events";
 import Link from "next/link";
+import {getNews} from "@/app/data/news";
 
 const Page = () => {
     const [isClient, setIsClient] = useState(false);
@@ -48,38 +49,11 @@ const Page = () => {
 
     };
 
-    const news = [
-        {
-            id: 1,
-            title: "New eBook Collection Added",
-            date: "2023-05-15",
-            excerpt: "We've just added 500+ new eBooks to our digital collection.",
-            category: "News"
-        },
-        {
-            id: 2,
-            title: "New eBook Collection Added",
-            date: "2023-05-15",
-            excerpt: "We've just added 500+ new eBooks to our digital collection.",
-            category: "News"
-        },
-        {
-            id: 3,
-            title: "New eBook Collection Added",
-            date: "2023-05-15",
-            excerpt: "We've just added 500+ new eBooks to our digital collection.",
-            category: "News"
-        },
-        {
-            id: 4,
-            title: "New eBook Collection Added",
-            date: "2023-05-15",
-            excerpt: "We've just added 500+ new eBooks to our digital collection.",
-            category: "News"
-        },
-
-    ];
-
+    const [news , setNews] = useState([])
+    useEffect(() => {
+        const newsData = getNews()
+        setNews(newsData)
+    },[])
 
 
     return (
@@ -118,13 +92,13 @@ const Page = () => {
                                             <CalendarIcon className="h-4 w-4 mr-1" />
                                             {formatDate(item.date)}
                                         </div>
-                                        <Link
+                                        <a
                                             href={`/news/${item.id}`}
                                             className="text-blue-600 hover:underline flex items-center text-sm font-medium"
                                         >
                                             Read more
                                             <ArrowRightIcon className="h-4 w-4 ml-1" />
-                                        </Link>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

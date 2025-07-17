@@ -21,7 +21,17 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [showAudio, setShowAudio] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isTextOverflowing, setIsTextOverflowing] = useState(false);
+    const descriptionRef = useRef<HTMLParagraphElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        // Check if text is overflowing and needs "Read More"
+        if (descriptionRef.current) {
+            const isOverflowing = descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight;
+            setIsTextOverflowing(isOverflowing);
+        }
+    }, [bookData?.description]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -41,34 +51,34 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
             audio.removeEventListener('ended', handleEnded);
         };
     }, [showAudio]);
+
     const handleListenClick = async () => {
         setShowAudio(true);
         setTimeout(() => {
             audioRef.current?.play();
         }, 100);
     };
+
     return (
         <div className="space-y-6">
             <div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">About This Book</h3>
                 <div className="prose prose-gray max-w-none">
-                    <p className="text-gray-700 leading-relaxed mb-4">
+                    <p
+                        ref={descriptionRef}
+                        className={`text-gray-700 leading-relaxed mb-4 ${
+                            !showFullDescription ? 'line-clamp-4' : ''
+                        }`}
+                    >
                         {bookData?.description}
                     </p>
 
-                    {!showFullDescription ? (
+                    {isTextOverflowing && (
                         <button
-                            onClick={() => setShowFullDescription(true)}
+                            onClick={() => setShowFullDescription(!showFullDescription)}
                             className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
                         >
-                            Read More
-                        </button>
-                    ) : (
-                        <button
-                            onClick={() => setShowFullDescription(false)}
-                            className="text-blue-600 hover:text-blue-800 p-0 h-auto font-normal underline"
-                        >
-                            Read Less
+                            {showFullDescription ? 'Read Less' : 'Read More'}
                         </button>
                     )}
 
@@ -108,7 +118,7 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
                             {showAudio && (
                                 <div className="w-full sm:w-auto flex-1">
                                     <AudioPlayer
-                                        audioUrl={`http://localhost:3000${bookData.audioSummarizationUrl}`}
+                                        audioUrl={`http://localhost:3000${bookData?.audioSummarizationUrl}`}
                                         audioRef={audioRef}
                                     />
                                 </div>
@@ -144,7 +154,6 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
         </div>
     )
 }
-
 
 function BookComment({bookData}: { bookData: BookData | null }) {
 

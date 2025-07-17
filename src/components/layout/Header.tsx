@@ -3,10 +3,11 @@ import React from 'react';
 import { useState } from "react"
 import { ChevronDown,ChevronUp, Menu, X } from "lucide-react"
 import { Globe } from 'lucide-react';
-import Link from "next/link"
+
 import {useTranslations} from 'next-intl'
 import {Locale, locales} from "@/i18n/config";
 import {setUserLocale} from "@/services/locale";
+import Link from 'next/link';
 
 
 const languageMap: Record<string, Locale> = {

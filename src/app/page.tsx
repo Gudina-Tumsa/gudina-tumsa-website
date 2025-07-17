@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/app/components/HeroSection';
 import BookPreview from '@/app/components/BookPreview';
@@ -11,11 +11,12 @@ import GrowSection from "@/components/elements/index/grow/GrowSection";
 import Faq from "@/components/elements/index/faq";
 import Footer from "@/components/layout/Footer";
 import { useState } from "react";
-import { Bell } from "lucide-react";
+import {ArrowRightIcon, Bell} from "lucide-react";
 import {ArrowLeft, ArrowRight, BellIcon} from "lucide-react";
 import ScrollingLearningCards from "@/components/elements/index/ScrollingLearningCards/ScrollingLearningCards";
 
 import Marquee from 'react-fast-marquee';
+import {getNews} from "@/app/data/news";
 
 const IconMarquee = () => {
 
@@ -56,9 +57,13 @@ const IconMarquee = () => {
 
 
 
-function FloatingNews({ news }) {
+function FloatingNews() {
     const [isOpen, setIsOpen] = useState(false);
-
+    const [news , setNews] = useState([])
+    useEffect(() => {
+        const newsData = getNews()
+        setNews(newsData)
+    },[])
     return (
         <div className="fixed bottom-6 right-6 z-50">
             {/* Floating Button */}
@@ -94,12 +99,16 @@ function FloatingNews({ news }) {
 
                     <div>
                         {news.map((item, index) => (
-                            <div key={index} className="p-4 transition-colors">
-                                <p className="text-sm text-gray-800">{item}</p>
+                            <a
+                                key={index}
+                                href={`/news/${item.id}`}
+                                className="block p-4 transition-colors hover:bg-gray-50 group"
+                            >
+                                <p className="text-sm text-gray-800 group-hover:text-blue-600">{item.title}</p>
                                 <span className="text-xs text-gray-600 mt-1 block">
-                  Posted {Math.max(1, index + 1)} day{index > 0 ? 's' : ''} ago
-                </span>
-                            </div>
+            Posted {item.date}
+        </span>
+                            </a>
                         ))}
                     </div>
 
@@ -128,16 +137,12 @@ function FloatingNews({ news }) {
 
 const Index = () => {
     const [showNews, setShowNews] = useState(false);
-    const [news] = useState([
-        "Summer Reading Challenge starts June 1st!",
-        "New eBook collection just added",
 
-    ]);
 
     return (
         <div className="bg-white relative">
             {/* Floating News Button */}
-            <FloatingNews  news={news}/>
+            <FloatingNews  />
 
 
             {/* Rest of your existing content */}
