@@ -10,13 +10,14 @@ import {useEffect, useState} from "react";
 import {BookData} from "@/types/book";
 import {RootState} from "@/app/store/store";
 import {useSelector} from "react-redux";
+import {UserResponse} from "@/types/auth";
 
 const Index = () => {
 
     const params = useParams();
     const id = params?.id as string;
     const books = useSelector((state: RootState) => state.book)
-
+    const user = useSelector((state: RootState) => state.user)
     const [currentbook , setCurrentBook] = useState<BookData | null>(null)
     useEffect(() => {
         if (!id || !books) return
@@ -24,6 +25,7 @@ const Index = () => {
         const foundBook = books?.books?.data.books.find(bookData  => bookData._id === id)
         setCurrentBook(foundBook || null)
     }, [id, books])
+
 
     return (
         <SidebarLayout>
@@ -41,7 +43,7 @@ const Index = () => {
                             <BookDetails bookData={currentbook} />
                             <BookActions bookData={currentbook}/>
                             <div className="mt-8">
-                                <BookTabs bookData={currentbook} />
+                                <BookTabs bookData={currentbook} userData={user?.user} />
                             </div>
                         </div> : "" }
                     </div>

@@ -24,6 +24,7 @@ export interface BookData {
     uploadedBy: string;
     isActive: boolean;
     metadata: Record<string, unknown>;
+    rating: number;
 }
 
 

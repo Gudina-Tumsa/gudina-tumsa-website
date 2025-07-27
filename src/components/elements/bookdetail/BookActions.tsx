@@ -36,6 +36,32 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
         }
     };
 
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/book/${bookData._id}`;
+        const shareData = {
+            title: bookData.title,
+            text: `Check out this book: ${bookData.title}`,
+            url: shareUrl,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+                console.log("Shared successfully!");
+            } catch (error) {
+                console.error("Error sharing", error);
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(shareUrl);
+                alert("Link copied to clipboard!");
+            } catch (err) {
+                console.error("Could not copy text: ", err);
+            }
+        }
+    };
+
+
 
 
     return (
@@ -52,6 +78,12 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
                 onClick={() => saveBook(bookData._id, user?.user?._id ?? "")}
             >
                 {user?.user == null ? "Login to Save" : "Add to Library"}
+            </button>
+            <button
+                onClick={handleShare}
+                className={`rounded-md px-4 py-2 transition-colors bg-white hover:bg-gray-100 border border-gray-300 text-gray-800`}
+            >
+                Share
             </button>
 
 

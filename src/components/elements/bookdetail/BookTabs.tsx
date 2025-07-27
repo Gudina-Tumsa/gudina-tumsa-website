@@ -6,6 +6,7 @@ import {crateComment, getComments} from "@/lib/api/comment";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
+import {UserResponse} from "@/types/auth";
 
 
 const AudioPlayer = ({audioUrl, audioRef}) => {
@@ -17,13 +18,97 @@ const AudioPlayer = ({audioUrl, audioRef}) => {
     );
 };
 
-const BookDetail = ({bookData}: { bookData: BookData | null }) => {
+
+interface StarRatingProps {
+    rating: number;
+    onRate?: (rating: number) => void;
+    editable?: boolean;
+}
+
+const StarRating = ({ rating, onRate, editable = false }: StarRatingProps) => {
+    const [hoveredStar, setHoveredStar] = useState<number | null>(null);
+
+    const getColor = (index: number) => {
+        if (hoveredStar !== null) {
+            return index <= hoveredStar ? 'text-yellow-400' : 'text-gray-300';
+        }
+        return index <= rating ? 'text-yellow-400' : 'text-gray-300';
+    };
+
+    const handleClick = (index: number) => {
+        if (editable && onRate) {
+            onRate(index);
+        }
+    };
+
+    return (
+        <div className="flex items-center">
+            {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                    key={star}
+                    onMouseEnter={() => editable && setHoveredStar(star)}
+                    onMouseLeave={() => editable && setHoveredStar(null)}
+                    onClick={() => handleClick(star)}
+                    className={`w-6 h-6 cursor-pointer ${getColor(star)}`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.175 3.624a1 1 0 00.95.69h3.813c.969 0 1.371 1.24.588 1.81l-3.084 2.24a1 1 0 00-.364 1.118l1.175 3.624c.3.921-.755 1.688-1.54 1.118l-3.084-2.24a1 1 0 00-1.176 0l-3.084 2.24c-.784.57-1.838-.197-1.54-1.118l1.175-3.624a1 1 0 00-.364-1.118L2.37 9.05c-.783-.57-.38-1.81.588-1.81h3.813a1 1 0 00.95-.69l1.175-3.624z" />
+                </svg>
+            ))}
+        </div>
+    );
+};
+
+
+
+
+const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userData : UserResponse | null }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
     const [showAudio, setShowAudio] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isTextOverflowing, setIsTextOverflowing] = useState(false);
+    const [userRating, setUserRating] = useState<number | null>(null);
+    const [isRating, setIsRating] = useState(false);
+    const [existingRatingId, setExistingRatingId] = useState<string | null>(null);
+    const [averageRating, setAverageRating] = useState(0);
+    const [ratingCount, setRatingCount] = useState(0);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        if (!bookData) return;
+
+        const fetchRatings = async () => {
+            try {
+                // Get average rating and count
+                const ratingsResponse = await fetch(`http://localhost:3000/api/book-ratings?bookId=${bookData._id}`);
+                let data = await ratingsResponse.json();
+
+                const { averageRating, total } = data.data;
+                setAverageRating(averageRating || 0);
+                setRatingCount(total || 0);
+
+                if (userData) {
+
+                    const userRatingResponse = await fetch(`http://localhost:3000/api/book-ratings?userId=${userData._id ?? ""}&bookId=${bookData._id}`);
+                    const data = await userRatingResponse.json();
+
+                    if (data.data.bookRatings.length > 0) {
+                        const rating = data.data.bookRatings[0];
+
+                        setUserRating(rating.rating);
+                        setExistingRatingId(rating._id);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch ratings:', error);
+            }
+        };
+
+        fetchRatings();
+    }, [bookData]);
 
     useEffect(() => {
         // Check if text is overflowing and needs "Read More"
@@ -58,6 +143,42 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
             audioRef.current?.play();
         }, 100);
     };
+
+   interface CreateBookRatingRequest {
+        userId: string;
+        bookId: string;
+        rating: number;
+    }
+
+    const handleRating = async (newRating: number) => {
+        setUserRating(newRating);
+
+        const payload: CreateBookRatingRequest = {
+            userId: userData?._id ?? "",
+            bookId: bookData?._id ?? "",
+            rating: newRating,
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/book-ratings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+        } catch (error) {
+            console.error('Failed to submit rating:', error);
+        }
+    };
+
 
     return (
         <div className="space-y-6">
@@ -131,6 +252,15 @@ const BookDetail = ({bookData}: { bookData: BookData | null }) => {
             <div>
                 <div className="bg-gray-50 rounded-lg p-6">
                     <h4 className="text-lg font-semibold text-gray-900 mb-4">Information</h4>
+                    <div className={"mb-[2%]"}>
+                        <h5 className="text-sm font-medium text-gray-600 mb-2">Rating</h5>
+                        <div className="flex items-center gap-2">
+
+                            <StarRating rating={bookData?.rating || 0} onRate={handleRating} editable />
+
+                        </div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h5 className="text-sm font-medium text-gray-600 mb-2">Publisher</h5>
@@ -243,8 +373,8 @@ function BookComment({bookData}: { bookData: BookData | null }) {
         </div>
     )
 }
-
-const BookTabs = ({bookData}: { bookData: BookData | null }) => {
+// userData={user}
+const BookTabs = ({bookData , userData}: { bookData: BookData | null , userData : UserResponse | null }) => {
     const [activeTab, setActiveTab] = useState("details");
 
     const tabs = [
@@ -275,7 +405,7 @@ const BookTabs = ({bookData}: { bookData: BookData | null }) => {
             </div>
 
             {activeTab === "details" && (
-                <BookDetail bookData={bookData}/>
+                <BookDetail bookData={bookData} userData={userData} />
             )}
 
             {activeTab === "comments" && (
