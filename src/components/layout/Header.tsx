@@ -167,10 +167,10 @@ const Header = () => {
                             {/*</Link>*/}
 
                             <Link
-                                href="/newsandevents"
+                                href="/events"
                                 className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
                             >
-                                News
+                                Events
                             </Link>
                             <Link
                                 href="/home"

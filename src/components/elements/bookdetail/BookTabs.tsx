@@ -301,10 +301,10 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
         try {
             const data = await getComments({ page: 1, limit: 20, bookId: bookData?._id });
             if (data?.data?.comments) {
-                setComments(data.data.comments);
+                setComments(data?.data.comments);
                 // Initialize all replies as collapsed by default
                 const initialExpandedState: Record<string, boolean> = {};
-                data.data.comments.forEach(comment => {
+                data?.data.comments.forEach(comment => {
                     initialExpandedState[comment._id] = false;
                 });
                 setExpandedReplies(initialExpandedState);
@@ -365,7 +365,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
     const renderComments = (commentList: CommentData[], level = 0 , userId : string) => {
 
         return commentList.map((comment) => {
-            const hasReplies = comment.repliesCount > 0;
+            const hasReplies = comment?.repliesCount || 0 > 0;
             const isExpanded = expandedReplies[comment._id];
             const replies = comments.filter(c => c.parentCommentId === comment._id);
 

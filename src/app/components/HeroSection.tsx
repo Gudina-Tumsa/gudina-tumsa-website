@@ -17,16 +17,17 @@ const HeroSection = () => {
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                             of your fingers
                         </h1>
+                        <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed  ">
+                            Get the key ideas from the top{' '}
+                            <span className="text-blue-500 font-medium">books</span>,{' '}
+                            <span className="text-blue-500 font-medium">podcasts</span>, and{' '}
+                            <span className="text-blue-500 font-medium">experts</span>
+                            <br className="hidden sm:block" />
+                            <span className={"mx-2"}>in 15 minutes with the Blinklist app.</span>
+                        </p>
                     </div>
 
-                    <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed text-center lg:text-left">
-                        Get the key ideas from the top{' '}
-                        <span className="text-blue-500 font-medium">books</span>,{' '}
-                        <span className="text-blue-500 font-medium">podcasts</span>, and{' '}
-                        <span className="text-blue-500 font-medium">experts</span>
-                        <br className="hidden sm:block" />
-                        <span className={"mx-2"}>in 15 minutes with the Blinklist app.</span>
-                    </p>
+
 
                     <div className="flex justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16">
                         <a

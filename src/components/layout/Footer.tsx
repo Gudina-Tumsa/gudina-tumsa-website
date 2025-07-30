@@ -4,9 +4,9 @@ const Footer = () => {
     return (
         <footer className="bg-gray-50 border-t border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                {/* Main Footer Content */}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                    {/* Logo and Tagline */}
+
                     <div className="lg:col-span-1">
                         <div className="flex items-center mb-4">
                             <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
@@ -14,9 +14,13 @@ const Footer = () => {
                             </div>
                             <span className="text-xl font-bold text-gray-900">GTL</span>
                         </div>
-                        <div className=" text-black px-3 py-2 rounded-md inline-block mb-4">
-                            <div className="text-sm font-semibold">My name is lorem ipusm</div>
-                            <div className="text-sm">My name is lorem ipusm</div>
+
+                        {/* Address Section */}
+                        <div className="mb-6">
+                            <p className="text-gray-600 mb-2">123 Business Avenue</p>
+                            <p className="text-gray-600 mb-2">Tech Park, Suite 456</p>
+                            <p className="text-gray-600 mb-2">San Francisco, CA 94107</p>
+                            <p className="text-gray-600">United States</p>
                         </div>
 
                         {/* App Store Buttons */}
@@ -36,23 +40,25 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Editorial Column */}
+
                     <div>
-                        <h3 className="text-gray-900 font-semibold mb-4">Editorial</h3>
+                        <h3 className="text-gray-900 font-semibold mb-4">Partners</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Book lists</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTL</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTF</a></li>
+
                         </ul>
                     </div>
 
-                    {/* Useful Links Column */}
+
                     <div>
                         <h3 className="text-gray-900 font-semibold mb-4">Useful links</h3>
                         <ul className="space-y-3">
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Event</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Collaboration</a></li>
+                            <li><a href="/collaborations" className="text-gray-600 hover:text-gray-900 transition-colors">Collaboration</a></li>
 
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Contact & Help</a></li>
-                            
+                            <li><a href="/contactus" className="text-gray-600 hover:text-gray-900 transition-colors">Contact & Help</a></li>
+
                         </ul>
                     </div>
 
@@ -60,10 +66,9 @@ const Footer = () => {
                     <div>
                         <h3 className="text-gray-900 font-semibold mb-4">Company</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">About</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Partners</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Code of Conduct</a></li>
+                            <li><a href="/about" className="text-gray-600 hover:text-gray-900 transition-colors">About</a></li>
+                            <li><a href="/careers" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</a></li>
+
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Press Room</a></li>
                         </ul>
                     </div>
@@ -77,14 +82,12 @@ const Footer = () => {
                             <span>© GTL 2025</span>
                             <span>|</span>
 
-                            <a href="#" className="hover:text-gray-700 transition-colors">Legal Notice</a>
-                            <span>|</span>
-                            <a href="#" className="hover:text-gray-700 transition-colors">content-policy</a>
+                            <a href="/content-policy" className="hover:text-gray-700 transition-colors">content-policy</a>
                             <span>|</span>
 
-                            <a href="#" className="hover:text-gray-700 transition-colors">Terms of Service</a>
+                            <a href="/terms" className="hover:text-gray-700 transition-colors">Terms of Service</a>
                             <span>|</span>
-                            <a href="#" className="hover:text-gray-700 transition-colors">Privacy Policy</a>
+                            <a href="/privacy" className="hover:text-gray-700 transition-colors">Privacy Policy</a>
 
                         </div>
 

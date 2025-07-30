@@ -142,7 +142,7 @@ const Index = () => {
     return (
         <div className="bg-white relative">
             {/* Floating News Button */}
-            <FloatingNews  />
+            {/*<FloatingNews  />*/}
 
 
             {/* Rest of your existing content */}
