@@ -2,12 +2,12 @@
 
 import {useState, useEffect, useRef} from "react";
 import {BookData} from "@/types/book";
-import {crateComment, getComments} from "@/lib/api/comment";
+import {createComment, dislikeAComment, getComments, likeAComment} from "@/lib/api/comment";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
 import {UserResponse} from "@/types/auth";
-
+import {ThumbsUp , ThumbsDown } from "lucide-react";
 
 const AudioPlayer = ({audioUrl, audioRef}) => {
     return (
@@ -285,93 +285,231 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
     )
 }
 
-function BookComment({bookData}: { bookData: BookData | null }) {
-
-    const [comments, setComments] = useState<{ id: string, author: string, text: string, date: string }[]>([]);
+function BookComment({ bookData }: { bookData: BookData | null }) {
+    const [comments, setComments] = useState<CommentData[]>([]);
     const [newComment, setNewComment] = useState("");
-    const user = useSelector((state: RootState) => state.user)
+    const [replyingTo, setReplyingTo] = useState<string | null>(null);
+    const [replyContent, setReplyContent] = useState("");
+    const [expandedReplies, setExpandedReplies] = useState<Record<string, boolean>>({});
+    const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
+        fetchComments();
+    }, [bookData?._id]);
 
-        getComments({page: 1, limit: 20, bookId: bookData?._id}).then((data) => {
-            console.log("the data is ")
-            data?.data?.comments.map((n: CommentData) => {
-                console.log(n)
-                const comment = {
-                    id: n._id,
-                    author: n.userId.username,
-                    text: n.content,
-                    date: n.createdAt.toString(),
-                };
-                setComments([...comments, comment]);
-            })
-        })
-    }, []);
-
-    const handleAddComment = () => {
-
-        if (newComment.trim()) {
-            const comment = {
-                id: Date.now().toString(),
-                author: user?.user?.username ?? "you",
-                text: newComment,
-                date: new Date().toLocaleDateString(),
-            };
-            setComments([...comments, comment]);
-            setNewComment("");
-
-            crateComment(bookData?._id ?? "", user?.user?._id ?? "", newComment)
+    const fetchComments = async () => {
+        try {
+            const data = await getComments({ page: 1, limit: 20, bookId: bookData?._id });
+            if (data?.data?.comments) {
+                setComments(data.data.comments);
+                // Initialize all replies as collapsed by default
+                const initialExpandedState: Record<string, boolean> = {};
+                data.data.comments.forEach(comment => {
+                    initialExpandedState[comment._id] = false;
+                });
+                setExpandedReplies(initialExpandedState);
+            }
+        } catch (error) {
+            console.error("Failed to fetch comments:", error);
         }
     };
+
+    const toggleReplies = (commentId: string) => {
+        setExpandedReplies(prev => ({
+            ...prev,
+            [commentId]: !prev[commentId]
+        }));
+    };
+
+    const handleAddComment = async () => {
+        if (!newComment.trim() || !user?.user?._id || !bookData?._id) return;
+
+        try {
+            await createComment(
+                bookData._id,
+                user.user._id,
+                newComment,
+                replyingTo || undefined
+            );
+            setNewComment("");
+            setReplyingTo(null);
+            fetchComments();
+        } catch (error) {
+            console.error("Failed to add comment:", error);
+        }
+    };
+
+    const handleAddReply = async (parentId: string) => {
+        if (!replyContent.trim() || !user?.user?._id || !bookData?._id) return;
+
+        try {
+            await createComment(
+                bookData._id,
+                user.user._id,
+                replyContent,
+                parentId
+            );
+            setReplyContent("");
+            setReplyingTo(null);
+            fetchComments();
+            // Expand the parent comment's replies when adding a new reply
+            setExpandedReplies(prev => ({
+                ...prev,
+                [parentId]: true
+            }));
+        } catch (error) {
+            console.error("Failed to add reply:", error);
+        }
+    };
+
+    const renderComments = (commentList: CommentData[], level = 0 , userId : string) => {
+
+        return commentList.map((comment) => {
+            const hasReplies = comment.repliesCount > 0;
+            const isExpanded = expandedReplies[comment._id];
+            const replies = comments.filter(c => c.parentCommentId === comment._id);
+
+            return (
+                <div key={comment._id} className={`bg-gray-50 rounded-lg p-4 ${level > 0 ? 'mt-2' : 'mb-4'}`}>
+                    <div className="flex justify-between items-start mb-2">
+                        <span className="font-medium text-gray-900">
+                            {comment.userId.username}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                            {new Date(comment.createdAt).toLocaleString()}
+                            {comment.isEdited && " (edited)"}
+                        </span>
+                    </div>
+                    <p className="text-gray-700 mb-2">{comment.content}</p>
+
+                    <div className="flex space-x-4 text-sm">
+                        <button
+                            onClick={() => setReplyingTo(replyingTo === comment._id ? null : comment._id)}
+                            className="text-blue-600 hover:text-blue-800"
+                        >
+                            Reply
+                        </button>
+                        {hasReplies && (
+                            <button
+                                onClick={() => toggleReplies(comment._id)}
+                                className="text-blue-600 hover:text-blue-800"
+                            >
+                                {isExpanded ? 'Hide replies' : `Show replies (${comment.repliesCount})`}
+                            </button>
+                        )}
+                        <div className="flex items-center space-x-4 text-gray-500 text-sm">
+                            <div className="flex items-center space-x-1"
+                                onClick={() => likeAComment(user?.user?._id ?? "" , comment._id).finally(() => fetchComments())}
+                            >
+                                <ThumbsUp/>
+                                <span>{comment.likes.length || 0}</span>
+                            </div>
+
+                            <div className="flex items-center space-x-1"
+                                onClick={() => dislikeAComment(user?.user?._id ?? "" , comment._id).finally(() => fetchComments())}
+                            >
+                                <ThumbsDown/>
+                                <span>{comment.dislikes.length || 0}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Reply form */}
+                    {replyingTo === comment._id && (
+                        <div className="mt-3 ml-4">
+                            <textarea
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                rows={2}
+                                placeholder="Write your reply..."
+                                value={replyContent}
+                                onChange={(e) => setReplyContent(e.target.value)}
+                            />
+                            <div className="flex space-x-2 mt-2">
+                                <button
+                                    onClick={() => handleAddReply(comment._id)}
+                                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                                >
+                                    Post Reply
+                                </button>
+                                <button
+                                    onClick={() => setReplyingTo(null)}
+                                    className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors text-sm"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Render replies if expanded */}
+                    {hasReplies && isExpanded && (
+                        <div className="mt-3 border-l-2 border-gray-200 pl-4">
+                            {renderComments(replies, level + 1 , userId)}
+                        </div>
+                    )}
+                </div>
+            );
+        });
+    };
+
     return (
         <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm p-6">
-
-
-                {
-                    user?.user != null ?
-
-                        <>
-                            <h3 className="text-xl font-semibold text-gray-900 mb-4">Leave a Comment</h3>
-                            <div className="mb-4">
+                {user?.user ? (
+                    <>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                            {replyingTo ? "Leave a Reply" : "Leave a Comment"}
+                        </h3>
+                        <div className="mb-4">
                             <textarea
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={4}
-                                placeholder="Share your thoughts about this book..."
+                                placeholder={
+                                    replyingTo
+                                        ? "Write your reply..."
+                                        : "Share your thoughts about this book..."
+                                }
                                 value={newComment}
                                 onChange={(e) => setNewComment(e.target.value)}
                             />
-                            </div>
+                        </div>
+                        <div className="flex space-x-2">
                             <button
                                 onClick={handleAddComment}
                                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                             >
-                                Post Comment
+                                {replyingTo ? "Post Reply" : "Post Comment"}
                             </button>
-                        </>
-                        : ""
-                }
-                {
-
-                }
-
+                            {replyingTo && (
+                                <button
+                                    onClick={() => setReplyingTo(null)}
+                                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    <p className="text-gray-600">
+                        Please log in to leave comments.
+                    </p>
+                )}
             </div>
 
-            <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Comments ({comments.length})</h3>
-
-                {comments.map((comment) => (
-                    <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
-                        <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium text-gray-900">{comment.author}</span>
-                            <span className="text-sm text-gray-500">{comment.date}</span>
-                        </div>
-                        <p className="text-gray-700">{comment.text}</p>
-                    </div>
-                ))}
+            <div className="space-y-4">
+                <h3 className="text-xl font-semibold text-gray-900">
+                    Comments ({comments.filter(c => !c.parentCommentId).length})
+                </h3>
+                {comments.length > 0 ? (
+                    renderComments(comments.filter(c => !c.parentCommentId) ,0,user?.user?._id ?? "")
+                ) : (
+                    <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+                )}
             </div>
         </div>
-    )
+    );
 }
 // userData={user}
 const BookTabs = ({bookData , userData}: { bookData: BookData | null , userData : UserResponse | null }) => {

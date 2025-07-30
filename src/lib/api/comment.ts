@@ -46,18 +46,29 @@ export const getComments = async (request: GetCommentsRequest): Promise<CommentL
     }
 };
 
-export  const crateComment = async (bookId : string , userId : string , content : string) => {
+export const createComment = async (
+    bookId: string,
+    userId: string,
+    content: string,
+    parentCommentId?: string
+) => {
     try {
+        const requestBody: any = {
+            bookId: bookId,
+            userId: userId,
+            content: content
+        };
+
+        if (parentCommentId) {
+            requestBody.parentCommentId = parentCommentId;
+        }
+
         const response = await fetch(`http://localhost:3000/api/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                bookId : bookId,
-                userId : userId,
-                content : content
-            }),
+            body: JSON.stringify(requestBody),
             credentials: 'include',
         });
 
@@ -66,10 +77,67 @@ export  const crateComment = async (bookId : string , userId : string , content 
             throw new Error(errorData.message || 'Failed to create comment');
         }
 
-      await response.json();
+        return await response.json(); // Return the created comment data
 
     } catch (error) {
-        console.error('Login error:', error);
+        console.error('Error creating comment:', error);
+        throw error;
+    }
+}
+
+export const likeAComment = async (userId: string, commentId: string) => {
+
+    try {
+        const requestBody: any = {
+
+            userId: userId,
+            action: "like"
+        };
+
+
+        const response = await fetch(`http://localhost:3000/api/comments/${commentId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Failed to create comment');
+        }
+
+        return await response.json(); // Return the created comment data
+
+    } catch (error) {
+        console.error('Error creating comment:', error);
+        throw error;
+    }
+}
+export const dislikeAComment =  async (userId: string, commentId: string) => {
+    try {
+        const requestBody: any = {
+            userId: userId,
+            action: "dislike"
+        };
+        const response = await fetch(`http://localhost:3000/api/comments/${commentId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+            credentials: 'include',
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Failed to create comment');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error creating comment:', error);
         throw error;
     }
 }

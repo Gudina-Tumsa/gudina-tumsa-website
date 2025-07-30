@@ -48,11 +48,11 @@ const Footer = () => {
                     <div>
                         <h3 className="text-gray-900 font-semibold mb-4">Useful links</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Blinkist Business</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Gift Cards</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Event</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Collaboration</a></li>
+
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Contact & Help</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Cancel Subscription</a></li>
+                            
                         </ul>
                     </div>
 

@@ -9,12 +9,15 @@ export interface CommentData {
     content: string;
     parentCommentId?: string | null;
     likes: string[];
+    dislikes: string[];
     createdAt: Date;
     updatedAt: Date;
     isEdited: boolean;
     isReported: boolean;
     reportReason?: string;
     repliesCount?: number;
+    likesCount?: number;
+    dislikesCount?: number;
 }
 
 
