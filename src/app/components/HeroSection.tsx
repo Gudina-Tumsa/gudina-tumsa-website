@@ -23,7 +23,7 @@ const HeroSection = () => {
                             <span className="text-blue-500 font-medium">podcasts</span>, and{' '}
                             <span className="text-blue-500 font-medium">experts</span>
                             <br className="hidden sm:block" />
-                            <span className={"mx-2"}>in 15 minutes with the Blinklist app.</span>
+                            <span className={"mx-2"}>in 15 minutes with the GTL app.</span>
                         </p>
                     </div>
 

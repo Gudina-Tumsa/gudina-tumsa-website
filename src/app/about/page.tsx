@@ -11,7 +11,7 @@ const AboutUs = () => {
                 <section className="relative h-96 rounded-xl overflow-hidden">
                     <img
                         src="https://images.unsplash.com/photo-1651480342158-813d193e93ac?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlJTIwZm9yJTIwY29tcGFueXxlbnwwfHwwfHx8MA%3D%3D"
-                        alt="Blinkist team collaborating"
+                        alt="GTL team collaborating"
                         className="object-cover"
 
                     />
@@ -46,7 +46,7 @@ const AboutUs = () => {
                     <div className="relative h-80 rounded-lg overflow-hidden shadow-lg">
                         <img
                             src="https://images.unsplash.com/photo-1651480342158-813d193e93ac?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlJTIwZm9yJTIwY29tcGFueXxlbnwwfHwwfHx8MA%3D%3D"
-                            alt="Blinkist Berlin office"
+                            alt="GTL Berlin office"
 
                             className="object-cover"
                         />

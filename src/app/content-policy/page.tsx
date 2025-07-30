@@ -12,7 +12,7 @@ const Index = () => {
                         Privacy Policy & Notice
                     </h1>
                     <p className="text-lg mb-4">
-                        This policy describes how Blinks Labs GmbH (“Blinkist”, “we”, “us”) collects, receives,
+                        This policy describes how Blinks Labs GmbH (“GTL”, “we”, “us”) collects, receives,
                         processes, uses, discloses, or shares your information. When you use our sites, products,
                         or services or otherwise form a relationship with us, we may obtain data from you and
                         the devices you are using to do so.
@@ -61,7 +61,7 @@ const Index = () => {
                 <section>
                     <h2 className="text-3xl font-semibold mb-4">Information Collected or Processed</h2>
                     <p className="text-lg mb-4">
-                        Blinkist may have collected or processed the categories of Personal Data that are identified
+                        GTL may have collected or processed the categories of Personal Data that are identified
                         below. We generally collect the information listed below to secure, improve, and provide
                         our services to our customers.
                     </p>

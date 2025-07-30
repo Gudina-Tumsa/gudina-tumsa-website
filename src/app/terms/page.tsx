@@ -13,7 +13,7 @@ const Index = () => {
                         GTL Terms of Service
                     </h1>
                     <p className="text-lg mb-4">
-                        Welcome to Blinkist’s Terms of Service (the “TOS”). These TOS set out the legal basis for your use of Blinkist's services and we want you to know your and our rights before you use the Blinkist website or Services.
+                        Welcome to GTL’s Terms of Service (the “TOS”). These TOS set out the legal basis for your use of GTL's services and we want you to know your and our rights before you use the GTL website or Services.
                     </p>
                     <p className="text-lg mb-4">
                         This policy is designed to provide transparency into our privacy practices and principles
@@ -59,7 +59,7 @@ const Index = () => {
                 <section>
                     <h2 className="text-3xl font-semibold mb-4">Information Collected or Processed</h2>
                     <p className="text-lg mb-4">
-                        Blinkist may have collected or processed the categories of Personal Data that are identified
+                        GTL may have collected or processed the categories of Personal Data that are identified
                         below. We generally collect the information listed below to secure, improve, and provide
                         our services to our customers.
                     </p>
