@@ -10,9 +10,12 @@ import {UserResponse} from "@/types/auth";
 import {ThumbsUp , ThumbsDown } from "lucide-react";
 
 const AudioPlayer = ({audioUrl, audioRef}) => {
+    const fileName = audioUrl.split('/').pop();
+    const streamUrl = `http://localhost:3000/api/audio/stream/${fileName}`;
+    console.log(streamUrl);
     return (
         <audio ref={audioRef} controls className="mt-2 w-full">
-            <source src={audioUrl} type="audio/mp3"/>
+            <source src={streamUrl} type="audio/mpeg"/>
             Your browser does not support the audio element.
         </audio>
     );
@@ -203,49 +206,53 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                         </button>
                     )}
 
-                    <div className="mt-6">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-2">Audio Summary</h4>
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                            <button
-                                onClick={handleListenClick}
-                                className={`px-4 py-2 rounded-md font-medium text-sm sm:text-base flex items-center justify-center gap-2 ${
-                                    isPlaying
-                                        ? 'bg-green-700 text-white'
-                                        : 'bg-green-600 hover:bg-green-700 text-white'
-                                }`}
-                                disabled={isPlaying}
-                            >
-                                {isPlaying ? (
-                                    <>
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
-                                        </svg>
-                                        <span>Playing</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
-                                        </svg>
-                                        <span>Listen to Summary</span>
-                                    </>
-                                )}
-                            </button>
+                    {
+                        bookData?.audioSummarizationUrl && (
+                            <div className="mt-6">
+                                <h4 className="text-lg font-semibold text-gray-900 mb-2">Audio Summary</h4>
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <button
+                                        onClick={handleListenClick}
+                                        className={`px-4 py-2 rounded-md font-medium text-sm sm:text-base flex items-center justify-center gap-2 ${
+                                            isPlaying
+                                                ? 'bg-green-700 text-white'
+                                                : 'bg-green-600 hover:bg-green-700 text-white'
+                                        }`}
+                                        disabled={isPlaying}
+                                    >
+                                        {isPlaying ? (
+                                            <>
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
+                                                </svg>
+                                                <span>Playing</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m2.828-9.9a9 9 0 012.728-2.728"/>
+                                                </svg>
+                                                <span>Listen to Summary</span>
+                                            </>
+                                        )}
+                                    </button>
 
-                            {showAudio && (
-                                <div className="w-full sm:w-auto flex-1">
-                                    <AudioPlayer
-                                        audioUrl={`http://localhost:3000${bookData?.audioSummarizationUrl}`}
-                                        audioRef={audioRef}
-                                    />
+                                    {showAudio && (
+                                        <div className="w-full sm:w-auto flex-1">
+                                            <AudioPlayer
+                                                audioUrl={bookData?.audioSummarizationUrl}
+                                                audioRef={audioRef}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    </div>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
 
@@ -340,6 +347,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
     };
 
     const handleAddReply = async (parentId: string) => {
+        console.log(parentId);
         if (!replyContent.trim() || !user?.user?._id || !bookData?._id) return;
 
         try {
@@ -348,10 +356,14 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                 user.user._id,
                 replyContent,
                 parentId
-            );
+            ).then((data)=>{
+                console.log(data)
+            }).catch((error)=>{
+                console.error("Failed to add reply:", error);
+            });
             setReplyContent("");
             setReplyingTo(null);
-            fetchComments();
+            await fetchComments();
             // Expand the parent comment's replies when adding a new reply
             setExpandedReplies(prev => ({
                 ...prev,
@@ -427,7 +439,10 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                             />
                             <div className="flex space-x-2 mt-2">
                                 <button
-                                    onClick={() => handleAddReply(comment._id)}
+                                    onClick={() => {
+
+                                        handleAddReply(comment._id)
+                                    }}
                                     className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
                                 >
                                     Post Reply

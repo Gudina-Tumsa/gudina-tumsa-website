@@ -1,7 +1,7 @@
 "use client"
 
 import React, {useRef, useState} from 'react';
-import {ArrowDown, Leaf, Star} from "lucide-react";
+import {ArrowDown, Leaf, Star , View} from "lucide-react";
 import {motion, useInView} from "framer-motion";
 
 const sentences = [
@@ -65,10 +65,11 @@ const BookPreview = () => {
                             {/* Downloads Section */}
                             <div className="text-center">
                                 <div className="w-full flex justify-center">
-                                    <ArrowDown className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
+
+                                    <View className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
                                 </div>
-                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">37 Million</h2>
-                                <p className="text-gray-500 text-sm sm:text-base">Downloads on all platforms</p>
+                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">1000+ daily views</h2>
+                                <p className="text-gray-500 text-sm sm:text-base">Views</p>
                             </div>
 
                             {/* Ratings Section */}
@@ -87,8 +88,8 @@ const BookPreview = () => {
                                 <div className="w-full flex justify-center">
                                     <Leaf className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
                                 </div>
-                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">10+ years</h2>
-                                <p className="text-gray-500 text-sm sm:text-base">Experience igniting personal growth</p>
+                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">100+ contents</h2>
+                                <p className="text-gray-500 text-sm sm:text-base">Explore 100 more audios and books</p>
                             </div>
                         </div>
                     </div>
