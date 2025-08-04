@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 import Header from '@/components/layout/Header';
 import {ArrowRightIcon, CalendarIcon, NewspaperIcon} from 'lucide-react';

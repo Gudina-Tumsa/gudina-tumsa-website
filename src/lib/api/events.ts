@@ -24,7 +24,7 @@ export const getEvents = async (request: GetEventsRequest): Promise<EventListRes
         if (request.page) params.append('page', String(request.page));
         if (request.limit) params.append('limit', String(request.limit));
 
-        const response = await fetch(`http://localhost:3000/api/events?${params.toString()}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events?${params.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

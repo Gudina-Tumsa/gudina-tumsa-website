@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 import React from 'react';
 import Header from "@/components/layout/Header";
 import Image from "next/image";

@@ -15,7 +15,7 @@ export const getCategories = async (request: GetCategoriesRequest): Promise<Cate
         const { page, limit } = request;
 
         const response = await fetch(
-            `http://localhost:3000/api/category?page=${page}&limit=${limit}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/category?page=${page}&limit=${limit}`,
             {
                 method: 'GET',
                 headers: {

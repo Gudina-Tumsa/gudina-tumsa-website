@@ -18,7 +18,7 @@ interface ApiError {
 
 export const updateUser = async (request : UpdateUserRequest , id : string) => {
    try {
-       const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${id}`, {
            method: 'PUT',
            headers: {
                'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const updateUser = async (request : UpdateUserRequest , id : string) => {
 
 export const resetUser = async (request : UpdateUserRequest , email : string) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/users/reset/${email}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/reset/${email}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

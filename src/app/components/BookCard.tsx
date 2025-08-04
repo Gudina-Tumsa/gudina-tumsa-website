@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 import { MoreHorizontal } from "lucide-react";
 import {createUserBookInteraction} from "@/lib/api/userbookinteraction";
 

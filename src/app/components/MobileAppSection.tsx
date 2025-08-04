@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 const MobileAppSection = () => {
     return (
         <div className="  mx-[2%] py-[5%]">

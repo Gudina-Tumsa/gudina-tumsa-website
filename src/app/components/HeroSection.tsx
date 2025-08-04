@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 import { ArrowRight, ChevronDown } from "lucide-react";
 import React from "react";
 

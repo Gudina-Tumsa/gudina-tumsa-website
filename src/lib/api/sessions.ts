@@ -10,7 +10,7 @@ interface ApiError {
 export const logoutSession = async (sessionId : string) => {
     try{
         const response = await fetch(
-            `http://localhost:3000/api/sessions/${sessionId}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions/${sessionId}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -37,7 +37,7 @@ export const getSessions = async (userId: string): Promise<SessionListResponse> 
 
 
         const response = await fetch(
-            `http://localhost:3000/api/sessions?userId=${userId}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions?userId=${userId}`,
             {
                 method: 'GET',
                 headers: {

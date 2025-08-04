@@ -5,7 +5,7 @@ import {getCategories} from "@/lib/api/category";
 import {getCategoriesSuccess} from "@/app/store/features/categorySlice";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
-import {getBooks} from "@/lib/api/book";
+import {getBooks , GetBooksRequest} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {BookData} from "@/types/book";
 import {useRouter} from "next/navigation";
@@ -28,7 +28,11 @@ const HomePageCategory = () => {
 
         const fetchBooks = async () => {
             try {
-                const response = await getBooks({page: 1, limit: 20})
+                const bookRequest:GetBooksRequest =  {
+                    page : 1,
+                    limit: 20
+                }
+                const response = await getBooks(bookRequest)
                 dispatch(getBooksSuccess(response))
             } catch (err: unknown) {
                 console.error("failed to fetch books:", err)
@@ -104,7 +108,7 @@ const HomePageCategory = () => {
                                     relative overflow-hidden
                                 `}
                                      style={book.coverImageUrl ? {
-                                         backgroundImage: `url(${'http://localhost:3000'+book.coverImageUrl})`
+                                         backgroundImage: `url(${`${process.env.NEXT_PUBLIC_BASE_URL}`+book.coverImageUrl})`
                                      } : {}}>
                                 </div>
 

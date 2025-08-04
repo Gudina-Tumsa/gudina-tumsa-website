@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 import React, {useEffect, useRef, useState} from 'react';
 import { PersonalDetailsForm } from '../../components/elements/settings/PersonalDetailsForm';

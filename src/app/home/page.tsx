@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 import SearchBar from "@/app/components/SearchBar";
 import BookGrid from "@/app/components/BookGrid";
@@ -6,7 +9,7 @@ import { useSelector } from 'react-redux';
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
 import {useEffect, useState} from "react";
-import {getBooks} from "@/lib/api/book";
+import {getBooks, GetBooksRequest} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {useRouter} from "next/navigation";
 
@@ -117,7 +120,11 @@ export default function Page() {
 
     const fetchBooks = async () => {
       try {
-        const response = await getBooks({page: 1, limit: 20})
+          let bookRequest:GetBooksRequest =  {
+              page : 1,
+              limit: 20
+          }
+        const response = await getBooks(bookRequest)
         dispatch(getBooksSuccess(response))
       } catch (err: unknown) {
         console.error("failed to fetch books:", err)

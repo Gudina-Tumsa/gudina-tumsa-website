@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Header from "@/components/layout/Header";

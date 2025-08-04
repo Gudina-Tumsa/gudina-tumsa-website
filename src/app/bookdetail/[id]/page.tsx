@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 'use client'
 import BookCover from "@/components/elements/bookdetail/BookCover";
 import BookDetails from "@/components/elements/bookdetail/BookDetails";

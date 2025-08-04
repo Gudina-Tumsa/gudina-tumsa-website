@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
 import {useEffect} from "react";
-import {getBooks} from "@/lib/api/book";
+import {getBooks, GetBooksRequest} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 
 export default function Page() {
@@ -19,7 +19,11 @@ export default function Page() {
 
         const fetchBooks = async () => {
             try {
-                const response = await getBooks({page: 1, limit: 20})
+                const bookRequest:GetBooksRequest =  {
+                    page : 1,
+                    limit: 20
+                }
+                const response = await getBooks(bookRequest)
                 dispatch(getBooksSuccess(response))
             } catch (err: unknown) {
                 console.error("failed to fetch books:", err)

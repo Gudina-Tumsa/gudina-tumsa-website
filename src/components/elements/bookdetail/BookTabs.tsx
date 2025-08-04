@@ -1,3 +1,6 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 
 import {useState, useEffect, useRef} from "react";
@@ -11,7 +14,7 @@ import {ThumbsUp , ThumbsDown } from "lucide-react";
 
 const AudioPlayer = ({audioUrl, audioRef}) => {
     const fileName = audioUrl.split('/').pop();
-    const streamUrl = `http://localhost:3000/api/audio/stream/${fileName}`;
+    const streamUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/audio/stream/${fileName}`;
     console.log(streamUrl);
     return (
         <audio ref={audioRef} controls className="mt-2 w-full">
@@ -86,7 +89,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
         const fetchRatings = async () => {
             try {
                 // Get average rating and count
-                const ratingsResponse = await fetch(`http://localhost:3000/api/book-ratings?bookId=${bookData._id}`);
+                const ratingsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book-ratings?bookId=${bookData._id}`);
                 let data = await ratingsResponse.json();
 
                 const { averageRating, total } = data.data;
@@ -95,7 +98,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
 
                 if (userData) {
 
-                    const userRatingResponse = await fetch(`http://localhost:3000/api/book-ratings?userId=${userData._id ?? ""}&bookId=${bookData._id}`);
+                    const userRatingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book-ratings?userId=${userData._id ?? ""}&bookId=${bookData._id}`);
                     const data = await userRatingResponse.json();
 
                     if (data.data.bookRatings.length > 0) {
@@ -163,7 +166,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/book-ratings', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book-ratings`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

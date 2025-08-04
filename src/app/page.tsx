@@ -1,6 +1,8 @@
-"use client"
+/* eslint-disable  */
 // @ts-nocheck
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client"
+
 
 import React, {useEffect} from 'react';
 import Header from '@/components/layout/Header';

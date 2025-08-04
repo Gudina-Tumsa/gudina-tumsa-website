@@ -14,7 +14,7 @@ interface ApiError {
 
 export const createUserBookInteraction = async (request: CreateUserBookInteraction): Promise<void> => {
     try {
-        const response = await fetch(`http://localhost:3000/api/interactions`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/interactions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

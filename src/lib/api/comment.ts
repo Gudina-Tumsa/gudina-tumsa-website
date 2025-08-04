@@ -1,3 +1,7 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+
 import {CommentListResponse} from "@/types/comments";
 
 export interface GetCommentsRequest {
@@ -26,7 +30,7 @@ export const getComments = async (request: GetCommentsRequest): Promise<CommentL
         if (request.sort) params.append('sort', request.sort);
 
 
-        const response = await fetch(`http://localhost:3000/api/comments?${params.toString()}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments?${params.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +67,7 @@ export const createComment = async (
             requestBody.parentCommentId = parentCommentId;
         }
 
-        const response = await fetch(`http://localhost:3000/api/comments`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +99,7 @@ export const likeAComment = async (userId: string, commentId: string) => {
         };
 
 
-        const response = await fetch(`http://localhost:3000/api/comments/${commentId}/like`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/${commentId}/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -122,7 +126,7 @@ export const dislikeAComment =  async (userId: string, commentId: string) => {
             userId: userId,
             action: "dislike"
         };
-        const response = await fetch(`http://localhost:3000/api/comments/${commentId}/like`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/${commentId}/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

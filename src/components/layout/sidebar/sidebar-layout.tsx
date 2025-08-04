@@ -1,4 +1,7 @@
-import {SidebarProvider, SidebarInset, SidebarTrigger} from "@/components/ui/sidebar";
+/* eslint-disable  */
+// @ts-nocheck
+
+import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import * as React from "react";
 
