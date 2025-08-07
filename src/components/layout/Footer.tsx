@@ -15,12 +15,10 @@ const Footer = () => {
                             <span className="text-xl font-bold text-gray-900">GTL</span>
                         </div>
 
-                        {/* Address Section */}
                         <div className="mb-6">
-                            <p className="text-gray-600 mb-2">123 Business Avenue</p>
-                            <p className="text-gray-600 mb-2">Tech Park, Suite 456</p>
-                            <p className="text-gray-600 mb-2">San Francisco, CA 94107</p>
-                            <p className="text-gray-600">United States</p>
+                            <p className="text-gray-600 mb-2"> Gudina and Tsehay Legacy Office</p>
+                            <p className="text-gray-600 mb-2">Yerer, Leka Building, 3rd Floor</p>
+                            <p className="text-gray-600"> Addis Ababa, Ethiopia</p>
                         </div>
 
                         {/* App Store Buttons */}
@@ -46,6 +44,8 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTL</a></li>
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTF</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Ilaamee Ministry, Biftu Bole Mekane Yesus</a></li>
+
 
                         </ul>
                     </div>
@@ -69,7 +69,7 @@ const Footer = () => {
                             <li><a href="/about" className="text-gray-600 hover:text-gray-900 transition-colors">About</a></li>
                             <li><a href="/careers" className="text-gray-600 hover:text-gray-900 transition-colors">Careers</a></li>
 
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Press Room</a></li>
+                            {/*<li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Press Room</a></li>*/}
                         </ul>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client"
 import React from 'react';
-import { useState } from "react"
+import { useState , useEffect } from "react"
 import { ChevronDown,ChevronUp, Menu, X } from "lucide-react"
 import { Globe } from 'lucide-react';
 
@@ -10,6 +10,7 @@ import {useTranslations} from 'next-intl'
 import {Locale, locales} from "@/i18n/config";
 import {setUserLocale} from "@/services/locale";
 import Link from 'next/link';
+import {getEvents} from "@/lib/api/events";
 
 
 const languageMap: Record<string, Locale> = {
@@ -62,58 +63,90 @@ function LanguageSelector() {
 const NotificationBar = () => {
     const [showNotification, setShowNotification] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [currentEvent , setCurrentEvent] = React.useState(null)
 
-    // Sample event data
-    const currentEvent = {
-        title: "Summer Sale - 50% Off All Courses",
-        date: "July 15-30",
+    useEffect(() => {
+        const currentDate = new Date();
+        const fiveDaysFromNow = new Date();
+        fiveDaysFromNow.setDate(currentDate.getDate() + 5);
 
-        details: "Don't miss our biggest sale of the year! All courses are 50% off for a limited time. Use code SUMMER50 at checkout. Offer valid until July 30th."
-    };
+        let isMounted = true;
+
+        getEvents({ page: 1, limit: 100 })
+            .then((data) => {
+                if (!isMounted) return;
+
+                const upcomingEvent = data?.data?.events.find((event) => {
+                    const eventDate = new Date(event.startDate);
+                    return eventDate >= currentDate && eventDate <= fiveDaysFromNow;
+                });
+
+                if (upcomingEvent) {
+                    setCurrentEvent({
+                        title: upcomingEvent.title,
+                        description: upcomingEvent.description,
+                        date: upcomingEvent.startDate,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching events:", err);
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
 
     if (!showNotification) return null;
 
     return (
         <>
             {/* Notification Bar */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2">
-                    <div className="flex justify-between items-center">
-                        <div
-                            className="flex items-center cursor-pointer group"
-                            onClick={() => setIsExpanded(!isExpanded)}
-                        >
-                            <span className="font-medium mr-2 animate-pulse">🎉</span>
-                            <p
+            {
+                currentEvent && (
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2">
+                            <div className="flex justify-between items-center">
+                                <div
+                                    className="flex items-center cursor-pointer group"
+                                    onClick={() => setIsExpanded(!isExpanded)}
+                                >
+                                    <span className="font-medium mr-2 animate-pulse">🎉</span>
+                                    <p
 
-                                className=" font-medium group-hover:text-yellow-200 transition-colors"
-                            >
-                                {currentEvent.title} - {currentEvent.date}
-                            </p>
-                            <span className="ml-2 text-sm">
+                                        className=" font-medium group-hover:text-yellow-200 transition-colors"
+                                    >
+                                        {currentEvent.title} - {currentEvent.date}
+                                    </p>
+                                    <span className="ml-2 text-sm">
                 {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </span>
-                        </div>
-                        <button
-                            onClick={() => setShowNotification(false)}
-                            className="p-1 rounded-full hover:bg-black/20 transition-colors"
-                            aria-label="Close notification"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
-                    </div>
-
-                    {/* Expanded Details */}
-                    {isExpanded && (
-                        <div className="mt-2 pb-3 animate-fadeIn">
-                            <p className="text-sm opacity-90">{currentEvent.details}</p>
-                            <div className="mt-2">
-
+                                </div>
+                                <button
+                                    onClick={() => setShowNotification(false)}
+                                    className="p-1 rounded-full hover:bg-black/20 transition-colors"
+                                    aria-label="Close notification"
+                                >
+                                    <X className="h-4 w-4" />
+                                </button>
                             </div>
+
+                            {/* Expanded Details */}
+                            {isExpanded && (
+                                <div className="mt-2 pb-3 animate-fadeIn">
+                                    <p className="text-sm opacity-90">{currentEvent.details}</p>
+                                    <div className="mt-2">
+
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-            </div>
+                    </div>
+                )
+            }
+
 
             {/* Add these to your global CSS */}
             <style jsx>{`
@@ -161,12 +194,12 @@ const Header = () => {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center space-x-8">
-                            {/*<Link*/}
-                            {/*    href="/login"*/}
-                            {/*    className="font-bold text-gray-700 hover:text-gray-900 transition-colors"*/}
-                            {/*>*/}
-                            {/*    Login*/}
-                            {/*</Link>*/}
+                            <Link
+                                href="/login"
+                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
+                            >
+                                Login
+                            </Link>
 
                             <Link
                                 href="/events"

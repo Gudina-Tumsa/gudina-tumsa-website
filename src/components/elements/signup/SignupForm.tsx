@@ -178,19 +178,22 @@ const SignUpForm = () => {
                             required
                         />
                     </div>
+                    <label htmlFor="phone" className="text-sm font-medium text-gray-700 block mb-1">
+                        Phone *
+                    </label>
+                    <input
+                        id="phone"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10,15}"
+                        value={phone}
+                        onChange={(e) => {
+                            const onlyNums = e.target.value.replace(/\D/g, ''); // removes non-digits
+                            setPhone(onlyNums);
+                        }}
+                        className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    />
 
-                    <div>
-                        <label htmlFor="phone" className="text-sm font-medium text-gray-700 block mb-1">
-                            Phone Number
-                        </label>
-                        <input
-                            id="phone"
-                            type="tel"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
-                    </div>
 
                     <div>
                         <label htmlFor="password" className="text-sm font-medium text-gray-700 block mb-1">

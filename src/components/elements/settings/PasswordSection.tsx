@@ -17,16 +17,19 @@ export const PasswordSection: React.FC<PasswordSectionProps> = ({
     return (
         <div className="space-y-6">
             {/* Info Message */}
-            <div className="flex items-start space-x-3 p-4 bg-blue-50 border border-blue-200 rounded-md">
-                <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div
+                className="flex items-start px-4 bg-blue-50 border border-blue-200 rounded-md opacity-0 h-0 overflow-hidden"
+            >
+
                 <div className="text-sm text-blue-800">
                     <p>
                         You don't have a password set because you signed up through a social login (Google or Apple).
-                        If you'd like to continue logging in using your email{' '}
-                        <span className="font-medium">({email})</span>, please set your password.
+
                     </p>
                 </div>
             </div>
+
+
 
             {/* Password Field */}
             <div className="space-y-2">

@@ -1,82 +1,142 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 import React from 'react';
 import Header from "@/components/layout/Header";
 
 const Index = () => {
     return (
-        <div className="min-h-screen  text-gray-800">
+        <div className="min-h-screen text-gray-800">
             <Header />
 
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-12">
                 <section>
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                        Privacy Policy & Notice
+                        Privacy Policy for GTL Online Library
                     </h1>
-                    <p className="text-lg mb-4">
-                        This policy describes how Blinks Labs GmbH (“GTL”, “we”, “us”) collects, receives,
-                        processes, uses, discloses, or shares your information. When you use our sites, products,
-                        or services or otherwise form a relationship with us, we may obtain data from you and
-                        the devices you are using to do so.
+                    <p><span className="font-bold">Effective Date</span>: August 5, 2025</p>
+                    <p className="text-lg mb-4 mt-2">
+                        Gudina and Tsehay Legacy Office ("GTL", "we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the GTL Library website and mobile application (collectively, the "Services").
                     </p>
                     <p className="text-lg mb-4">
-                        This policy is designed to provide transparency into our privacy practices and principles
-                        in a format you can navigate, read, and understand easily.
-                    </p>
-                    <p className="text-lg">
-                        We commit to treating your personal information with care and respect and encourage you
-                        to contact us using the methods provided below should you have any questions or concerns.
+                        By accessing or using our Services, you agree to this Privacy Policy.
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">The Scope of this Policy</h2>
+                    <h2 className="text-3xl font-semibold mb-4">1. Information We Collect</h2>
                     <p className="text-lg mb-4">
-                        This Policy describes the processing of personal information provided or collected on our
-                        sites, applications, products or services. In some instances, we may provide additional
-                        data privacy notices specific to certain products, practices, or regions. Those terms
-                        should be read in conjunction with this policy.
+                        We may collect the following types of information:
                     </p>
-                    <p className="text-lg mb-4">
-                        If you provide information to us on a third-party site or platform, the information you
-                        provide may be separately collected by the third-party site or platform. That third-party
-                        site or platform’s privacy practices will govern the use of your information. Choices you
-                        make on that third-party platform will not apply to our use of the information we have
-                        collected through our sites, products, or services.
-                    </p>
-                    <p className="text-lg">
-                        We acknowledge our obligations to all recipients of our products and services, including
-                        visitors to our website, our registered users and administrators of our products and
-                        services on behalf of our customers to collect, manage, process, and use their personal
-                        information (“Personal Data”) in accordance with the laws and regulations of each of the
-                        countries in which we operate.
-                    </p>
-                    <p className="text-lg mt-4">
-                        With the term ‘applicable data protection law’ (or ‘applicable law’) we mean any data
-                        protection law that is applicable at your location, e.g. the GDPR when you are located in
-                        the EU/EEA. Any reference to the ‘GDPR’ means the European General Data Protection
-                        Regulation but also implicitly includes the corresponding regulation of the United Kingdom,
-                        in which the European GDPR has been implemented into national law (UK GDPR).
-                    </p>
-                </section>
-
-                <section>
-                    <h2 className="text-3xl font-semibold mb-4">Information Collected or Processed</h2>
-                    <p className="text-lg mb-4">
-                        GTL may have collected or processed the categories of Personal Data that are identified
-                        below. We generally collect the information listed below to secure, improve, and provide
-                        our services to our customers.
-                    </p>
+                    <h3 className="text-xl font-medium mb-2">a) Personal Information</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-base text-gray-700 mb-4">
+                        <li>Name</li>
+                        <li>Email address</li>
+                        <li>Phone number</li>
+                        <li>Location (if you grant permission)</li>
+                    </ul>
+                    <h3 className="text-xl font-medium mb-2">b) Usage Data</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-base text-gray-700 mb-4">
+                        <li>Pages viewed</li>
+                        <li>Access times</li>
+                        <li>Device type and browser</li>
+                        <li>Downloads and search history</li>
+                    </ul>
+                    <h3 className="text-xl font-medium mb-2">c) Account Information</h3>
                     <ul className="list-disc pl-6 space-y-2 text-base text-gray-700">
-                        <li>Identifiers such as a real name, alias, postal address, unique personal identifier, online identifier, IP address, email address, account name, or similar.</li>
-                        <li>Customer records: name, credit card or debit card number, payment information, or subscription details.</li>
-                        <li>Internet or other electronic network activity: browsing history, search history, and interaction data.</li>
-                        <li>Geolocation data.</li>
-                        <li>Professional or employment-related information.</li>
-                        <li>Education information.</li>
-                        <li>Content you provide while using our features and products (e.g. input to AI, chat messages).</li>
-                        <li>Video recordings of your voice or image during webinars or live sessions (if you enable your camera).</li>
-                        <li>Inferences drawn from any of the above to reflect your preferences, characteristics, and behavior.</li>
+                        <li>Login credentials</li>
+                        <li>User preferences and bookmarks</li>
                     </ul>
                 </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">2. How We Use Your Information</h2>
+                    <p className="text-lg mb-4">
+                        We use the information we collect to:
+                    </p>
+                    <ul className="list-disc pl-6 space-y-2 text-base text-gray-700">
+                        <li>Provide and maintain access to digital library content</li>
+                        <li>Improve user experience and interface</li>
+                        <li>Respond to inquiries and offer support</li>
+                        <li>Notify you of updates or changes</li>
+                        <li>Monitor and analyze usage for system improvement</li>
+                        <li>Comply with legal obligations</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">3. How We Share Your Information</h2>
+                    <p className="text-lg mb-4">
+                        We do not sell or rent your personal information.
+                    </p>
+                    <p className="text-lg mb-4">
+                        We may share your data with:
+                    </p>
+                    <ul className="list-disc pl-6 space-y-2 text-base text-gray-700 mb-4">
+                        <li>Internal team members for support or content updates</li>
+                        <li>Service providers who help us run the platform (e.g., hosting providers)</li>
+                        <li>Authorities when required by law or legal request</li>
+                    </ul>
+                    <p className="text-lg">
+                        All third parties are required to protect your data in accordance with this policy.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">4. Data Storage and Security</h2>
+                    <p className="text-lg">
+                        We use secure servers and protocols to protect your data. However, no method of transmission over the internet or electronic storage is 100% secure. We strive to use industry-standard measures to protect your personal information.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">5. Cookies and Tracking Technologies</h2>
+                    <p className="text-lg">
+                        We may use cookies or similar technologies to personalize your experience, remember your preferences, and analyze usage. You can control cookies through your browser settings.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">6. Children's Privacy</h2>
+                    <p className="text-lg">
+                        The GTL Library is not intended for children under the age of 13. We do not knowingly collect personal information from children.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">7. Your Privacy Rights</h2>
+                    <p className="text-lg mb-4">
+                        You may:
+                    </p>
+                    <ul className="list-disc pl-6 space-y-2 text-base text-gray-700 mb-4">
+                        <li>Request access to the data we hold about you</li>
+                        <li>Ask us to correct or delete your information</li>
+                        <li>Withdraw consent at any time (where applicable)</li>
+                    </ul>
+                    <p className="text-lg">
+                        To exercise these rights, please contact us at info@gudinaandtsehaylegacy.org.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">8. Changes to This Policy</h2>
+                    <p className="text-lg">
+                        We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Effective Date."
+                    </p>
+                </section>
+
+                <div>
+                    <h2 className="text-2xl font-semibold mb-3">9. Contact</h2>
+                    <p className="text-lg mb-3">
+                        For questions about this policy or content concerns, contact:
+                    </p>
+                    <div className="space-y-1 pl-6">
+                        <p className="text-lg">Gudina and Tsehay Legacy Office</p>
+                        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>
+                        <p className="text-lg">Website: <a href="https://www.gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">www.gudinaandtsehaylegacy.org</a></p>
+                        <p className="text-lg">Phone: +251-900916524</p>
+                    </div>
+                </div>
             </main>
         </div>
     );

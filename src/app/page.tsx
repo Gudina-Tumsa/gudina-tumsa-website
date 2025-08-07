@@ -179,7 +179,7 @@ const Index = () => {
 
             <ScrollingLearningCards/>
             <GrowSection/>
-            <Faq/>
+            <Faq include={true}/>
             <div className="mt-[5%]">
                 <Footer/>
             </div>

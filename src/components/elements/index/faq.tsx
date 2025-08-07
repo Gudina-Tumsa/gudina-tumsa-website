@@ -37,40 +37,29 @@ function ToggleFaqDetails({ title, description }: FaqData) {
     );
 }
 
-const Faq = () => {
+const Faq = ({include }: {include : boolean}) => {
     const faq: FaqData[] = [
         {
-            title: "What is EkoSofia?",
-            description: "EkoSofia is a sustainable brand committed to creating eco-friendly products that blend nature and technology.",
+            title: " How to access digital books and resources?",
+            description: "How to access digital books and resources?",
         },
         {
-            title: "What materials are used?",
-            description: "We use biodegradable, recycled, and ethically sourced materials in all our products.",
+            title: "Creating and managing your account?",
+            description: "Creating and managing your account?",
         },
         {
-            title: "How can I buy your products?",
+            title: "Troubleshooting access or downloads",
             description: "You can purchase our products through our website or authorized retailers listed on our site.",
         },
         {
-            title: "What is your sustainability support program?",
+            title: "Contributing or suggesting content",
             description: "Our support program funds local environmental initiatives and offers educational resources on sustainability.",
-        },
-        {
-            title: "What's your return or exchange policy?",
-            description: "We accept returns within 30 days of purchase. Products must be unused and in original packaging.",
-        },
-        {
-            title: "How do you use technology for nature?",
-            description: "We use AI and IoT to optimize supply chains, reduce waste, and track environmental impact.",
-        },
-        {
-            title: "Do you offer customization?",
-            description: "Yes, we offer customization options for bulk and personal orders. Contact support for more info.",
-        },
+        }
+
     ];
 
     return (
-        <div className="w-full px-4 sm:px-6 md:w-4/5 lg:w-3/4 xl:w-1/2 mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-20">
+        <div className={`w-full ${include ? "px-4 sm:px-6 md:w-4/5 lg:w-3/4 xl:w-1/2 mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-20" : ""}`}>
             <h2 className="text-center font-bold text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 md:mb-10">
                 Do you have any questions?
             </h2>

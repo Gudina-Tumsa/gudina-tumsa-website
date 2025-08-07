@@ -1,8 +1,9 @@
 /* eslint-disable  */
 // @ts-nocheck
-
+"use client"
 import React from 'react';
 import Header from "@/components/layout/Header";
+import Faq from "@/components/elements/index/faq";
 
 const ContactPage = () => {
     return (
@@ -12,14 +13,15 @@ const ContactPage = () => {
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-12">
                 <section>
                     <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                        Contact Us
+                        Contact and Help
                     </h1>
                     <p className="text-lg mb-6">
-                        Have questions or feedback? Fill out the form below and we'll get back to you as soon as possible.
+                        We're here to support you as you explore the GTL online Library. Whether you need technical assistance, have questions about content, or want to get in touch with our team, you can reach us using the following channels:
                     </p>
 
-                    <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-12">
                         <form className="space-y-6">
+                            {/* Form fields remain the same as before */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label htmlFor="name" className="block text-lg font-medium mb-2">
@@ -104,43 +106,89 @@ const ContactPage = () => {
                             </button>
                         </form>
                     </div>
-                </section>
+                    <Faq include={false}/>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Phone Support Card */}
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="text-3xl mb-3">📞</div>
+                            <h3 className="text-xl font-semibold mb-3">Phone Support</h3>
+                            <p className="text-gray-700 mb-2">
+                                Call us during working hours for direct assistance:
+                            </p>
+                            <p className="text-lg font-medium mb-1">
+                                +251-900916524
+                            </p>
+                            <p className="text-gray-600 text-sm">
+                                Monday to Friday, 9:00 AM – 5:00 PM (East Africa Time)
+                            </p>
+                        </div>
 
-                <section className="grid md:grid-cols-3 gap-8">
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                        <h3 className="text-xl font-semibold mb-4">Email Us</h3>
-                        <p className="text-lg">
-                            <a href="mailto:support@gtl.com" className="text-blue-600 hover:underline">
-                                support@gtl.com
+                        {/* Email Support Card */}
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="text-3xl mb-3">📧</div>
+                            <h3 className="text-xl font-semibold mb-3">Email Support</h3>
+                            <p className="text-gray-700 mb-2">
+                                For general inquiries, feedback, or support:
+                            </p>
+                            <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-lg font-medium text-blue-600 hover:underline block mb-1">
+                                info@gudinaandtsehaylegacy.org
                             </a>
-                        </p>
-                        <p className="text-gray-600 mt-2">
-                            General inquiries and support
-                        </p>
+                            <p className="text-gray-600 text-sm">
+                                Response within 1–2 business days
+                            </p>
+                        </div>
+
+
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="text-3xl mb-3">🌐</div>
+                            <h3 className="text-xl font-semibold mb-3">Website</h3>
+                            <p className="text-gray-700 mb-2">
+                                Learn more about the Gudina and Tsehay Legacy:
+                            </p>
+                            <div className="space-y-1">
+                                <a href="https://www.gudinatumsa.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline block">
+                                    www.gudinatumsa.com
+                                </a>
+                                <a href="https://www.gudinaandtsehaylegacy.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline block">
+                                    www.gudinaandtsehaylegacy.org
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="text-3xl mb-3">📝</div>
+                            <h3 className="text-xl font-semibold mb-3">Feedback</h3>
+                            <p className="text-gray-700 mb-2">
+                                We value your input and suggestions:
+                            </p>
+                            <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">
+                                info@gudinaandtsehaylegacy.org
+                            </a>
+                        </div>
+
+
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                        <h3 className="text-xl font-semibold mb-4">Call Us</h3>
-                        <p className="text-lg">
-                            +49 30 123 4567
-                        </p>
-                        <p className="text-gray-600 mt-2">
-                            Mon-Fri, 9am-6pm CET
-                        </p>
-                    </div>
-
-                    <div className="bg-white rounded-lg shadow-md p-6">
-                        <h3 className="text-xl font-semibold mb-4">Visit Us</h3>
-                        <p className="text-lg">
-                            Blinks Labs GmbH<br />
-                            Friedrichstraße 68<br />
-                            10117 Berlin, Germany
-                        </p>
+            
+                    <div className="mt-12">
+                        <h3 className="text-2xl font-semibold mb-4">Our Location</h3>
+                        <div className="bg-white p-4 rounded-lg shadow-md">
+                            <div className="w-full aspect-w-16 aspect-h-9">
+                                <iframe
+                                    className="w-full h-96 rounded-lg"
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    src="https://www.google.com/maps/embed/v1/place?q=Gudina%20Tumsa%20Foundation&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8"
+                                ></iframe>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
         </div>
-    );
+);
 };
 
 export default ContactPage;

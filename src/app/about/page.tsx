@@ -84,19 +84,43 @@ const AboutUs = () => {
                         {[
                             {
                                 icon: "/images/lightbulb-icon.svg",
-                                title: "Curiosity First",
-                                desc: "We never stop asking questions and challenging assumptions"
+                                title: "Christ-Centered",
+                                desc: "At the heart of our mission is Christ. We aim to extend the legacy of Christ’s work, as modeled by Gudina and Tsehay."
                             },
                             {
                                 icon: "/images/heart-icon.svg",
-                                title: "Human-Centered",
-                                desc: "We design for real people with busy lives"
+                                title: "Servant Leadership",
+                                desc: "Both Gudina and Tsehay exemplified servant leadership. We continue this legacy by leading through humility and service."
                             },
                             {
+
                                 icon: "/images/globe-icon.svg",
-                                title: "Impact Driven",
-                                desc: "We measure success by how much we help people grow"
-                            }
+                                title: "Wisdom",
+                                desc: "We encourage communities to pursue truth and knowledge, both spiritual and practical, for transformative living."
+                            },
+                            {
+                                icon : "/images/globe-icon.svg",
+                                title: "Self-Improvement",
+                                desc: "Despite their difficult beginnings, Gudina and Tsehay grew into influential figures. We believe in the transformative power of perseverance and learning."
+
+                                                      },
+                        {
+                            icon: "/images/globe-icon.svg",
+                             title : "Integrity",
+                            desc : "Legacy requires a commitment to truth. Our work is guided by moral integrity and a responsibility to uphold righteousness."
+
+                        },
+                        {
+                            icon: "/images/globe-icon.svg",
+                            title : "Purpose-Driven",
+                            desc : "Gudina and Tsehay were unwavering in their calling. Our office operates with clear purpose to accomplish the mission set before us."
+
+                        },{
+                            icon: "/images/globe-icon.svg",
+                            title :"Steadfastness",
+                            desc : "True legacy requires endurance. Our work is not for personal gain but for the greater mission that demanding perseverance, even through sacrifice.",
+
+                        }
                         ].map((value, index) => (
                             <div key={index} className="text-center">
                                 <div className="w-16 h-16 mx-auto mb-4 relative">
