@@ -41,19 +41,19 @@ const Faq = ({include }: {include : boolean}) => {
     const faq: FaqData[] = [
         {
             title: " How to access digital books and resources?",
-            description: "How to access digital books and resources?",
+            description: "You can access our digital collection anytime by logging into your GTL Library account. Use the search bar to find books, articles, podcasts, and more. Materials are available for reading online or downloading to your device. The library is designed for easy use across phones, tablets, and computers.",
         },
         {
-            title: "Creating and managing your account?",
-            description: "Creating and managing your account?",
+            title: "How do I create and manage my account?",
+            description: "Creating an account is simple: click “Sign Up,” fill in your details, and confirm your email. Once logged in, you can update your profile, change your password, and set your learning preferences under “Account Settings.”",
         },
         {
-            title: "Troubleshooting access or downloads",
-            description: "You can purchase our products through our website or authorized retailers listed on our site.",
+            title: "What if I have trouble accessing or downloading materials?",
+            description: "If you experience any issues, try refreshing your browser or restarting the app. Make sure your internet connection is stable. For download problems, check your device’s storage space. Still stuck? Contact our support team via the “Contact and Help” section — we’re happy to assist you!",
         },
         {
-            title: "Contributing or suggesting content",
-            description: "Our support program funds local environmental initiatives and offers educational resources on sustainability.",
+            title: "How do I create and manage my account?",
+            description: "We welcome contributions! If you have books, articles, or other resources related to Rev. Gudina Tumsa and Tsehay Tolessa’s legacy, please reach out via the “Contact Us” page. You can also suggest new materials or ideas to help grow the library’s collection.",
         }
 
     ];

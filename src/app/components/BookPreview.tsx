@@ -8,8 +8,8 @@ import {ArrowDown, Leaf, Star , View} from "lucide-react";
 import {motion, useInView} from "framer-motion";
 
 const sentences = [
-    "We exist to make knowledge more accessible.",
-    "Working with educators and publishers to create a digital library of more than a million books, available anywhere in the world."
+    "We exist to make the legacy accessible.",
+    "In collaboration with scholars, researchers, and publishers, we’re building a digital library of works on Rev. Gudina Tumsa and Tsehay Tolessa — accessible anywhere in the world."
 ];
 
 

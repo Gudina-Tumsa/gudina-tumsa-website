@@ -25,9 +25,9 @@ const ScrollingLearningCards = () => {
     const methods: LearningMethod[] = [
         {
             id: 1,
-            title: "Cross-Platform Learning",
-            subtitle: "Sharpen your concentration",
-            description: "Access your learning materials across all devices and maintain focus wherever you are.",
+            title: "Learn Anywhere, Anytime",
+            subtitle: "Carry the GTL Library with you.",
+            description: "Read, research, and reflect on the legacy of Rev. Gudina Tumsa and Tsehay Tolessa from any device, wherever inspiration strikes.",
             cardType: "Productivity",
             features: [
                 "Sync progress across devices",
@@ -37,9 +37,9 @@ const ScrollingLearningCards = () => {
         },
         {
             id: 2,
-            title: "Instant Knowledge Access",
-            subtitle: "Master your learning journey",
-            description: "Get immediate access to curated knowledge resources tailored to your goals.",
+            title: "Instant Legacy Access",
+            subtitle: "Master your journey of discovery.",
+            description: "Explore curated books, archives, and resources on Rev. Gudina Tumsa and Tsehay Tolessa—ready whenever you are.",
             cardType: "Personal Growth",
             features: [
                 "On-demand learning",
@@ -49,9 +49,9 @@ const ScrollingLearningCards = () => {
         },
         {
             id: 3,
-            title: "Social Learning Spaces",
-            subtitle: "Collaborate and grow together",
-            description: "Join communities of learners to discuss ideas and accelerate your progress.",
+            title: "Community of Discovery",
+            subtitle: "Learn, share, and inspire.",
+            description: "Engage in meaningful discussions with others passionate about preserving and exploring the legacy of Rev. Gudina Tumsa and Tsehay Tolessa.",
             cardType: "Community",
             features: [
                 "Group discussions",
@@ -125,10 +125,12 @@ const LearningCardWithScroll = ({
             {index === 0 && (
                 <div className="absolute top-[-3%] sm:top-[5%] w-full px-4">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4 text-center">
-                        How will you level up?
+                        {/*How will you level up?*/}
+                        A world of legacy resources.
                     </h1>
                     <span className="hidden sm:flex justify-center text-base sm:text-lg md:text-xl text-gray-600 font-medium text-center block">
-                        Listen, read, or get interactive — however you like to learn, you'll find it here
+                        {/*Listen, read, or get interactive — however you like to learn, you'll find it here*/}
+                        Whether you listen, read, or dive into interactive resources, the GTL online Library brings the legacy to life for you.
                     </span>
                 </div>
             )}

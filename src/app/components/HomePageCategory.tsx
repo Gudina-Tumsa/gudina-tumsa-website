@@ -52,13 +52,15 @@ const HomePageCategory = () => {
             {/* Hero Section */}
             <div className="text-center py-8 sm:py-12 md:py-16 px-4">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4">
-                    One million textbooks.
+                    {/*One million textbooks.*/}
+                    A world of legacy resources.
                 </h1>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 italic">
                     One membership.
                 </h2>
                 <p className="text-center text-base sm:text-lg md:text-xl mt-4 sm:mt-[2%] text-gray-600">
-                    What are you interested in?
+                    {/*What are you interested in?*/}
+                    A world of legacy resources.
                 </p>
             </div>
 

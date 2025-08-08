@@ -162,10 +162,11 @@ const Index = () => {
             <div
                 className="w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-10 bg-white text-white rounded-lg flex flex-col items-center justify-center">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-black text-center">
-                    Join now
+                    {/*Join now*/}
+                    Join the GTL community
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-black text-center">
-                    Get access to over a million books, right now.
+                    Explore over a million resources on the life and mission of Gudina Tumsa and Tsehay Tolessa — start your journey now.
                 </p>
 
                 <div className="mb-8 sm:mb-12 md:mb-16 w-full flex justify-center">

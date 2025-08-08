@@ -34,11 +34,10 @@ const GrowSection = () => {
             <div className="container mx-auto px-4 py-16">
                 <div className="text-center max-w-4xl mx-auto mb-16">
                     <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight">
-                        Grow wherever you are
+                        Grow Wherever You Are
                     </h1>
                     <p className="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
-                        Forget carving out time. Slip in a little learning in the car, waiting in line, over
-                        lunch, before bed, or whenever youve got a moment.
+                        No need to carve out extra time. Dive into the legacy of Rev. Gudina Tumsa and Tsehay Tolessa—whether you’re in the car, waiting in line, over lunch, or before bed.
                     </p>
                 </div>
 
