@@ -12,20 +12,21 @@ const HeroSection = () => {
                 <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10">
                     <div className="text-center lg:text-left">
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-2">
-                            {/*Knowledge{' '}*/}
-                            Get the Heart
+                            Knowledge{' '}
+                            {/*Get the Heart*/}
                         </h1>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-gray-900 leading-tight mb-2">
-                            {/*At the tip*/}
-                            of the Legacy
+                            At the tip
+                            {/*of the Legacy*/}
                         </h1>
-                        {/*<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">*/}
-                        {/*    of your fingers*/}
-                        {/*</h1>*/}
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                            of your fingers
+                        </h1>
                         <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed  ">
                             Get key insights from {' '}
                             <span className="text-blue-500 font-medium">books</span>,{' '}
-                            <span className="text-blue-500 font-medium">podcasts</span>, and{' '}
+                            {/*<span className="text-blue-500 font-medium">podcasts</span>, and{' '}*/}
+                            <span className="text-blue-500 font-medium">talks</span>, and{' '}
                             <span className="text-blue-500 font-medium">archives on Rev. Gudina Tumsa and Tsehay Tolessa - </span>
                             <br className="hidden sm:block" />
                             <span className={"mx-2"}>all in minutes with the GTL app.</span>

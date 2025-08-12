@@ -60,7 +60,7 @@ const HomePageCategory = () => {
                 </h2>
                 <p className="text-center text-base sm:text-lg md:text-xl mt-4 sm:mt-[2%] text-gray-600">
                     {/*What are you interested in?*/}
-                    A world of legacy resources.
+                    What will you discover today?
                 </p>
             </div>
 

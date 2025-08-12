@@ -46,18 +46,18 @@ const Careers = () => {
                             At this time, we don't have any open positions at GTL.
                             We appreciate your interest in joining our team!
                         </p>
-                        <div className="bg-white p-6 rounded-lg inline-block shadow-sm">
-                            <p className="font-medium">
-                                Check back later or follow us on
-                                <a href="https://linkedin.com/company/GTL"
-                                   className="text-blue-600 hover:underline ml-1"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    LinkedIn
-                                </a>
-                                 <span className={"ml-[2%]"}>for future opportunities.</span>
-                            </p>
-                        </div>
+                        {/*<div className="bg-white p-6 rounded-lg inline-block shadow-sm">*/}
+                        {/*    <p className="font-medium">*/}
+                        {/*        Check back later or follow us on*/}
+                        {/*        <a href="https://linkedin.com/company/GTL"*/}
+                        {/*           className="text-blue-600 hover:underline ml-1"*/}
+                        {/*           target="_blank"*/}
+                        {/*           rel="noopener noreferrer">*/}
+                        {/*            LinkedIn*/}
+                        {/*        </a>*/}
+                        {/*         <span className={"ml-[2%]"}>for future opportunities.</span>*/}
+                        {/*    </p>*/}
+                        {/*</div>*/}
                     </div>
                 </section>
 
@@ -88,7 +88,7 @@ const Careers = () => {
                     </div>
                 </section>
 
-              
+
 
 
                 <section className="text-center py-12 border-t border-gray-200">

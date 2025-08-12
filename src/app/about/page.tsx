@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const AboutUs = () => {
     return (
@@ -153,7 +154,9 @@ const AboutUs = () => {
                 {/*        <p className="text-gray-600">Categories of knowledge</p>*/}
                 {/*    </div>*/}
                 {/*</section>*/}
+
             </main>
+            <Footer />
         </div>
     );
 };

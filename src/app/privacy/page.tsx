@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const Index = () => {
     return (
@@ -125,19 +126,20 @@ const Index = () => {
                     </p>
                 </section>
 
-                <div>
-                    <h2 className="text-2xl font-semibold mb-3">9. Contact</h2>
-                    <p className="text-lg mb-3">
-                        For questions about this policy or content concerns, contact:
-                    </p>
-                    <div className="space-y-1 pl-6">
-                        <p className="text-lg">Gudina and Tsehay Legacy Office</p>
-                        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>
-                        <p className="text-lg">Website: <a href="https://www.gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">www.gudinaandtsehaylegacy.org</a></p>
-                        <p className="text-lg">Phone: +251-900916524</p>
-                    </div>
-                </div>
+                {/*<div>*/}
+                {/*    <h2 className="text-2xl font-semibold mb-3">9. Contact</h2>*/}
+                {/*    <p className="text-lg mb-3">*/}
+                {/*        For questions about this policy or content concerns, contact:*/}
+                {/*    </p>*/}
+                {/*    <div className="space-y-1 pl-6">*/}
+                {/*        <p className="text-lg">Gudina and Tsehay Legacy Office</p>*/}
+                {/*        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>*/}
+                {/*        <p className="text-lg">Website: <a href="https://www.gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">www.gudinaandtsehaylegacy.org</a></p>*/}
+                {/*        <p className="text-lg">Phone: +251-900916524</p>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </main>
+            <Footer />
         </div>
     );
 };

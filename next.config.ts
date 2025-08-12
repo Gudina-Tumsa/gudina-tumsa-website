@@ -6,7 +6,8 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
     env: {
 
-        NEXT_PUBLIC_BASE_URL:  "https://apitest.gebeta.app",
+        // NEXT_PUBLIC_BASE_URL:  "https://apitest.gebeta.app",
+        NEXT_PUBLIC_BASE_URL:  "http://localhost:3000",
     },
     webpack: (config) => {
         // Disable canvas and encoding modules (for @react-pdf-viewer)

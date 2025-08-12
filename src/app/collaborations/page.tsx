@@ -7,6 +7,7 @@
 "use client"
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Header from "@/components/layout/Header";
+import Link from "next/link";
 
 type FormData = {
     name: string;
@@ -189,9 +190,10 @@ const CollaborationPage = () => {
                             </nav>
 
                             <div className="mt-8">
-                                <h4 className="font-medium mb-2">Contact Us</h4>
-                                <p className="text-sm text-gray-600 mb-1">Email: info@gudinaandtsehaylegacy.org</p>
-                                <p className="text-sm text-gray-600">Phone: +251-900916524</p>
+
+                                <Link href={"/contactus"}><h4 className="font-medium mb-2">Contact Us</h4> </Link>
+                                {/*<p className="text-sm text-gray-600 mb-1">Email: info@gudinaandtsehaylegacy.org</p>*/}
+                                {/*<p className="text-sm text-gray-600">Phone: +251-900916524</p>*/}
                             </div>
                         </div>
 

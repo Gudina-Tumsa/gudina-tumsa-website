@@ -7,7 +7,6 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin, ToolbarProps } from "@react-pdf-viewer/default-layout";
-import { PDFDocument } from "pdf-lib";
 
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";

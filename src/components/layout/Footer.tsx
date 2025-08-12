@@ -44,7 +44,8 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTL</a></li>
                             <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">GTF</a></li>
-                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Ilaamee Ministry, Biftu Bole Mekane Yesus</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Ilaamee Ministry</a></li>
+                            <li><a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">Biftu Bole Mekane Yesus</a></li>
 
 
                         </ul>

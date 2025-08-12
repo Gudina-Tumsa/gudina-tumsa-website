@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const ContentPolicy = () => {
     return (
@@ -106,17 +107,17 @@ const ContentPolicy = () => {
                         </div>
 
                         {/* Section 7 */}
-                        <div>
-                            <h2 className="text-2xl font-semibold mb-3">7. Reporting Violations</h2>
-                            <p className="text-lg mb-3">
-                                If you find content that violates this policy, please report it immediately to:
-                            </p>
-                            <div className="space-y-1 pl-6">
-                                <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>
-                                <p className="text-lg">Phone: +251-900916524</p>
-                                <p className="text-lg">Subject line: "Content Policy Violation Report"</p>
-                            </div>
-                        </div>
+                        {/*<div>*/}
+                        {/*    <h2 className="text-2xl font-semibold mb-3">7. Reporting Violations</h2>*/}
+                        {/*    <p className="text-lg mb-3">*/}
+                        {/*        If you find content that violates this policy, please report it immediately to:*/}
+                        {/*    </p>*/}
+                        {/*    <div className="space-y-1 pl-6">*/}
+                        {/*        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>*/}
+                        {/*        <p className="text-lg">Phone: +251-900916524</p>*/}
+                        {/*        <p className="text-lg">Subject line: "Content Policy Violation Report"</p>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
                         {/* Section 8 */}
                         <div>
@@ -142,6 +143,7 @@ const ContentPolicy = () => {
                     </div>
                 </section>
             </main>
+            <Footer />
         </div>
     );
 };

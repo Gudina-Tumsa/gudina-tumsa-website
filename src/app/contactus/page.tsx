@@ -107,7 +107,7 @@ const ContactPage = () => {
                         </form>
                     </div>
                     <Faq include={false}/>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="mt-[5%] grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Phone Support Card */}
                         <div className="bg-white rounded-lg shadow-md p-6">
                             <div className="text-3xl mb-3">📞</div>
@@ -156,21 +156,21 @@ const ContactPage = () => {
                         </div>
 
 
-                        <div className="bg-white rounded-lg shadow-md p-6">
-                            <div className="text-3xl mb-3">📝</div>
-                            <h3 className="text-xl font-semibold mb-3">Feedback</h3>
-                            <p className="text-gray-700 mb-2">
-                                We value your input and suggestions:
-                            </p>
-                            <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">
-                                info@gudinaandtsehaylegacy.org
-                            </a>
-                        </div>
+                        {/*<div className="bg-white rounded-lg shadow-md p-6">*/}
+                        {/*    <div className="text-3xl mb-3">📝</div>*/}
+                        {/*    <h3 className="text-xl font-semibold mb-3">Feedback</h3>*/}
+                        {/*    <p className="text-gray-700 mb-2">*/}
+                        {/*        We value your input and suggestions:*/}
+                        {/*    </p>*/}
+                        {/*    <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">*/}
+                        {/*        info@gudinaandtsehaylegacy.org*/}
+                        {/*    </a>*/}
+                        {/*</div>*/}
 
 
                     </div>
 
-            
+
                     <div className="mt-12">
                         <h3 className="text-2xl font-semibold mb-4">Our Location</h3>
                         <div className="bg-white p-4 rounded-lg shadow-md">

@@ -36,12 +36,12 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
 
     return (
 
-        <div className="relative group w-full max-w-xs mx-auto sm:w-48 md:w-52 p-3 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+        <div className="relative    group  p-6 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer "
         onClick={() => {
             readBookNavigate(id);
         }}
         >
-            <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden relative">
+            <div className="aspect-[3/4] bg-red-200 rounded-lg overflow-hidden relative]">
                 <img
                     src={coverImage}
                     alt={title}

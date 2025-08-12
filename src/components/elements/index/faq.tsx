@@ -52,7 +52,7 @@ const Faq = ({include }: {include : boolean}) => {
             description: "If you experience any issues, try refreshing your browser or restarting the app. Make sure your internet connection is stable. For download problems, check your device’s storage space. Still stuck? Contact our support team via the “Contact and Help” section — we’re happy to assist you!",
         },
         {
-            title: "How do I create and manage my account?",
+            title: "How can i contribute or suggest new contents?",
             description: "We welcome contributions! If you have books, articles, or other resources related to Rev. Gudina Tumsa and Tsehay Tolessa’s legacy, please reach out via the “Contact Us” page. You can also suggest new materials or ideas to help grow the library’s collection.",
         }
 

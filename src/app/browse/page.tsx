@@ -1,6 +1,5 @@
 "use client"
 import SearchBar from "@/app/components/SearchBar";
-
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import {CategoryCard} from "@/components/elements/index/browse/CategoryCard";
 import {useAppDispatch} from "@/lib/hooks";
@@ -9,12 +8,13 @@ import {getCategories} from "@/lib/api/category";
 import {getCategoriesSuccess} from "@/app/store/features/categorySlice";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
-
+    const router = useRouter();
     const categories = useSelector((state: RootState) => state.category);
-
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -29,32 +29,30 @@ export default function Page() {
         fetchCategories();
     }, [dispatch]);
 
-
     return (
         <SidebarLayout>
+                <SearchBar />
+                <div className="w-full flex flex-col justify-between bg-green-500">
+                    <div className="mb-8  w-full">
 
-            <SearchBar />
-            <div className="">
-                <div className="mb-8">
-                    <h1 className="text-2xl font-[500px]  mt-[5%] text-gray-900 mb-2">Browse by topic</h1>
+                    <h1 className="text-2xl font-[500px] mt-[5%] text-gray-900 mb-2">Browse by topic</h1>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[5%]">
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[5%] bg-red-500">
                     {categories?.categories?.data.categories.map((category) => (
-                        <CategoryCard
-                            key={category._id}
-                            title={category.name}
+                        <div
+                            onClick={() => {
+                                router.push(`/bookbycategory/${category._id}`);
+                            }}>
+                            <CategoryCard
+                                key={category._id}
+                                title={category.name}
 
-                        />
+                            />
+                        </div>
+
                     ))}
                 </div>
-
-
             </div>
-
-
-
         </SidebarLayout>
     )
 }
-
-

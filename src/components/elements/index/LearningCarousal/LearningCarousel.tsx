@@ -49,9 +49,9 @@ const LearningCard = ({ method }: LearningCardProps) => {
                                 </div>
 
                                 {/* Badge */}
-                                <div className="inline-block bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
-                                    Guided plan
-                                </div>
+                                {/*<div className="inline-block bg-white/20 px-3 py-1 rounded-full text-sm font-medium">*/}
+                                {/*    /!*Guided plan*!/*/}
+                                {/*</div>*/}
 
                                 {/* Content */}
                                 <div className="space-y-3">

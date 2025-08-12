@@ -123,19 +123,21 @@ const LearningCardWithScroll = ({
             className="h-screen flex items-center justify-center sticky top-0 w-full px-4 sm:px-6 md:w-4/5 lg:w-3/4 xl:w-[70%] mx-auto"
         >
             {index === 0 && (
-                <div className="absolute top-[-3%] sm:top-[5%] w-full px-4">
+                <div className="absolute top-[-3%] sm:top-[5%]  w-full px-4">
                     <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4 text-center">
                         {/*How will you level up?*/}
                         A world of legacy resources.
                     </h1>
-                    <span className="hidden sm:flex justify-center text-base sm:text-lg md:text-xl text-gray-600 font-medium text-center block">
+                    <span className="hidden sm:flex justify-center text-base sm:text-lg md:text-xl text-gray-500 font-medium text-center block">
                         {/*Listen, read, or get interactive — however you like to learn, you'll find it here*/}
                         Whether you listen, read, or dive into interactive resources, the GTL online Library brings the legacy to life for you.
                     </span>
+
+
                 </div>
             )}
 
-            <div className={`bg-gradient-to-br from-purple-100 to-blue-100 w-full py-6 sm:py-8 md:py-[2%] rounded-xl sm:rounded-2xl`}>
+            <div className={`mt-[10%] bg-gradient-to-br from-purple-100 to-blue-100 w-full py-6 sm:py-8 md:py-[2%] rounded-xl sm:rounded-2xl`}>
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center px-4 sm:px-6">
                     {/* Left Content */}
                     <div className="space-y-4 sm:space-y-6">

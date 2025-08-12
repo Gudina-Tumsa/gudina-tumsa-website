@@ -186,14 +186,27 @@ const Header = () => {
             {/* Main Header */}
             <header className="bg-white border-b border-gray-200 py-4">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between">
+                    <div className="relative flex items-center justify-between">
                         {/* Logo */}
-                        <div className="flex items-center">
-                            <h1 className="text-2xl font-bold text-black">{t('logo')}</h1>
+                        <div className="absolute flex items-center">
+                            {/*<h1 className="text-2xl font-bold text-black">{t('logo')}</h1>*/}
+                            <Link href="/">
+                                <img
+                                    className={"w-[150px] height-[150px]"}
+                                    src={"logo.png"}
+                                />
+                            </Link>
                         </div>
+                        <div></div>
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center space-x-8">
+                            <Link
+                                href="/"
+                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
+                            >
+                                Home
+                            </Link>
                             <Link
                                 href="/login"
                                 className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
@@ -220,13 +233,13 @@ const Header = () => {
                                 >
                                     Sign up
                                 </Link>
-                                <LanguageSelector/>
+                                {/*<LanguageSelector/>*/}
                             </div>
                         </nav>
 
                         {/* Mobile menu button */}
                         <div className="md:hidden flex items-center">
-                            <LanguageSelector/>
+                            {/*<LanguageSelector/>*/}
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                 className="ml-4 p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
