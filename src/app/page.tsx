@@ -25,7 +25,7 @@ const IconMarquee = () => {
     const items = [
         {name: 'GTF', image: 'gtf.png' , width : "130" , height : "130" },
         {name: 'Ilaamee', image: 'ilame.png' , width: "130" , height: "130" },
-        {name : 'GTL', image: 'logo.png' , width: "230" , height: "230" },
+        {name : 'GTL', image: 'logo.png' , width: "250" , height: "250" },
 
 
     ];
@@ -39,14 +39,14 @@ const IconMarquee = () => {
             >
 
                 {items.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center mx-[40px] bg-red-500">
+                    <div key={index} className="flex flex-col items-center mx-[40px]">
                         <img
                             src={item.image}
                             alt={item.name}
                             style={{ width: `${item.width}px`, height: `${item.height}px` }}
                             className={`mb-2`}
                         />
-                        <span className="text-sm font-bold">{item.name}</span>
+                        {/*<span className="text-sm font-bold">{item.name}</span>*/}
                     </div>
                 ))}
             </Marquee>
