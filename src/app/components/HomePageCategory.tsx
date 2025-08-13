@@ -106,20 +106,20 @@ const HomePageCategory = () => {
                                 {/* Book Cover */}
                                 <div
                                     className={`
-    ${book.coverImageUrl ? 'bg-cover bg-center border border-gray-200' : 'bg-gray-200'} 
+    ${book.coverImageUrl ? 'bg-contain bg-center bg-no-repeat border border-gray-200' : 'bg-gray-200'} 
     rounded-lg p-3 sm:p-4 mb-2 sm:mb-3 aspect-[3/4] 
     flex flex-col justify-between
     transform transition-all duration-300 
     group-hover:scale-105 group-hover:shadow-lg
     relative overflow-hidden
-    ${book.coverImageUrl ? 'bg-contain bg-no-repeat' : ''}
   `}
                                     style={book.coverImageUrl ? {
-                                        backgroundImage: `url(${`${process.env.NEXT_PUBLIC_BASE_URL}` + book.coverImageUrl})`,
+                                        backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_URL + book.coverImageUrl})`,
                                         backgroundColor: 'white'
                                     } : {}}
                                 >
                                 </div>
+
 
                                 <div className="space-y-0.5 sm:space-y-1">
                                     <h4 className="font-semibold text-xs sm:text-sm text-gray-900 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
