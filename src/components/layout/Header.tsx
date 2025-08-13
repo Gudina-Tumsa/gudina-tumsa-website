@@ -82,10 +82,11 @@ const NotificationBar = () => {
                 });
 
                 if (upcomingEvent) {
+                    const eventDate = new Date(upcomingEvent.startDate);
                     setCurrentEvent({
                         title: upcomingEvent.title,
-                        description: upcomingEvent.description,
-                        date: upcomingEvent.startDate,
+                        details: upcomingEvent.description,
+                        date: `${eventDate.getFullYear()}-${eventDate.getMonth() + 1}-${eventDate.getDate()}`,
                     });
                 }
             })

@@ -4,6 +4,7 @@
 import React from 'react';
 import Header from "@/components/layout/Header";
 import Image from "next/image";
+import Footer from "@/components/layout/Footer";
 
 const Careers = () => {
     return (
@@ -13,13 +14,13 @@ const Careers = () => {
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-16">
                 {/* Hero Section */}
                 <section className="relative h-96 rounded-xl overflow-hidden">
-                    <Image
-                        src="/images/careers-hero.jpg"
-                        alt="GTL team working together"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
+                    {/*<Image*/}
+                    {/*    src="/images/careers-hero.jpg"*/}
+                    {/*    alt="GTL team working together"*/}
+                    {/*    fill*/}
+                    {/*    className="object-cover"*/}
+                    {/*    priority*/}
+                    {/*/>*/}
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <div className="text-center text-white max-w-2xl px-4">
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">Join Our Mission</h1>
@@ -34,12 +35,12 @@ const Careers = () => {
                 <section className="text-center py-12 bg-blue-50 rounded-xl">
                     <div className="max-w-2xl mx-auto">
                         <div className="w-20 h-20 mx-auto mb-6 relative">
-                            <Image
-                                src="/images/pause-icon.svg"
-                                alt="Pause icon"
-                                fill
-                                className="object-contain"
-                            />
+                            {/*<Image*/}
+                            {/*    src="/images/pause-icon.svg"*/}
+                            {/*    alt="Pause icon"*/}
+                            {/*    fill*/}
+                            {/*    className="object-contain"*/}
+                            {/*/>*/}
                         </div>
                         <h2 className="text-3xl font-semibold mb-4">We're Not Currently Hiring</h2>
                         <p className="text-lg mb-6">
@@ -97,16 +98,18 @@ const Careers = () => {
                         While we're not hiring now, we're always excited to connect with talented people
                         who share our passion for learning.
                     </p>
-                    <button
-                        className="bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-gray-700 transition disabled:opacity-70"
+                    <p
+                        // className="bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-gray-700 transition disabled:opacity-70"
+                        className=" text-black px-6 py-3 rounded-full font-medium  transition disabled:opacity-70"
                         disabled
                         aria-label="Currently not accepting applications"
                     >
-                        Notify Me About Future Openings
-                    </button>
+                       Check our websites for future openings
+                    </p>
 
                 </section>
             </main>
+            <Footer/>
         </div>
     );
 };
