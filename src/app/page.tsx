@@ -23,14 +23,10 @@ import {getNews} from "@/app/data/news";
 const IconMarquee = () => {
 
     const items = [
-        {name: 'Nature', image: 'logohover.jpg'},
-        {name: 'Technology', image: 'logohover.jpg'},
-        {name: 'Food', image: 'logohover.jpg'},
-        {name: 'Travel', image: 'logohover.jpg'},
-        {name: 'Animals', image: 'logohover.jpg'},
-        {name: 'Architecture', image: 'logohover.jpg'},
-        {name: 'Art', image: 'logohover.jpg'},
-        {name: 'Sports', image: 'logohover.jpg'},
+        {name: 'GTF', image: 'gtf.png' , width : "130" , height : "130" },
+        {name: 'Ilaamee', image: 'ilame.png' , width: "130" , height: "130" },
+        {name : 'GTL', image: 'logo.png' , width: "230" , height: "230" },
+
 
     ];
     return (
@@ -47,7 +43,8 @@ const IconMarquee = () => {
                         <img
                             src={item.image}
                             alt={item.name}
-                            className="w-[40%] mb-2 "
+                            style={{ width: `${item.width}px`, height: `${item.height}px` }}
+                            className={`mb-2`}
                         />
                         <span className="text-sm font-bold">{item.name}</span>
                     </div>

@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+// import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -19,6 +19,8 @@ const Footer = () => {
                             <p className="text-gray-600 mb-2"> Gudina and Tsehay Legacy Office</p>
                             <p className="text-gray-600 mb-2">Yerer, Leka Building, 3rd Floor</p>
                             <p className="text-gray-600"> Addis Ababa, Ethiopia</p>
+                            <p className="text-sm mt-[5%]">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>
+                            <p className="text-sm">Phone: +251-900916524</p>
                         </div>
 
                         {/* App Store Buttons */}
@@ -94,18 +96,18 @@ const Footer = () => {
 
                         {/* Social Media Icons */}
                         <div className="flex space-x-4">
-                            <a href="#" className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
-                                <Facebook size={16} />
-                            </a>
-                            <a href="#" className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
-                                <Twitter size={16} />
-                            </a>
-                            <a href="#" className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors">
-                                <Linkedin size={16} />
-                            </a>
-                            <a href="#" className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white hover:from-purple-600 hover:to-pink-600 transition-colors">
-                                <Instagram size={16} />
-                            </a>
+                            {/*<a href="#" className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors">*/}
+                            {/*    <Facebook size={16} />*/}
+                            {/*</a>*/}
+                            {/*<a href="#" className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 transition-colors">*/}
+                            {/*    <Twitter size={16} />*/}
+                            {/*</a>*/}
+                            {/*<a href="#" className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors">*/}
+                            {/*    <Linkedin size={16} />*/}
+                            {/*</a>*/}
+                            {/*<a href="#" className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white hover:from-purple-600 hover:to-pink-600 transition-colors">*/}
+                            {/*    <Instagram size={16} />*/}
+                            {/*</a>*/}
                         </div>
                     </div>
                 </div>

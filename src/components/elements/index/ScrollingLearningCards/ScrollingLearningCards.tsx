@@ -4,6 +4,11 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+interface InsideLearningMethods {
+    title: string;
+    texts: string[]
+}
+
 interface LearningMethod {
     id: number;
     title: string;
@@ -13,6 +18,8 @@ interface LearningMethod {
     cardType: string;
     features: string[];
     gradient: string;
+    texts : InsideLearningMethods
+
 }
 
 const ScrollingLearningCards = () => {
@@ -33,7 +40,18 @@ const ScrollingLearningCards = () => {
                 "Sync progress across devices",
                 "Distraction-free interfaces"
             ],
-            gradient: "from-purple-500 to-indigo-600"
+            gradient: "from-purple-500 to-indigo-600",
+            texts : {
+                title : "How to create an account",
+                texts : [
+                        "1. Sign Up for your free GTL Online Library account.",
+                        "2. Log In on your phone, tablet, or computer.",
+                        "3. Set a Reading Goal (e.g., pages or minutes per day).",
+                        "4. Bookmark Your Spot so you can resume instantly on any device."
+
+                ]
+
+            }
         },
         {
             id: 2,
@@ -45,7 +63,19 @@ const ScrollingLearningCards = () => {
                 "On-demand learning",
                 "Personalized recommendations"
             ],
-            gradient: "from-blue-500 to-cyan-600"
+            gradient: "from-blue-500 to-cyan-600",
+            texts : {
+                title : "How to get started?",
+                texts : [
+                    "1. Sign Up for your GTL Online Library account.",
+                    "2. Log In on any device.",
+                    "3. Search or Browse the curated collection.",
+                    "4. Open Summaries or Highlights for quick insights.",
+                    "5. Save or Download for offline reading.",
+
+                ]
+
+            }
         },
         {
             id: 3,
@@ -57,7 +87,18 @@ const ScrollingLearningCards = () => {
                 "Group discussions",
                 "Peer feedback systems"
             ],
-            gradient: "from-green-500 to-emerald-600"
+            gradient: "from-green-500 to-emerald-600",
+            texts : {
+                title : "How to create an account",
+                texts : [
+                    "1. Sign Up for your free GTL Online Library account.",
+                    "2. Log In on your phone, tablet, or computer.",
+                    "3. Set a Reading Goal (e.g., pages or minutes per day).",
+                    "4. Bookmark Your Spot so you can resume instantly on any device."
+
+                ]
+
+            }
         }
     ];
 
@@ -161,32 +202,37 @@ const LearningCardWithScroll = ({
                             <div className={`bg-gradient-to-br ${method.gradient} rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-xl sm:shadow-2xl w-full h-80 sm:h-96`}>
                                 <div className="space-y-3 sm:space-y-4">
                                     {/* Scale Icon */}
-                                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                                        <div className="w-4 h-4 sm:w-6 sm:h-6 bg-white/60 rounded"></div>
-                                    </div>
+                                    {/*<div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center">*/}
+                                    {/*    <div className="w-4 h-4 sm:w-6 sm:h-6 bg-white/60 rounded"></div>*/}
+                                    {/*</div>*/}
 
                                     {/* Badge */}
                                     <div className="inline-block bg-white/20 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium">
-                                        Guided plan
+                                        {method.texts.title}
                                     </div>
 
                                     {/* Content */}
                                     <div className="space-y-2 sm:space-y-3">
-                                        <h4 className="font-bold text-base sm:text-lg">How to</h4>
-                                        <h5 className="font-bold text-lg sm:text-xl leading-tight">
-                                            Master {method.title}
-                                        </h5>
+                                        {/*<h4 className="font-bold text-base sm:text-lg">How to</h4>*/}
+
+                                        {
+                                            method.texts.texts.map((text , index) => (
+                                                <p className="">
+                                                    {text}
+                                                </p>
+                                            ))
+                                        }
 
                                         {/* Exclusive Badge */}
-                                        <div className="inline-block bg-red-500 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-bold">
-                                            Exclusive
-                                        </div>
+                                        {/*<div className="inline-block bg-red-500 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-bold">*/}
+                                        {/*    Exclusive*/}
+                                        {/*</div>*/}
                                     </div>
 
                                     {/* Bottom Section */}
                                     <div className="absolute bottom-4 sm:bottom-6 left-6 sm:left-8 right-6 sm:right-8">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs sm:text-sm font-medium">Expert tips</span>
+                                            {/*<span className="text-xs sm:text-sm font-medium">Expert tips</span>*/}
                                             <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/20 rounded-full"></div>
                                         </div>
                                     </div>

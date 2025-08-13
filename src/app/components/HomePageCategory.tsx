@@ -5,13 +5,13 @@ import {getCategories} from "@/lib/api/category";
 import {getCategoriesSuccess} from "@/app/store/features/categorySlice";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
-import {getBooks , GetBooksRequest} from "@/lib/api/book";
+import {getBooks, GetBooksRequest} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {BookData} from "@/types/book";
 import {useRouter} from "next/navigation";
 
 const HomePageCategory = () => {
-    const [activeCategory, setActiveCategory] = useState('Architecture');
+    const [activeCategory, setActiveCategory] = useState('Academic and Research');
     const categories = useSelector((state: RootState) => state.category);
     const books = useSelector((state: RootState) => state.book)
     const router = useRouter();
@@ -19,7 +19,7 @@ const HomePageCategory = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await getCategories({ page: 1, limit: 20 });
+                const response = await getCategories({page: 1, limit: 20});
                 dispatch(getCategoriesSuccess(response));
             } catch (err: unknown) {
                 console.error("Failed to fetch categories:", err);
@@ -28,8 +28,8 @@ const HomePageCategory = () => {
 
         const fetchBooks = async () => {
             try {
-                const bookRequest:GetBooksRequest =  {
-                    page : 1,
+                const bookRequest: GetBooksRequest = {
+                    page: 1,
                     limit: 20
                 }
                 const response = await getBooks(bookRequest)
@@ -42,11 +42,13 @@ const HomePageCategory = () => {
         fetchCategories();
         fetchBooks()
     }, [dispatch]);
+
     function readBookNavigate(id: string) {
 
         router.push(`/bookdetail/${id}`);
 
     }
+
     return (
         <div className="bg-white">
             {/* Hero Section */}
@@ -94,24 +96,29 @@ const HomePageCategory = () => {
 
                 {/* Books Grid */}
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
+                    <div
+                        className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
                         {books?.books?.data.books.map((book: BookData) => (
-                            <div key={book._id} className="group cursor-pointer" onClick={()=>{
+                            book.category === activeCategory ?
+                            <div key={book._id} className="group cursor-pointer" onClick={() => {
                                 readBookNavigate(book._id)
-
                             }}>
                                 {/* Book Cover */}
-                                <div className={`
-                                    ${book.coverImageUrl ? 'bg-cover bg-center' : 'bg-gray-200'} 
-                                    rounded-lg p-3 sm:p-4 mb-2 sm:mb-3 aspect-[3/4] 
-                                    flex flex-col justify-between
-                                    transform transition-all duration-300 
-                                    group-hover:scale-105 group-hover:shadow-lg
-                                    relative overflow-hidden
-                                `}
-                                     style={book.coverImageUrl ? {
-                                         backgroundImage: `url(${`${process.env.NEXT_PUBLIC_BASE_URL}`+book.coverImageUrl})`
-                                     } : {}}>
+                                <div
+                                    className={`
+    ${book.coverImageUrl ? 'bg-cover bg-center border border-gray-200' : 'bg-gray-200'} 
+    rounded-lg p-3 sm:p-4 mb-2 sm:mb-3 aspect-[3/4] 
+    flex flex-col justify-between
+    transform transition-all duration-300 
+    group-hover:scale-105 group-hover:shadow-lg
+    relative overflow-hidden
+    ${book.coverImageUrl ? 'bg-contain bg-no-repeat' : ''}
+  `}
+                                    style={book.coverImageUrl ? {
+                                        backgroundImage: `url(${`${process.env.NEXT_PUBLIC_BASE_URL}` + book.coverImageUrl})`,
+                                        backgroundColor: 'white'
+                                    } : {}}
+                                >
                                 </div>
 
                                 <div className="space-y-0.5 sm:space-y-1">
@@ -121,7 +128,7 @@ const HomePageCategory = () => {
                                     <p className="text-xs sm:text-sm text-gray-600 line-clamp-1">{book.author}</p>
                                     <p className="text-xs sm:text-sm text-gray-500">{book.publicationYear}</p>
                                 </div>
-                            </div>
+                            </div> : ""
                         ))}
                     </div>
                 </div>

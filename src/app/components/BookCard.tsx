@@ -36,16 +36,16 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
 
     return (
 
-        <div className="relative    group  p-6 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer "
-        onClick={() => {
-            readBookNavigate(id);
-        }}
+        <div className="relative group p-6 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+             onClick={() => {
+                 readBookNavigate(id);
+             }}
         >
-            <div className="aspect-[3/4] bg-red-200 rounded-lg overflow-hidden relative]">
+            <div className="aspect-[3/4] bg-white border border-gray-200 rounded-lg overflow-hidden relative">
                 <img
                     src={coverImage}
                     alt={title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 bg-white"
                 />
 
                 {isCurrentlyReading && (
@@ -55,24 +55,6 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
                         </button>
                     </div>
                 )}
-
-                {/*<div className="absolute inset-0 flex flex-col space-y-2 items-center justify-center bg-black/30 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity z-10">*/}
-                {/*    <button className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"*/}
-                {/*            onClick={() => {*/}
-                {/*                readBookNavigate(id);*/}
-                {/*            }}*/}
-                {/*    >*/}
-                {/*        Read*/}
-                {/*    </button>*/}
-                {/*    <button*/}
-                {/*        className="border border-white text-white text-sm font-medium px-3 py-1 rounded-md backdrop-blur-md bg-transparent hover:bg-white hover:text-black transition-all"*/}
-                {/*        onClick={() => {*/}
-                {/*            saveBook(id, userId);*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        Save*/}
-                {/*    </button>*/}
-                {/*</div>*/}
             </div>
 
             <div className="mt-4 px-1">
@@ -81,6 +63,7 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
                 <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{year}</p>
             </div>
         </div>
+
     );
 };
 
