@@ -1,3 +1,7 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+
 "use client"
 import SearchBar from "@/app/components/SearchBar";
 

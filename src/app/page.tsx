@@ -39,7 +39,7 @@ const IconMarquee = () => {
             >
 
                 {items.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center mx-[40px]">
+                    <div key={index} className="flex flex-col items-center mx-[40px] bg-red-500">
                         <img
                             src={item.image}
                             alt={item.name}
