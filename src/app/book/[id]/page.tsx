@@ -4,7 +4,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin, ToolbarProps } from "@react-pdf-viewer/default-layout";
 
@@ -15,11 +15,15 @@ import {ReactReader} from "react-reader";
 export default function Home() {
     const params = useParams();
     const id = params?.id as string;
-
+    const [largeText, setLargeText] = useState(false)
+    const rendition = useRef<Rendition | undefined>(undefined)
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [bookFormat, setBookFormat] = useState<"pdf" | "epub" | null>(null);
-    const [location, setLocation] = useState<string>("");
+    const [location, setLocation] = useState<string | number>(0)
+    useEffect(() => {
+        rendition.current?.themes.fontSize(largeText ? '140%' : '100%')
+    }, [largeText])
     const defaultLayoutPluginInstance = defaultLayoutPlugin({
         renderToolbar: (Toolbar: React.FC<ToolbarProps>) => (
             <Toolbar>
@@ -88,6 +92,7 @@ export default function Home() {
     };
 
 
+
     useEffect(() => {
         loadAllPages();
     }, [id]);
@@ -118,15 +123,22 @@ export default function Home() {
                 )}
 
                 {bookFormat === "epub" && pdfUrl && (
-                    <ReactReader
-                        url={pdfUrl}
-                        location={location}
-                        locationChanged={setLocation}
-                        showToc={true}
-                        epubInitOptions={{
-                            openAs: "epub",
-                        }}
-                    />
+
+                        <ReactReader
+                            url={pdfUrl}
+                            location={location}
+                            locationChanged={setLocation}
+                            getRendition={(_rendition: Rendition) => {
+                                rendition.current = _rendition
+                                rendition.current.themes.fontSize(largeText ? '12240%' : '100%')
+                            }}
+                            showToc={true}
+                            epubInitOptions={{
+                                openAs: "epub",
+                            }}
+                        />
+
+
                 )}
 
                 {!bookFormat && (

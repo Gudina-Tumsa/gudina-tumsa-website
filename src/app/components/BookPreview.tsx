@@ -4,7 +4,7 @@
 "use client"
 
 import React, {useRef, useState} from 'react';
-import {ArrowDown, Leaf, Star , View} from "lucide-react";
+import {ArrowDown, Leaf, Star , View , Library} from "lucide-react";
 import {motion, useInView} from "framer-motion";
 
 const sentences = [
@@ -89,7 +89,7 @@ const BookPreview = () => {
                             {/* Experience Section */}
                             <div className="text-center">
                                 <div className="w-full flex justify-center">
-                                    <Leaf className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
+                                    <Library className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
                                 </div>
                                 <h2 className="text-2xl sm:text-3xl font-bold mt-2">100+ contents</h2>
                                 <p className="text-gray-500 text-sm sm:text-base">Explore 100 more audios and books</p>
@@ -98,73 +98,73 @@ const BookPreview = () => {
                     </div>
                 </div>
 
-                <div className="text-center mb-6 md:mb-8 mt-4 md:mt-[5%]">
-                    <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">
-                        Understand key ideas <br className="hidden sm:block" /> in 15 minutes
-                    </h2>
-                </div>
+                {/*<div className="text-center mb-6 md:mb-8 mt-4 md:mt-[5%]">*/}
+                {/*    <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl">*/}
+                {/*        Understand key ideas <br className="hidden sm:block" /> in 15 minutes*/}
+                {/*    </h2>*/}
+                {/*</div>*/}
 
-                <motion.div
-                    ref={ref}
-                    animate={{
-                        scale: isInView ? 1.12 : 0.98,
-                    }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 60, // lower for smoother
-                        damping: 20,   // slightly higher for smoother end
-                        mass: 1.5,     // heavier mass = slower acceleration/deceleration
-                        restDelta: 0.001, // sensitivity to stop the motion
-                    }}
-                    className="rounded-lg shadow-2xl overflow-hidden mb-8 sm:mb-12 mt-4 md:mt-[5%]"
-                >
-                    <div className="h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] w-full">
+                {/*<motion.div*/}
+                {/*    ref={ref}*/}
+                {/*    animate={{*/}
+                {/*        scale: isInView ? 1.12 : 0.98,*/}
+                {/*    }}*/}
+                {/*    transition={{*/}
+                {/*        type: "spring",*/}
+                {/*        stiffness: 60, // lower for smoother*/}
+                {/*        damping: 20,   // slightly higher for smoother end*/}
+                {/*        mass: 1.5,     // heavier mass = slower acceleration/deceleration*/}
+                {/*        restDelta: 0.001, // sensitivity to stop the motion*/}
+                {/*    }}*/}
+                {/*    className="rounded-lg shadow-2xl overflow-hidden mb-8 sm:mb-12 mt-4 md:mt-[5%]"*/}
+                {/*>*/}
+                {/*    <div className="h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] w-full">*/}
 
-                        <div
-                            className="relative w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                            onClick={togglePlay}
-                            style={{
-                                cursor: isHovered ? (isPlaying ? pauseCursor : playCursor) : "auto",
-                            }}
-                        >
-                            <video
-                                className="w-full h-full object-cover"
-                                src="/library.mp4"
-                                ref={videoRef}
-                                loop
-                                muted
-                                playsInline
-                            />
-                        </div>
-                            {/*<div*/}
-                            {/*    className="relative w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"*/}
-                            {/*    onMouseEnter={() => setIsHovered(true)}*/}
-                            {/*    onMouseLeave={() => setIsHovered(false)}*/}
-                            {/*    onClick={togglePlay}*/}
-                            {/*>*/}
-                            {/*    <video*/}
-                            {/*        className="w-full h-full object-cover"*/}
-                            {/*        src="/library.mp4"*/}
-                            {/*        ref={videoRef}*/}
-                            {/*        loop*/}
-                            {/*        muted*/}
-                            {/*        playsInline*/}
-                            {/*    />*/}
+                {/*        <div*/}
+                {/*            className="relative w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"*/}
+                {/*            onMouseEnter={() => setIsHovered(true)}*/}
+                {/*            onMouseLeave={() => setIsHovered(false)}*/}
+                {/*            onClick={togglePlay}*/}
+                {/*            style={{*/}
+                {/*                cursor: isHovered ? (isPlaying ? pauseCursor : playCursor) : "auto",*/}
+                {/*            }}*/}
+                {/*        >*/}
+                {/*            <video*/}
+                {/*                className="w-full h-full object-cover"*/}
+                {/*                src="/library.mp4"*/}
+                {/*                ref={videoRef}*/}
+                {/*                loop*/}
+                {/*                muted*/}
+                {/*                playsInline*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*            /!*<div*!/*/}
+                {/*            /!*    className="relative w-full h-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600"*!/*/}
+                {/*            /!*    onMouseEnter={() => setIsHovered(true)}*!/*/}
+                {/*            /!*    onMouseLeave={() => setIsHovered(false)}*!/*/}
+                {/*            /!*    onClick={togglePlay}*!/*/}
+                {/*            /!*>*!/*/}
+                {/*            /!*    <video*!/*/}
+                {/*            /!*        className="w-full h-full object-cover"*!/*/}
+                {/*            /!*        src="/library.mp4"*!/*/}
+                {/*            /!*        ref={videoRef}*!/*/}
+                {/*            /!*        loop*!/*/}
+                {/*            /!*        muted*!/*/}
+                {/*            /!*        playsInline*!/*/}
+                {/*            /!*    />*!/*/}
 
-                            {/*    {isHovered && (*/}
-                            {/*        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">*/}
-                            {/*            {isPlaying ? (*/}
-                            {/*                <Pause size={64} className="text-white opacity-90" />*/}
-                            {/*            ) : (*/}
-                            {/*                <Play size={64} className="text-white opacity-90" />*/}
-                            {/*            )}*/}
-                            {/*        </div>*/}
-                            {/*    )}*/}
-                            {/*</div>*/}
-                    </div>
-                </motion.div>
+                {/*            /!*    {isHovered && (*!/*/}
+                {/*            /!*        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">*!/*/}
+                {/*            /!*            {isPlaying ? (*!/*/}
+                {/*            /!*                <Pause size={64} className="text-white opacity-90" />*!/*/}
+                {/*            /!*            ) : (*!/*/}
+                {/*            /!*                <Play size={64} className="text-white opacity-90" />*!/*/}
+                {/*            /!*            )}*!/*/}
+                {/*            /!*        </div>*!/*/}
+                {/*            /!*    )}*!/*/}
+                {/*            /!*</div>*!/*/}
+                {/*    </div>*/}
+                {/*</motion.div>*/}
             </div>
 
 

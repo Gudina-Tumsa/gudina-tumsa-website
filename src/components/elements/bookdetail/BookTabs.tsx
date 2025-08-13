@@ -277,7 +277,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                             <p className="text-gray-900">Wiley</p>
                         </div>
                         <div>
-                            <h5 className="text-sm font-medium text-gray-600 mb-2">Topic</h5>
+                            <h5 className="text-sm font-medium text-gray-600 mb-2">Category</h5>
                             <p className="text-gray-900">{bookData?.category}</p>
                         </div>
                         <div>

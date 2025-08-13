@@ -12,7 +12,10 @@ import {useEffect, useState} from "react";
 import {getBooks, GetBooksRequest} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {useRouter} from "next/navigation";
-
+import toast, { Toaster } from "react-hot-toast";
+import {EventData} from "@/types/events";
+import {getEvents} from "@/lib/api/events";
+import {createUserBookInteraction} from "@/lib/api/userbookinteraction";
 
 const BookCard = () => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -27,26 +30,36 @@ const BookCard = () => {
         if (!isUserLoggedIn) {
             router.push('/login');
             return;
+        }else{
+            router.push(`/bookdetail/689c58812cc9acabd54a776e`);
         }
-        // Handle read action for logged-in users
-        console.log("Read book");
+
     };
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async () => {
         if (!isUserLoggedIn) {
             router.push('/login');
             return;
+        }else{
+            await createUserBookInteraction({
+                userId: user?.user._id,
+                bookId: "689c58812cc9acabd54a776e",
+                interactionType: 'save'
+            });
         }
+        //
         // Handle save action for logged-in users
         console.log("Save book");
+        toast.success("Book saved successfully!");
     };
 
     return (
         <div className="bg-yellow-50 rounded-lg shadow-md w-full h-full p-6">
+            <Toaster position="top-right" />
             <div className="flex flex-col md:flex-row gap-6 h-full">
                 <div className="md:w-1/2">
-                    <h3 className="text-xl font-semibold text-gray-800">The New Psychology of Success</h3>
-                    <p className="text-gray-600 mt-2">Carol Dweck</p>
+                    <h3 className="text-xl font-semibold text-gray-800">IN THE FIERY FURNACE</h3>
+                    <p className="text-gray-600 mt-2">Gudina Tumsa Foundation</p>
                     <hr className="my-4 border-gray-200 md:hidden" />
                 </div>
 
@@ -57,7 +70,7 @@ const BookCard = () => {
                         <div className="w-full sm:w-[50%] h-[100%] bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 overflow-hidden">
                             <img
                                 className="w-full h-full object-cover"
-                                src="https://images.unsplash.com/photo-1511108690759-009324a90311?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Ym9vayUyMGNvdmVyfGVufDB8fDB8fHww"
+                                src="img_1.png"
                                 alt="Book cover"
                             />
                         </div>
@@ -96,15 +109,27 @@ const BookCard = () => {
 
 
 const EventCard = () => {
+
+    const [events, setEvents] = useState<EventData[]>([]);
+    useEffect(() => {
+        getEvents({page : 1 , limit : 3}).then((data)=>{
+            setEvents(data?.data?.events ?? [])
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }, []);
     return (
         <div className="bg-yellow-50 p-4 rounded shadow-md w-full h-full">
             <h3 className="text-base font-medium text-gray-800 mb-2">
                 Upcoming Events
             </h3>
             <ul className="list-disc pl-4 text-sm text-gray-600">
-                <li>Event 1: Workshop on Productivity</li>
-                <li>Event 2: Webinar on AI Trends</li>
-                <li>Event 3: Meetup for Designers</li>
+                {
+                    events.map((item)=>{
+                        <li>Event 1: Workshop on Productivity</li>
+                    })
+                }
+
             </ul>
         </div>
     );

@@ -181,18 +181,28 @@ const SignUpForm = () => {
                     <label htmlFor="phone" className="text-sm font-medium text-gray-700 block mb-1">
                         Phone *
                     </label>
-                    <input
-                        id="phone"
-                        type="tel"
-                        inputMode="numeric"
-                        pattern="[0-9]{10,15}"
-                        value={phone}
-                        onChange={(e) => {
-                            const onlyNums = e.target.value.replace(/\D/g, ''); // removes non-digits
-                            setPhone(onlyNums);
-                        }}
-                        className="bg-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    />
+                    <div className="flex">
+                        {/* Fixed country code box */}
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-100 text-gray-500 text-sm">
+    +251
+  </span>
+
+                        {/* Phone number input */}
+                        <input
+                            id="phone"
+                            type="tel"
+                            inputMode="numeric"
+                            pattern="[0-9]{9}" // Ethiopia numbers have 9 digits after +251
+                            value={phone}
+                            onChange={(e) => {
+                                const onlyNums = e.target.value.replace(/\D/g, '');
+                                setPhone(onlyNums);
+                            }}
+                            placeholder="912345678"
+                            className="flex-1 block w-full px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
+
 
 
                     <div>

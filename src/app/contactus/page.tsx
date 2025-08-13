@@ -4,6 +4,7 @@
 import React from 'react';
 import Header from "@/components/layout/Header";
 import Faq from "@/components/elements/index/faq";
+import Footer from "@/components/layout/Footer";
 
 const ContactPage = () => {
     return (
@@ -187,6 +188,7 @@ const ContactPage = () => {
                     </div>
                 </section>
             </main>
+            <Footer/>
         </div>
 );
 };

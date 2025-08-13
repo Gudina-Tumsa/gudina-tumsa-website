@@ -6,24 +6,24 @@ const GrowSection = () => {
     const learningScenarios = [
         {
             title: "Doing chores",
-            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=400&fit=crop",
+            image: "chores.jpg",
             className: "col-span-1"
         },
         {
             title: "Driving",
-            image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=500&h=400&fit=crop",
+            image: "driving.jpeg",
 
             className: "col-span-1"
         },
         {
             title: "Commuting",
-            image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=400&fit=crop",
+            image: "commit.jpeg",
 
             className: "col-span-1"
         },
         {
             title: "Training",
-            image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=500&h=400&fit=crop",
+            image: "sport.jpeg",
             className: "col-span-1"
         }
     ];

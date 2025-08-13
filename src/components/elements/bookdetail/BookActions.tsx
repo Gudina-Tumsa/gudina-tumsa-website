@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createUserBookInteraction } from "@/lib/api/userbookinteraction";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
-
+import toast, { Toaster } from "react-hot-toast";
 
 const BookActions = ({ bookData }: { bookData: BookData }) => {
     const router = useRouter();
@@ -23,8 +23,11 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
                 bookId: id,
                 interactionType: 'save'
             });
+
+            toast.success("Book saved successfully!");
         } catch (err: unknown) {
             console.error(err);
+            toast.error("Failed to save the book.");
         }
     }
 
@@ -48,6 +51,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
             try {
                 await navigator.share(shareData);
                 console.log("Shared successfully!");
+
             } catch (error) {
                 console.error("Error sharing", error);
             }
@@ -66,6 +70,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
 
     return (
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
+            <Toaster position="top-right" />
             <button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium text-sm sm:text-base"
                 onClick={handleReadClick}
