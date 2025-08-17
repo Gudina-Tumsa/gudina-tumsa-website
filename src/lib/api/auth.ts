@@ -27,6 +27,7 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
         }
 
         const data: LoginResponse = await response.json();
+        console.log(data.data.user.token)
         return data;
     } catch (error) {
         console.error('Login error:', error);

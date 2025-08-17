@@ -10,7 +10,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main>
+            <main className={"w-full"}>
 
                 <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden">
                     <div className="flex relative  p-4 border-b  h-[50px]">

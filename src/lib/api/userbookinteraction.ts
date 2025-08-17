@@ -3,7 +3,7 @@ interface CreateUserBookInteraction {
     userId: string;
     bookId: string;
     interactionType:string;
-    duration?: number;
+    duration?: string;
     pageReached?: number;
 }
 

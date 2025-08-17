@@ -14,7 +14,6 @@ const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps
     return (
         <section className="mb-12 w-full  ">
             <h2 className="  text-xl font-semibold text-gray-900 mb-6">{title}</h2>
-            {/*<div className="w-full bg-yello-500 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">*/}
             <div className="w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
             {books &&
                     books.data.books.map((book) => (

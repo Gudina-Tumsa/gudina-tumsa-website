@@ -57,3 +57,59 @@ export const getBooks = async (request: GetBooksRequest): Promise<BookListRespon
         throw error;
     }
 };
+
+export const getCompletedBooks = async (token : string): Promise<BookListResponse> => {
+    try {
+        const params = new URLSearchParams();
+        params.append('page', "1");
+        params.append('limit', "100");
+
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/get-finished?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Getting books failed');
+        }
+
+        const data: BookListResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Get books error:', error);
+        throw error;
+    }
+}
+
+export const getReadingBooks = async (token : string): Promise<BookListResponse> => {
+    try {
+        const params = new URLSearchParams();
+        params.append('page', "1");
+        params.append('limit', "100");
+
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/get-reading?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Getting books failed');
+        }
+
+        const data: BookListResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Get books error:', error);
+        throw error;
+    }
+}

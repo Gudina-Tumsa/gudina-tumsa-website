@@ -26,4 +26,5 @@ export interface UserResponse {
     emailVerified: boolean;
     createdAt: Date;
     updatedAt: Date;
+    token: string;
 }

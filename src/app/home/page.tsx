@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
 import {useEffect, useState} from "react";
-import {getBooks, GetBooksRequest} from "@/lib/api/book";
+import {getBooks, GetBooksRequest, getReadingBooks} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {useRouter} from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
@@ -41,6 +41,7 @@ const BookCard = () => {
             router.push('/login');
             return;
         }else{
+            // make constant for the page
             await createUserBookInteraction({
                 userId: user?.user._id,
                 bookId: "689c58812cc9acabd54a776e",
@@ -139,6 +140,23 @@ export default function Page() {
 
   const user = useSelector((state: RootState) => state.user);
   const books = useSelector((state: RootState) => state.book)
+  const [currentlyReading, setCurrentlyReading] = useState(null);
+
+    useEffect(() => {
+
+
+            const fetchReadingBooks = async () => {
+                try {
+                    const  token = user?.user?.token
+                    const response = await getReadingBooks(token ?? "")
+                    setCurrentlyReading(response)
+                } catch (err: unknown) {
+                    console.error("failed to fetch books:", err)
+                }
+            }
+            fetchReadingBooks()
+
+    }, []);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -180,12 +198,15 @@ export default function Page() {
 
               </div>
 
-          <BookGrid
-              title="Reading"
-              userId={user?.user?._id ?? ""}
-              books={books?.books}
-              showCurrentlyReading={true}
-          />
+          {
+              currentlyReading ?<BookGrid
+                  title="Reading"
+                  userId={user?.user?._id ?? ""}
+                  books={currentlyReading}
+                  showCurrentlyReading={true}
+              /> : ""
+          }
+
 
           <BookGrid
               userId={user?.user?._id ?? ""}

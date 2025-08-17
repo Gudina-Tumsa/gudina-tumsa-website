@@ -1,7 +1,5 @@
 /* eslint-disable  */
 // @ts-nocheck
-
-
 "use client"
 import SearchBar from "@/app/components/SearchBar";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
@@ -22,7 +20,7 @@ export default function Page() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await getCategories({ page: 1, limit: 20 });
+                const response = await getCategories({page: 1, limit: 20});
                 dispatch(getCategoriesSuccess(response));
                 console.log(response);
             } catch (err: unknown) {
@@ -35,28 +33,26 @@ export default function Page() {
 
     return (
         <SidebarLayout>
-                <SearchBar />
-                <div className="w-full flex flex-col justify-between bg-green-500">
-                    <div className="mb-8  w-full">
-
+            <div className="w-full flex flex-col justify-between ">
+                <div className="mb-8  w-full">
+                    <SearchBar/>
                     <h1 className="text-2xl font-[500px] mt-[5%] text-gray-900 mb-2">Browse by topic</h1>
                 </div>
-                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[5%] bg-red-500">
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[5%] ">
                     {categories?.categories?.data.categories.map((category) => (
                         <div
                             onClick={() => {
-                                router.push(`/bookbycategory/${category._id}`);
+                                router.push(`/bookbycategory/${category.name}`);
                             }}>
                             <CategoryCard
                                 key={category._id}
                                 title={category.name}
-
                             />
                         </div>
-
                     ))}
                 </div>
             </div>
         </SidebarLayout>
+
     )
 }

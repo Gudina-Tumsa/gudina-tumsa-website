@@ -2,29 +2,29 @@
 // @ts-nocheck
 
 "use client"
-import {useState} from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "./../../components/ui/button";
-import {getBooks} from "@/lib/api/book";
-import {getBooksSuccess} from "@/app/store/features/bookSlice";
-import {useAppDispatch} from "@/lib/hooks";
-import {useRouter} from "next/navigation";
+import { getBooks } from "@/lib/api/book";
+import { getBooksSuccess } from "@/app/store/features/bookSlice";
+import { useAppDispatch } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
 import Spinner from "@/components/ui/spinnter";
 
-
-
 const SearchBar = () => {
-    let [values , setValues] = useState("");
-    let [loading , setLoading] = useState(false);
+    let [values, setValues] = useState("");
+    let [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
     const router = useRouter();
+
     const wait3sec = () => {
-        return new Promise(resolve => setTimeout(resolve, 3000));
+        return new Promise((resolve) => setTimeout(resolve, 3000));
     };
+
     const callGetBooks = async () => {
         setLoading(true);
         try {
-            const result = await getBooks({search: values});
+            const result = await getBooks({ search: values });
             dispatch(getBooksSuccess(result));
             await wait3sec();
             router.push(`/search`);
@@ -33,32 +33,39 @@ const SearchBar = () => {
         } finally {
             setLoading(false);
         }
-    }
+    };
+
     return (
-        <>
-            {
+        <div className="w-full  mx-auto mt-6 mb-12">
+            <div className="flex h-12 items-center bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
+                <Search className="ml-4 h-5 w-5 text-gray-400" />
 
-                    <div className="flex items-center space-x-4 mb-10 mt-4 w-full max-w-4xl mx-auto">
-                        <div className="flex-1 relative">
-                            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by book title, author, publisher & ISBN"
-                                className="w-full pl-14 pr-6 py-4 text-xl border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                onChange={(e) => setValues(e.target.value)}
-                            />
+                <input
+                    type="text"
+                    placeholder="Search for a book"
+                    className="flex-1 px-4 text-base outline-none placeholder-gray-400"
+                    onChange={(e) => setValues(e.target.value)}
+                    value={values}
+                />
+
+                <Button
+                    onClick={callGetBooks}
+                    disabled={loading || !values.trim()}
+                    className="h-full px-6 rounded-none bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors disabled:opacity-50 flex items-center justify-center"
+                >
+                    {loading ? (
+                        <div className="flex items-center space-x-2">
+                            <Spinner className="h-4 w-4" />
+                            <span>Searching...</span>
                         </div>
-                        <Button
-                            onClick={callGetBooks}
-                            className={`py-4 px-8 text-xl bg-blue-600 hover:bg-blue-700 transition-colors ${loading ? "disabled" : ""}`}>
-                            { loading ? "Loading..." : "Search"}
-                        </Button>
-                    </div>
+                    ) : (
+                        "Search"
+                    )}
+                </Button>
+            </div>
 
-            }
-        </>
+        </div>
     );
 };
-
 
 export default SearchBar;

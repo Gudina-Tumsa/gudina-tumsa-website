@@ -36,11 +36,7 @@ export default function Page() {
                 }
                 const response = await getBooks(bookRequest)
 
-                let filteredBooks = response?.data?.books.filter((book , index)=>{
-                    book.category._id == categoryId;
-                    setCategory(book.category)
-
-                })
+                let filteredBooks = response?.data?.books.filter((book , index)=>(  book.category._id != categoryId))
 
                 let bookListResponse:BookListResponse =  {
                     data : {
