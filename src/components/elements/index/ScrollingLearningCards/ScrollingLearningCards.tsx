@@ -165,13 +165,17 @@ const LearningCardWithScroll = ({
         >
             {index === 0 && (
                 <div className="absolute top-[-3%] sm:top-[5%]  w-full px-4">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4 text-center">
+                    <h1 className="font-instrument regula sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4 text-center">
                         {/*How will you level up?*/}
                         A world of legacy resources.
                     </h1>
-                    <span className="hidden sm:flex justify-center text-base sm:text-lg md:text-xl text-gray-500 font-medium text-center block">
+                    {/*<span className="hidden sm:flex justify-center sm:text-2xl md:text-2xl text-gray-600  text-center block">*/}
+                    {/*    /!*Listen, read, or get interactive — however you like to learn, you'll find it here*!/*/}
+                    {/*    Whether you listen, read, or dive into interactive resources, the GTL online Library brings the legacy to life for you.*/}
+                    {/*</span>*/}
+                    <span className="hidden sm:flex justify-center sm:text-2xl md:text-2xl text-gray-600  text-center block">
                         {/*Listen, read, or get interactive — however you like to learn, you'll find it here*/}
-                        Whether you listen, read, or dive into interactive resources, the GTL online Library brings the legacy to life for you.
+                        Whether you listen, read, or dive into interactive resources, <br />Our Library brings the legacy to life for you.
                     </span>
 
 
@@ -183,7 +187,7 @@ const LearningCardWithScroll = ({
                     {/* Left Content */}
                     <div className="space-y-4 sm:space-y-6">
                         <div>
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600 mb-1 sm:mb-2">
+                            <h2 className="font-instrument regula sm:text-4xl md:text-5xl font-bold text-purple-600 mb-1 sm:mb-2">
                                 {method.title}
                             </h2>
                             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">
@@ -195,51 +199,52 @@ const LearningCardWithScroll = ({
                             {method.description}
                         </p>
                     </div>
+                    <img src={"driving.jpeg"} alt="driving.jpeg" />
 
                     {/* Right Content - Card */}
-                    <div className="flex justify-center">
-                        <div className="relative w-full max-w-xs sm:max-w-sm">
-                            <div className={`bg-gradient-to-br ${method.gradient} rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-xl sm:shadow-2xl w-full h-80 sm:h-96`}>
-                                <div className="space-y-3 sm:space-y-4">
-                                    {/* Scale Icon */}
-                                    {/*<div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center">*/}
-                                    {/*    <div className="w-4 h-4 sm:w-6 sm:h-6 bg-white/60 rounded"></div>*/}
-                                    {/*</div>*/}
+                    {/*<div className="flex justify-center">*/}
+                    {/*    <div className="relative w-full max-w-xs sm:max-w-sm">*/}
+                    {/*        <div className={`bg-gradient-to-br ${method.gradient} rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-xl sm:shadow-2xl w-full h-80 sm:h-96`}>*/}
+                    {/*            <div className="space-y-3 sm:space-y-4">*/}
+                    {/*                /!* Scale Icon *!/*/}
+                    {/*                /!*<div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center">*!/*/}
+                    {/*                /!*    <div className="w-4 h-4 sm:w-6 sm:h-6 bg-white/60 rounded"></div>*!/*/}
+                    {/*                /!*</div>*!/*/}
 
-                                    {/* Badge */}
-                                    <div className="inline-block bg-white/20 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium">
-                                        {method.texts.title}
-                                    </div>
+                    {/*                /!* Badge *!/*/}
+                    {/*                <div className="inline-block bg-white/20 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium">*/}
+                    {/*                    {method.texts.title}*/}
+                    {/*                </div>*/}
 
-                                    {/* Content */}
-                                    <div className="space-y-2 sm:space-y-3">
-                                        {/*<h4 className="font-bold text-base sm:text-lg">How to</h4>*/}
+                    {/*                /!* Content *!/*/}
+                    {/*                <div className="space-y-2 sm:space-y-3">*/}
+                    {/*                    /!*<h4 className="font-bold text-base sm:text-lg">How to</h4>*!/*/}
 
-                                        {
-                                            method.texts.texts.map((text , index) => (
-                                                <p className="">
-                                                    {text}
-                                                </p>
-                                            ))
-                                        }
+                    {/*                    {*/}
+                    {/*                        method.texts.texts.map((text , index) => (*/}
+                    {/*                            <p className="">*/}
+                    {/*                                {text}*/}
+                    {/*                            </p>*/}
+                    {/*                        ))*/}
+                    {/*                    }*/}
 
-                                        {/* Exclusive Badge */}
-                                        {/*<div className="inline-block bg-red-500 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-bold">*/}
-                                        {/*    Exclusive*/}
-                                        {/*</div>*/}
-                                    </div>
+                    {/*                    /!* Exclusive Badge *!/*/}
+                    {/*                    /!*<div className="inline-block bg-red-500 px-2 py-1 sm:px-3 sm:py-1 rounded-lg text-xs sm:text-sm font-bold">*!/*/}
+                    {/*                    /!*    Exclusive*!/*/}
+                    {/*                    /!*</div>*!/*/}
+                    {/*                </div>*/}
 
-                                    {/* Bottom Section */}
-                                    <div className="absolute bottom-4 sm:bottom-6 left-6 sm:left-8 right-6 sm:right-8">
-                                        <div className="flex items-center justify-between">
-                                            {/*<span className="text-xs sm:text-sm font-medium">Expert tips</span>*/}
-                                            <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/20 rounded-full"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {/*                /!* Bottom Section *!/*/}
+                    {/*                <div className="absolute bottom-4 sm:bottom-6 left-6 sm:left-8 right-6 sm:right-8">*/}
+                    {/*                    <div className="flex items-center justify-between">*/}
+                    {/*                        /!*<span className="text-xs sm:text-sm font-medium">Expert tips</span>*!/*/}
+                    {/*                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white/20 rounded-full"></div>*/}
+                    {/*                    </div>*/}
+                    {/*                </div>*/}
+                    {/*            </div>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </motion.div>

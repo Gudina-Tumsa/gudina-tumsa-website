@@ -18,7 +18,7 @@ const BookCover = ({bookData } : {bookData : BookData | null} ) => {
                         {/*{!imageError ? (*/}
                         <img
                             src={process.env.NEXT_PUBLIC_BASE_URL+ bookData.coverImageUrl}
-                            alt="Fundamentals of Building Construction"
+                            alt=""
                             className=" object-contains"
                             onError={() => setImageError(true)}
                         />

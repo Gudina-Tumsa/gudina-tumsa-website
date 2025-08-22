@@ -16,7 +16,7 @@ function ToggleFaqDetails({ title, description }: FaqData) {
                 className="cursor-pointer w-full"
                 onClick={() => setIsOpen(!isOpen)}
             >
-                <div className="flex items-center justify-between font-medium text-base sm:text-lg md:text-xl">
+                <div className="flex items-center justify-between  text-base sm:text-lg md:text-xl">
                     <span className="text-left pr-4">{title}</span>
                     <span className={`transition-transform duration-300 flex-shrink-0`}>
                         {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -59,15 +59,16 @@ const Faq = ({include }: {include : boolean}) => {
     ];
 
     return (
-        <div className={`w-full ${include ? "px-4 sm:px-6 md:w-4/5 lg:w-3/4 xl:w-1/2 mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-20" : ""}`}>
-            <h2 className="text-center font-bold text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 md:mb-10">
-                Do you have any questions?
+        <div className={`w-[60%] mx-auto px-4 sm:px-6  mt-8 sm:mt-12 md:mt-16 lg:mt-20" `}>
+            <h2 className="text-center font-bold font-instrument regula sm:text-4xl md:text-5xl mb-6 sm:mb-8 md:mb-10">
+                {/*Do you have any questions?*/}
+                Frequently <br />Asked Questions?
             </h2>
-            <div className="space-y-4 sm:space-y-6">
+            <div className="w-full mx-auto  space-y-4 sm:space-y-6">
                 {faq.map((item, index) => (
-                    <div key={index} className="py-3 sm:py-4 md:py-5">
+                    <div key={index} className="py-3 sm:py-4 md:py-5 shadow-sm rounded-[40px] bg-white w-full px-10">
                         <ToggleFaqDetails {...item} />
-                        {index !== faq.length - 1 && <hr className="mt-4 sm:mt-5 border-gray-200" />}
+                        {/*{index !== faq.length - 1 && <hr className="mt-4 sm:mt-5 border-gray-200" />}*/}
                     </div>
                 ))}
             </div>

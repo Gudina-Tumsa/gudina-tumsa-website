@@ -47,14 +47,14 @@ const BookPreview = () => {
 
                 <div className="w-full">
                     <div className="max-w-6xl w-full mx-auto pt-4 md:pt-[2%]">
-                        <div className="text-gray-800 text-xl sm:text-2xl md:text-3xl relative text-center w-full sm:w-[90%] md:w-[80%] mx-auto space-y-4">
+                        <div className="text-sm text-gray-900  sm:text-2xl md:text-2xl relative text-center w-full sm:w-[90%] md:w-[80%] mx-auto space-y-4">
                             {sentences.map((sentence, index) => (
                                 <div
                                     key={index}
                                     className="relative overflow-hidden"
                                     style={{position: 'relative', display: 'inline-block'}}
                                 >
-                                    <p ref={(el) => {
+                                    <p className={`font-poppins ${index == 0 ? "italic" : ""}`} ref={(el) => {
                                         if (el) pRefs.current[index] = el;
                                     }}>
                                         {sentence}
@@ -69,9 +69,11 @@ const BookPreview = () => {
                             <div className="text-center">
                                 <div className="w-full flex justify-center">
 
-                                    <View className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
+                                    <View className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#9407F2"/>
                                 </div>
-                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">1000+ daily views</h2>
+                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">
+                                    100<span className="relative top-[-0.3em]">+</span> daily views
+                                </h2>
                                 <p className="text-gray-500 text-sm sm:text-base">Views</p>
                             </div>
 
@@ -79,7 +81,7 @@ const BookPreview = () => {
                             <div className="text-center">
                                 <div className="flex justify-center items-center space-x-1">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6" strokeWidth={2} color="#FFD700"/>
+                                        <Star key={i} className="w-5 h-5 sm:w-[22px] sm:h-[22px] md:w-6 md:h-6" strokeWidth={2} color="#9407F2"/>
                                     ))}
                                 </div>
                                 <h2 className="text-2xl sm:text-3xl font-bold mt-2">4.7 Stars</h2>
@@ -89,9 +91,10 @@ const BookPreview = () => {
                             {/* Experience Section */}
                             <div className="text-center">
                                 <div className="w-full flex justify-center">
-                                    <Library className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#007bff"/>
+                                    <Library className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8" strokeWidth={2} color="#9407F2"/>
                                 </div>
-                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">100+ contents</h2>
+                                {/*<h2 className="text-2xl sm:text-3xl font-bold mt-2">100+ contents</h2>*/}
+                                <h2 className="text-2xl sm:text-3xl font-bold mt-2">100 <span className="relative top-[-0.3em]">+</span> contents</h2>
                                 <p className="text-gray-500 text-sm sm:text-base">Explore 100 more audios and books</p>
                             </div>
                         </div>

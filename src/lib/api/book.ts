@@ -113,3 +113,25 @@ export const getReadingBooks = async (token : string): Promise<BookListResponse>
         throw error;
     }
 }
+
+export const getTodaysSelection = async (token: string): Promise<BookListResponse> => {
+try{
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/todays-selection`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData: ApiError = await response.json();
+        throw new Error(errorData.message || 'Getting books failed');
+    }
+    const data: BookListResponse = await response.json();
+    return data;
+} catch (error) {
+    console.error('Get books error:', error);
+    throw error;
+}
+}

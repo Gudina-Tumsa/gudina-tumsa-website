@@ -135,15 +135,11 @@ const CollaborationPage = () => {
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-12">
                 {/* Hero Section */}
                 <section className="relative h-64 rounded-xl overflow-hidden mb-12">
-                    <img
-                        src="/images/collaboration-hero.jpg"
-                        alt="People collaborating"
-                        className="w-full h-full object-cover"
-                    />
+
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <div className="text-center text-white max-w-2xl px-4">
-                            <h1 className="text-3xl md:text-4xl font-bold mb-2">Collaborate With Us</h1>
-                            <p className="text-lg">Join us in preserving and sharing the legacy of Rev. Gudina Tumsa and Tsehay Tolessa</p>
+                            <h1 className="font-instrument regula  md:text-5xl font-bold mb-2">Collaborate With Us</h1>
+                            <p className=" font-medium ">Join us in preserving and sharing the legacy of Rev. Gudina Tumsa and Tsehay Tolessa</p>
                         </div>
                     </div>
                 </section>
@@ -177,13 +173,13 @@ const CollaborationPage = () => {
                             <nav className="space-y-2">
                                 <button
                                     onClick={() => setActiveTab('form')}
-                                    className={`w-full text-left px-4 py-2 rounded-lg transition ${activeTab === 'form' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`w-full text-left px-4 py-2 rounded-lg transition ${activeTab === 'form' ? 'bg-blue-50 text-[#9407F2] font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
                                 >
                                     Submit Collaboration
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('info')}
-                                    className={`w-full text-left px-4 py-2 rounded-lg transition ${activeTab === 'info' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
+                                    className={`w-full text-left px-4 py-2 rounded-lg transition ${activeTab === 'info' ? 'bg-blue-50 text-[#9407F2] font-medium' : 'text-gray-700 hover:bg-gray-50'}`}
                                 >
                                     Collaboration Info
                                 </button>
@@ -319,7 +315,7 @@ const CollaborationPage = () => {
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                                             </svg>
                                                             <p className="mt-2 text-sm text-gray-600">
-                                                                <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
+                                                                <span className="font-medium text-[#9407F2]">Click to upload</span> or drag and drop
                                                             </p>
                                                             <p className="text-xs text-gray-500 mt-1">
                                                                 PDF, DOC, Images, Audio up to 20MB
@@ -355,11 +351,11 @@ const CollaborationPage = () => {
                                                     type="checkbox"
                                                     checked={formData.agreeToTerms}
                                                     onChange={handleCheckboxChange}
-                                                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                                    className="w-4 h-4 text-[#9407F2] border-gray-300 rounded focus:ring-blue-500"
                                                 />
                                             </div>
                                             <label htmlFor="agreeToTerms" className="ml-3 text-sm text-gray-700">
-                                                I confirm that I have the rights to share any materials submitted and agree to the <a href="/terms" className="text-blue-600 hover:underline">collaboration terms</a>. *
+                                                I confirm that I have the rights to share any materials submitted and agree to the <a href="/terms" className="text-[#9407F2] hover:underline">collaboration terms</a>. *
                                             </label>
                                         </div>
                                         {errors.agreeToTerms && <p className="mt-1 text-sm text-red-600">{errors.agreeToTerms}</p>}
@@ -383,7 +379,7 @@ const CollaborationPage = () => {
                                 </section>
                             ) : (
                                 <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-                                    <h2 className="text-2xl font-semibold mb-6">Collaboration Information</h2>
+                                    <h2 className="font-instrument regula text-4xl font-semibold mb-6">Collaboration Information</h2>
 
                                     <div className="mb-8">
                                         <h3 className="text-xl font-semibold mb-4">About GTL Online Library</h3>
@@ -401,7 +397,7 @@ const CollaborationPage = () => {
                                         <h3 className="text-xl font-semibold mb-4">Ways to Collaborate</h3>
 
                                         <div className="mb-6">
-                                            <h4 className="font-semibold text-lg mb-2 text-blue-600">1. Content Contribution</h4>
+                                            <h4 className="font-semibold text-lg mb-2 text-[#9407F2]">1. Content Contribution</h4>
                                             <p className="text-gray-700 mb-3">
                                                 We invite scholars, writers, church leaders, and institutions to contribute:
                                             </p>
@@ -418,7 +414,7 @@ const CollaborationPage = () => {
                                         </div>
 
                                         <div className="mb-6">
-                                            <h4 className="font-semibold text-lg mb-2 text-blue-600">2. Institutional Partnerships</h4>
+                                            <h4 className="font-semibold text-lg mb-2 text-[#9407F2]">2. Institutional Partnerships</h4>
                                             <p className="text-gray-700 mb-3">
                                                 We are open to collaboration with:
                                             </p>
@@ -429,13 +425,13 @@ const CollaborationPage = () => {
                                                 <li>Human rights and peace-building institutions</li>
                                                 <li>Digital platforms and publishers</li>
                                             </ul>
-                                            <p className="text-gray-700 mt-3">
+                                            <p className="text-[#9407F2] mt-3">
                                                 Together, we can co-develop educational materials, host joint events, and share resources.
                                             </p>
                                         </div>
 
                                         <div className="mb-6">
-                                            <h4 className="font-semibold text-lg mb-2 text-blue-600">3. Volunteering and Internships</h4>
+                                            <h4 className="font-semibold text-lg mb-2 text-[#9407F2]">3. Volunteering and Internships</h4>
                                             <p className="text-gray-700 mb-3">
                                                 We welcome individuals especially students, researchers, and young professionals who are passionate
                                                 about contributing to the legacy of Rev. Gudina Tumsa and Tsehay Tolessa through research and knowledge preservation.
@@ -458,7 +454,7 @@ const CollaborationPage = () => {
                                         </div>
 
                                         <div>
-                                            <h4 className="font-semibold text-lg mb-2 text-blue-600">4. Technical Support & Innovation</h4>
+                                            <h4 className="font-semibold text-lg mb-2 text-[#9407F2]">4. Technical Support & Innovation</h4>
                                             <p className="text-gray-700 mb-3">
                                                 If you're a developer, designer, or IT expert, you can help us:
                                             </p>

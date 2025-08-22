@@ -1,8 +1,22 @@
 /* eslint-disable  */
 // @ts-nocheck
 
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown , CircleArrowRight } from "lucide-react";
 import React from "react";
+import {motion} from "framer-motion";
+const textSlideUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            ease: "easeOut",
+            staggerChildren: 0.15,
+        },
+    },
+};
+
 
 const HeroSection = () => {
     return (
@@ -10,42 +24,60 @@ const HeroSection = () => {
             <div className=" flex flex-col lg:flex-row justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
                 {/* Text Content */}
                 <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10">
-                    <div className="text-center lg:text-left">
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-2">
-                            Knowledge{' '}
-                            {/*Get the Heart*/}
-                        </h1>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-gray-900 leading-tight mb-2">
+                    <div className="text-center lg:text-left font-instrument regula">
+                        <motion.h1
+                            variants={textSlideUp}
+                            className="..."
+                        >
+                            <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-snug mb-2">
+                                Knowledge{' '}
+                            </h1>
+
+                        </motion.h1>
+
+                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-2">
                             At the tip
-                            {/*of the Legacy*/}
                         </h1>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                             of your fingers
                         </h1>
-                        <p className="text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed  ">
-                            Get key insights from {' '}
-                            <span className="text-blue-500 font-medium">books</span>,{' '}
-                            {/*<span className="text-blue-500 font-medium">podcasts</span>, and{' '}*/}
-                            <span className="text-blue-500 font-medium">talks</span>, and{' '}
-                            <span className="text-blue-500 font-medium">archives on Rev. Gudina Tumsa and Tsehay Tolessa - </span>
+                        <p className="text-xl sm:text-xl tracking-tight text-gray-600 mb-6 sm:mb-8 leading-snug font-poppins">
+                            Get key insights from{' '}
+                            <span className="text-[#9407F2] font-medium"> books</span>,{' '}
+                            <span className="text-[#9407F2] font-medium">talks</span>, {' '}
+                            <br />
+                            <span className="text-[#9407F2] font-medium">and archives on </span>
+
+                            <span>Rev. Gudina Tumsa </span>
+                            <br />
+                            <span>and Tsehay Tolessa </span>
+
+                            <span>All in minutes with </span>
                             <br className="hidden sm:block" />
-                            <span className={"mx-2"}>all in minutes with the GTL app.</span>
+                            <span>the GTL app.</span>
                         </p>
-                    </div>
-
-
-
-                    <div className="flex justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16">
-                        <a
-                            className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group"
-                            aria-label="Get Started"
-                            href={"/home"}
-                        >
-                            <span className="font-medium mr-2">Get Started</span>
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </a>
+                        <div className=" justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16 font-poppins space-x-2">
+                            <a
+                                className="relative bg-black inline-flex items-center px-12  py-2  border border-gray-300 rounded-full text-white  hover:border-gray-400 transition-all duration-200 group"
+                                aria-label="Get Started"
+                                href={"/home"}
+                            >
+                                <span className="font-medium mr-2">Get Started</span>
+                            </a>
+                            <a
+                                className="inline-flex space-x-2 items-center px-6 sm:px-8 sm:py-2 text-black  transition-all duration-200 group"
+                                aria-label="Get Started"
+                                href={"/home"}
+                            >
+                                <CircleArrowRight className=" w-5 h-5 group-hover:translate-x-1 transition-transform -rotate-45" />
+                                {/*font-instrument regula*/}
+                                <span className=" mr-2">Learn About Us</span>
+                                {/*<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />*/}
+                            </a>
+                        </div>
                     </div>
                 </div>
+
 
                 {/* Image */}
                 <div className="lg:w-1/2 flex justify-center lg:justify-end items-center">

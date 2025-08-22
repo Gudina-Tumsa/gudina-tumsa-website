@@ -12,8 +12,8 @@ const ContentPolicy = () => {
 
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-6">
                 <section>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-2">GTL Library Content Policy</h1>
-                    <p className="text-lg text-gray-600">Effective Date: August 5, 2025</p>
+                    <h1 className="font-instrument regula  md:text-5xl mb-2">GTL Library Content Policy</h1>
+                    <p className="ml-[1%] text-md text-gray-600">Effective Date: August 5, 2025</p>
                 </section>
 
                 <section className="space-y-6">
@@ -105,21 +105,6 @@ const ContentPolicy = () => {
                                 <li>Any misuse of the platform may lead to restricted access or legal action.</li>
                             </ul>
                         </div>
-
-                        {/* Section 7 */}
-                        {/*<div>*/}
-                        {/*    <h2 className="text-2xl font-semibold mb-3">7. Reporting Violations</h2>*/}
-                        {/*    <p className="text-lg mb-3">*/}
-                        {/*        If you find content that violates this policy, please report it immediately to:*/}
-                        {/*    </p>*/}
-                        {/*    <div className="space-y-1 pl-6">*/}
-                        {/*        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>*/}
-                        {/*        <p className="text-lg">Phone: +251-900916524</p>*/}
-                        {/*        <p className="text-lg">Subject line: "Content Policy Violation Report"</p>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
-                        {/* Section 8 */}
                         <div>
                             <h2 className="text-2xl font-semibold mb-3">8. Policy Changes</h2>
                             <p className="text-lg">
@@ -127,19 +112,6 @@ const ContentPolicy = () => {
                             </p>
                         </div>
 
-                        {/* Section 9 */}
-                        {/*<div>*/}
-                        {/*    <h2 className="text-2xl font-semibold mb-3">9. Contact</h2>*/}
-                        {/*    <p className="text-lg mb-3">*/}
-                        {/*        For questions about this policy or content concerns, contact:*/}
-                        {/*    </p>*/}
-                        {/*    <div className="space-y-1 pl-6">*/}
-                        {/*        <p className="text-lg">Gudina and Tsehay Legacy Office</p>*/}
-                        {/*        <p className="text-lg">Email: <a href="mailto:info@gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">info@gudinaandtsehaylegacy.org</a></p>*/}
-                        {/*        <p className="text-lg">Website: <a href="https://www.gudinaandtsehaylegacy.org" className="text-blue-600 hover:underline">www.gudinaandtsehaylegacy.org</a></p>*/}
-                        {/*        <p className="text-lg">Phone: +251-900916524</p>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                 </section>
             </main>

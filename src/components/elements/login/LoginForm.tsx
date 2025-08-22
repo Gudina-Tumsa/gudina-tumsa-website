@@ -27,7 +27,7 @@ const LoginForm = () => {
         setError('');
 
         try {
-            const response = await loginUser({ email, password });
+           const response = await loginUser({ email, password });
 
             localStorage.setItem('accessToken', response.data.session.token);
             localStorage.setItem('refreshToken', response.data.session.refreshToken);
@@ -101,7 +101,7 @@ const LoginForm = () => {
                     <div></div>
                     <Link
                         href="/reset"
-                        className="text-sm text-blue-600 hover:underline"
+                        className="text-sm text-[#9407F2] hover:underline"
                         tabIndex={isLoading ? -1 : 0} // Prevent tab navigation when loading
                     >
                         Forgot password?
@@ -113,7 +113,7 @@ const LoginForm = () => {
                         type="checkbox"
                         checked={keepLoggedIn}
                         onChange={(e) => setKeepLoggedIn(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer"
+                        className="h-4 w-4 rounded border-gray-300 text-[#9407F2] focus:ring-blue-500 focus:ring-offset-0 cursor-pointer"
                         disabled={isLoading}
                     />
                     <label htmlFor="keepLoggedIn" className="ml-2 text-sm text-gray-700 cursor-pointer">
@@ -125,7 +125,7 @@ const LoginForm = () => {
                     type="submit"
                     disabled={isLoading}
                     className={`w-full flex justify-center items-center gap-2 ${
-                        isLoading ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'
+                        isLoading ? 'bg-[#9407F2]' : 'bg-[#9407F2] hover:bg-gray-700'
                     } text-white font-medium py-2 px-4 rounded-md transition-colors duration-200`}
                 >
                     {isLoading ? (
@@ -144,7 +144,7 @@ const LoginForm = () => {
                     Don't have an account?{' '}
                     <Link
                         href="/signup"
-                        className="text-blue-600 hover:underline"
+                        className="text-[#9407F2] hover:underline"
                         tabIndex={isLoading ? -1 : 0} // Prevent tab navigation when loading
                     >
                         Sign up

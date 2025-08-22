@@ -240,12 +240,12 @@ const SignUpForm = () => {
                             type="checkbox"
                             checked={agreedToTerms}
                             onChange={(e) => setAgreedToTerms(e.target.checked)}
-                            className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            className="mt-1 h-4 w-4 text-[#9407F2] border-gray-300 rounded focus:ring-blue-500"
                             required
                         />
                         <label htmlFor="terms" className="ml-2 text-sm text-gray-700">
                             I agree to the{" "}
-                            <Link href="/terms" target="_blank" className="text-blue-600 hover:underline">
+                            <Link href="/terms" target="_blank" className="text-[#9407F2] hover:underline">
                                 Terms and Conditions
                             </Link>
                         </label>
@@ -254,7 +254,7 @@ const SignUpForm = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
+                    className="w-full bg-[#9407F2] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
                 >
                     Sign up
                 </button>
@@ -263,7 +263,7 @@ const SignUpForm = () => {
             <div className="mt-6 text-center">
                 <p className="text-sm text-gray-700">
                     Already have an account?{" "}
-                    <Link href="/login" className="text-blue-600 hover:underline">
+                    <Link href="/login" className="text-[#9407F2] hover:underline">
                         Log in
                     </Link>
                 </p>

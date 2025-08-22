@@ -62,37 +62,36 @@ const Page = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Page Header */}
                 <div className="text-center mb-16">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Events</h1>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                    <h1 className="font-instrument regula text-5xl font-bold text-gray-900 mb-4">Events</h1>
+                    <p className="text-xl text-gray-600 mx-auto">
                         Stay updated with the latest library  events
                     </p>
                 </div>
 
 
                 <section className="mb-20">
-                    {/*<div className="flex items-center justify-between mb-8">*/}
-                    {/*    <h2 className="text-2xl font-bold text-gray-900 flex items-center">*/}
-                    {/*        <NewspaperIcon className="h-6 w-6 mr-2 text-blue-600" />*/}
-                    {/*        Latest News*/}
-                    {/*    </h2>*/}
-                    {/*</div>*/}
 
                 </section>
-                {/* Events Section */}
+
                 <section>
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                            <CalendarIcon className="h-6 w-6 mr-2 text-blue-600" />
+                            <CalendarIcon className="h-6 w-6 mr-2 text-[#9407F2]" />
                             Upcoming Events
                         </h2>
-                        {/*<a href="/events" className="text-blue-600 hover:underline flex items-center">*/}
-                        {/*    View all events*/}
-                        {/*    <ArrowRightIcon className="h-4 w-4 ml-1" />*/}
-                        {/*</a>*/}
-                    </div>
+                              </div>
 
                     <div className="space-y-6">
-                        {events.map((event) => (
+                        {events.map((event) => {
+                            const currentDate = new Date();
+                            const eventDate = new Date(event.endDate);
+                            
+                            if (eventDate < currentDate) {
+                                return "";
+                            }
+
+                            // check
+                            return(
                             <div key={event.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
                                 <div className="p-6 md:flex md:items-center md:justify-between">
                                     <div className="md:flex md:items-center md:space-x-6">
@@ -140,7 +139,7 @@ const Page = () => {
 
                                 </div>
                             </div>
-                        ))}
+                        )})}
                     </div>
                 </section>
             </div>

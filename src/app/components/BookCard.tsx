@@ -19,7 +19,6 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
 
     const router = useRouter();
 
-    console.log(userId)
     // function saveBook(id: string, userId: string) {
     //     try{
     //         createUserBookInteraction({userId : userId,  bookId : id , interactionType : 'save'})

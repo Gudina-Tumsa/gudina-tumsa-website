@@ -8,6 +8,7 @@ import {useAppDispatch} from "@/lib/hooks";
 import {useEffect} from "react";
 import { getReadingBooks} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
+import { BookListResponse} from "@/types/book";
 
 export default function Page() {
 
@@ -21,8 +22,18 @@ export default function Page() {
             try {
                 const  token = user?.user?.token
                 const response = await getReadingBooks(token ?? "")
+
                 dispatch(getBooksSuccess(response))
             } catch (err: unknown) {
+                const bookListResponse: BookListResponse = {
+                    data : {
+                        books: [],
+                        total: 0,
+                        page: 0,
+                        limit: 0,
+                    }
+                }
+                dispatch(getBooksSuccess(bookListResponse))
                 console.error("failed to fetch books:", err)
             }
         }

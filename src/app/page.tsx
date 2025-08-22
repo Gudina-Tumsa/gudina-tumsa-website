@@ -13,124 +13,158 @@ import GrowSection from "@/components/elements/index/grow/GrowSection";
 import Faq from "@/components/elements/index/faq";
 import Footer from "@/components/layout/Footer";
 import { useState } from "react";
-import {ArrowRightIcon, Bell} from "lucide-react";
-import {ArrowLeft, ArrowRight, BellIcon} from "lucide-react";
-import ScrollingLearningCards from "@/components/elements/index/ScrollingLearningCards/ScrollingLearningCards";
+import { ArrowRight} from "lucide-react";
+import {motion} from "framer-motion";
 
-import Marquee from 'react-fast-marquee';
-import {getNews} from "@/app/data/news";
+const textVariant = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            ease: "easeOut"
+        }
+    }
+};
 
-const IconMarquee = () => {
+const containerVariant = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.2,
+        },
+    },
+};
 
+const cardVariant = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.6,
+            ease: "easeOut",
+        },
+    },
+};
+
+const IconGrid = () => {
     const items = [
-        {name: 'GTF', image: 'gtf.png' , width : "130" , height : "130" },
-        {name: 'Ilaamee', image: 'ilame.png' , width: "130" , height: "130" },
-        {name : 'GTL', image: 'logo.png' , width: "250" , height: "250" },
+        // {name: 'GTL', image: 'gtf.png' , width : "130" , height : "130" , link : "https://gudinaandtsehaylegacy.org/" },
+        // {name: 'Ilaamee', image: 'ilame.png' , width: "130" , height: "130" , link : "https://gudinatumsafoundation.org/" },
+        // {name : 'GTF', image: 'logo.png' , width: "250" , height: "250"  , link : "#" },
+        // {name : "Biftuu Bole" , image: "biftu.jpg" , width: "110" , height: "110" , link : "https://biftubole.org/" },
+        //
+        {name: 'GTL', image: 'cropped.webp' , width : "130" , height : "130" , link : "https://gudinaandtsehaylegacy.org/" },
+        {name: 'Ilaamee', image: 'cropped.webp' , width: "130" , height: "130" , link : "https://gudinatumsafoundation.org/" },
+        {name : 'GTF', image: 'cropped.webp' , width: "130" , height: "130"  , link : "#" },
+        {name : "Biftuu Bole" , image: "cropped.webp" , width: "130" , height: "130" , link : "https://biftubole.org/" },
+
 
 
     ];
-    return (
-        <div style={{padding: '20px 0'}}>
-            <Marquee
-                speed={50}
-                gradient={false}
-                pauseOnHover={true}
-                className={"flex px-5"}
-            >
 
-                {items.map((item, index) => (
-                    <div key={index} className="flex flex-col items-center mx-[40px]">
-                        <img
-                            src={item.image}
-                            alt={item.name}
-                            style={{ width: `${item.width}px`, height: `${item.height}px` }}
-                            className={`mb-2`}
-                        />
-                        {/*<span className="text-sm font-bold">{item.name}</span>*/}
+    return (
+        <div className="py- px-4 sm:px-6 lg:px-8">
+            <div className="w-full">
+                <div className="w-[80%] mx-auto">
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+                        {items.map((item, index) => (
+                            <a
+                                href={item.link}
+                                key={index}
+                                className="flex flex-col items-center justify-center"
+                            >
+                                <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    style={{
+                                        width: `${item.width}px`,
+                                        height: `${item.height}px`,
+                                        maxWidth: '100%',
+                                        objectFit: 'contain'
+                                    }}
+                                    className="mb-2"
+                                />
+                                {/*<p>{item.name}</p>*/}
+
+
+                                {/* Uncomment if you want to show the name */}
+                                {/* <span className="text-sm font-medium mt-2">{item.name}</span> */}
+                            </a>
+                        ))}
                     </div>
-                ))}
-            </Marquee>
+                </div>
+
+            </div>
         </div>
     );
 };
 
+const FeatureCards = () => {
+    const features = [
+        {
+            title: "Learn Anywhere, Anytime",
+            description: "Read, research, and reflect on the legacy of Rev. Gudina Tumsa and Tsehay Tolessa from any device, wherever inspiration strikes.",
+            image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400"
+        },
+        {
+            title: "Instant Legacy Access",
+            description: "Explore curated books, archives, and resources on Rev. Gudina Tumsa and Tsehay Tolessa—ready whenever you are.",
+            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400"
+        },
+        {
+            title: "Community of Discovery",
+            description: "Engage in meaningful discussions with others passionate about preserving and exploring the legacy of Rev. Gudina Tumsa and Tsehay Tolessa.",
+            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-pink-200 via-pink-300 to-pink-400"
+        }
+    ];
 
-
-function FloatingNews() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [news , setNews] = useState([])
-    useEffect(() => {
-        const newsData = getNews()
-        setNews(newsData)
-    },[])
     return (
-        <div className="fixed bottom-6 right-6 z-50">
-            {/* Floating Button */}
-            {!isOpen && (
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="relative p-3 rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-700 transition-all"
-                >
-                    {/* Bell Icon */}
-                    <Bell className="w-5 h-5" />
+        <section className="px-6 py-16">
+            <div className="w-[90%] mx-auto flex justify-center items-start relative">
+                {features.map((feature, index) => {
+                    let rotation = "rotate-0";
+                    let zIndex = index;
+                    let translateY = ""
+                    if (index === 0) rotation = "-rotate-[4deg]";
+                    if (index === features.length - 1) {
+                        rotation = "rotate-[4deg]";
+                        zIndex = features.length;
+                    }
+                    if (index === 1) translateY = "-translate-y-10";
 
-                    {/* Attention Dot */}
-                    <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 animate-ping" />
-                    <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500" />
-                </button>
-            )}
-
-
-            {/* News Panel */}
-            {isOpen && (
-                <div className="relative w-80 rounded-xl shadow-xl backdrop-blur-md bg-purple-100/10 overflow-hidden">
-                    {/* noise overlay */}
-                    <div
-                        className="absolute inset-0 pointer-events-none z-[-1]"
-                        style={{
-                            backgroundImage: `
-                radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0),
-                radial-gradient(circle at 3px 3px, rgba(0,0,0,0.03) 1px, transparent 0)
-              `,
-                            backgroundSize: '4px 4px',
-                        }}
-                    />
-
-                    <div>
-                        {news.map((item, index) => (
-                            <a
-                                key={index}
-                                href={`/news/${item.id}`}
-                                className="block p-4 transition-colors hover:bg-gray-50 group"
-                            >
-                                <p className="text-sm text-gray-800 group-hover:text-blue-600">{item.title}</p>
-                                <span className="text-xs text-gray-600 mt-1 block">
-            Posted {item.date}
-        </span>
-                            </a>
-                        ))}
-                    </div>
-
-                    <div className="p-2 flex justify-between items-center">
-                        <a
-                            href="/newsandevents"
-                            className="ml-[2%] text-sm text-indigo-600 flex items-center gap-1 hover:underline"
+                    return (
+                        <div
+                            key={index}
+                            className={`relative ${rotation} ${translateY} ${feature.gradient} border-0 p-6 rounded-3xl shadow-md hover:shadow-xl transition-shadow duration-300`}
+                            style={{ marginLeft: index === 0 ? 0 : "-10px", zIndex }}
                         >
-                            <ArrowRight className="w-4 h-4" />
-                            Read More
-                        </a>
-                        <button
-                            onClick={() => setIsOpen(false)}
-                            className="text-xs text-gray-500 hover:text-gray-800"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            )}
-        </div>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-[25%]">
+                                {feature.title}
+                            </h3>
+                            <div className="flex items-center justify-between">
+                                <p className="text-gray-700 text-sm leading-relaxed max-w-[65%]">
+                                    {feature.description}
+                                </p>
+                                <img
+                                    src={feature.image}
+                                    alt={feature.title}
+                                    className="rounded-md w-[100px] h-[100px] object-cover"
+                                />
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </section>
     );
-}
+};
 
 
 
@@ -139,34 +173,52 @@ const Index = () => {
 
 
     return (
-        <div className="bg-white relative">
-            {/* Floating News Button */}
-            {/*<FloatingNews  />*/}
+        <div className="bg-[#F2F2F2] relative font-poppins">
 
-
-            {/* Rest of your existing content */}
             <Header/>
             <HeroSection/>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            >
             <BookPreview/>
+            </motion.div>
 
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            >
             <HomePageCategory/>
-            <div className={"mb-[3%] "}>
-                <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-black text-center">
-                    Our partners
-                </p>
-                <IconMarquee/>
-            </div>
-            <div
-                className="w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-10 bg-white text-white rounded-lg flex flex-col items-center justify-center">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-4 text-black text-center">
-                    {/*Join now*/}
-                    Join the GTL community
-                </h1>
-                <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-black text-center">
-                    Explore over a million resources on the life and mission of Gudina Tumsa and Tsehay Tolessa — start your journey now.
-                </p>
+            </motion.div>
 
-                <div className="mb-8 sm:mb-12 md:mb-16 w-full flex justify-center">
+            <div
+                className="w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-10 bg-[#F2F2F2] text-white rounded-lg flex flex-col items-center justify-center">
+                <motion.h1
+                    variants={textVariant}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="font-instrument regula sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4 text-black text-center"
+                >
+                    Join the GTL community
+                </motion.h1>
+
+                <motion.p
+                    variants={textVariant}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="justify-center sm:text-lg md:text-lg text-gray-600 text-center block mb-[4%]"
+                >
+                    Explore over a million resources on the life and mission of Gudina Tumsa and Tsehay Tolessa — start your journey now.
+                </motion.p>
+
+
+                <div className=" w-full flex justify-center">
                     <a href={"/home"}
                        className="inline-flex items-center px-6 sm:px-8 py-2 sm:py-3 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group w-full sm:w-auto justify-center">
                         <span className="font-medium text-sm sm:text-base mr-2">Get Started</span>
@@ -175,9 +227,43 @@ const Index = () => {
                 </div>
             </div>
 
-            <ScrollingLearningCards/>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            >
+                <FeatureCards />
+            </motion.div>
+            <div className={"mb-[8%] mt-[5%] "}>
+                <motion.h1
+                    variants={textVariant}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="font-instrument regula sm:text-3xl md:text-3xl font-bold text-black text-center"
+                >
+                    Backing our Vision
+                </motion.h1>
+
+                <IconGrid/>
+            </div>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            >
             <GrowSection/>
+            </motion.div>
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.3 }}
+            >
             <Faq include={true}/>
+            </motion.div>
             <div className="mt-[5%]">
                 <Footer/>
             </div>
@@ -187,8 +273,3 @@ const Index = () => {
 
 export default Index;
 
-
-//
-// <MobileAppSection />
-// </div>
-// <MobileAppSection />

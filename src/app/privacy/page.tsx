@@ -12,7 +12,7 @@ const Index = () => {
 
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-12">
                 <section>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h1 className="font-instrument regula text-5xl md:text-5xl font-bold mb-4">
                         Privacy Policy for GTL Online Library
                     </h1>
                     <p><span className="font-bold">Effective Date</span>: August 5, 2025</p>

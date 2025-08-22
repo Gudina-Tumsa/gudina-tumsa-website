@@ -50,17 +50,16 @@ const HomePageCategory = () => {
     }
 
     return (
-        <div className="bg-white">
+        <div className="bg-[#F2F2F2]">
             {/* Hero Section */}
             <div className="text-center py-8 sm:py-12 md:py-16 px-4">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4">
-                    {/*One million textbooks.*/}
+                <h1 className="font-instrument regula sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-1 sm:mb-1 ">
                     A world of legacy resources.
                 </h1>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 italic">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#9407F2] font-instrument regula mb-2 sm:mb-2">
                     One membership.
                 </h2>
-                <p className="text-center text-base sm:text-lg md:text-xl mt-4 sm:mt-[2%] text-gray-600">
+                <p className="justify-center text-sm sm:text-2xl md:text-2xl text-gray-600  text-center block ">
                     {/*What are you interested in?*/}
                     What will you discover today?
                 </p>
@@ -77,7 +76,7 @@ const HomePageCategory = () => {
                                 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium 
                                 transition-all duration-200 hover:scale-105
                                 ${activeCategory === category.name
-                                ? 'bg-blue-100 text-blue-700 shadow-md'
+                                ? 'bg-blue-100 text-[#9407F2] shadow-md'
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }
                             `}

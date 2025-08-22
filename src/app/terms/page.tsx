@@ -15,7 +15,7 @@ const Index = () => {
 
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-12">
                 <section>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                    <h1 className="font-instrument regula text-5xl md:text-5xl font-bold mb-4">
                         Terms and Conditions for the Gudina and Tsehay Online Library
                     </h1>
                     <p className="text-lg mb-2">

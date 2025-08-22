@@ -185,7 +185,7 @@ const Header = () => {
             )}
 
             {/* Main Header */}
-            <header className="bg-white border-b border-gray-200 py-4">
+            <header className="bg-[#F2F2F2] border-b border-gray-200 py-4">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="relative flex items-center justify-between">
                         {/* Logo */}
@@ -208,12 +208,7 @@ const Header = () => {
                             >
                                 Home
                             </Link>
-                            <Link
-                                href="/login"
-                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
-                            >
-                                Login
-                            </Link>
+
 
                             <Link
                                 href="/events"
@@ -221,18 +216,13 @@ const Header = () => {
                             >
                                 Events
                             </Link>
-                            <Link
-                                href="/home"
-                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
-                            >
-                                Get Started
-                            </Link>
+
                             <div className="flex items-center space-x-4">
                                 <Link
-                                    href="/signup"
-                                    className="border-[0.5px] border-black text-black px-6 py-2 rounded-md transition-transform duration-200 hover:-translate-y-1"
+                                    href="/login"
+                                    className="border-[0.5px] bg-black text-white rounded-full border-black  px-6 py-2  transition-transform duration-200 hover:-translate-y-1"
                                 >
-                                    Sign up
+                                  Log in
                                 </Link>
                                 {/*<LanguageSelector/>*/}
                             </div>
