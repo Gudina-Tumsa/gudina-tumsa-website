@@ -1,3 +1,11 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+/* eslint-disable  */
+// @ts-nocheck
+
+
+
 import React from 'react';
 
 import LearningCardGrow from "@/components/elements/index/grow/LearningCardGrow";

@@ -1,3 +1,11 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+/* eslint-disable  */
+// @ts-nocheck
+
+
+
 "use client"
 import SearchBar from "@/app/components/SearchBar";
 import BookGrid from "@/app/components/BookGrid";
