@@ -1,8 +1,6 @@
 import React from 'react';
 import { FormInput } from './FormInput';
 
-
-
 interface PersonalDetailsFormProps {
     formData: {
         firstName: string;
@@ -12,8 +10,8 @@ interface PersonalDetailsFormProps {
     };
     onChange: (field: string, value: string) => void;
 }
-export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormProps) => {
 
+export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormProps) => {
     return (
         <div className="space-y-6">
             <FormInput
@@ -21,15 +19,15 @@ export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormP
                 value={formData.firstName}
                 onChange={(value) => onChange('firstName', value)}
                 maxLength={30}
+
             />
-
-
 
             <FormInput
                 label="Last name"
                 value={formData.lastName}
                 onChange={(value) => onChange('lastName', value)}
                 maxLength={30}
+
             />
 
             <FormInput
@@ -38,13 +36,15 @@ export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormP
                 value={formData.email}
                 onChange={(value) => onChange('email', value)}
                 maxLength={50}
+
             />
 
             <FormInput
-                label="username"
+                label="Username"
                 value={formData.username}
                 onChange={(value) => onChange('username', value)}
                 maxLength={30}
+
             />
         </div>
     );

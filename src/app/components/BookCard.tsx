@@ -15,36 +15,25 @@ interface BookCardProps {
     writer: string;
     isCurrentlyReading?: boolean;
 }
-const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyReading }: BookCardProps) => {
 
+const BookCard = ({ id, userId, title, year, coverImage, writer, isCurrentlyReading }: BookCardProps) => {
     const router = useRouter();
 
-    // function saveBook(id: string, userId: string) {
-    //     try{
-    //         createUserBookInteraction({userId : userId,  bookId : id , interactionType : 'save'})
-    //     }catch(err : unknown){
-    //         console.log(err)
-    //     }
-    // }
-
     function readBookNavigate(id: string) {
-
         router.push(`/bookdetail/${id}`);
-
     }
 
     return (
-
-        <div className="relative group p-6 transition-all duration-300 hover:bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
-             onClick={() => {
-                 readBookNavigate(id);
-             }}
+        <div
+            className="dark:text-white relative group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-lg overflow-hidden cursor-pointer
+                       w-64 p-4"
+            onClick={() => readBookNavigate(id)}
         >
-            <div className="aspect-[3/4] bg-white border border-gray-200 rounded-lg overflow-hidden relative">
+            <div className="rounded-lg overflow-hidden relative aspect-[3/4] bg-gray-100">
                 <img
                     src={coverImage}
                     alt={title}
-                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105 bg-white"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
 
                 {isCurrentlyReading && (
@@ -57,12 +46,11 @@ const BookCard = ({ id , userId , title, year, coverImage, writer, isCurrentlyRe
             </div>
 
             <div className="mt-4 px-1">
-                <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">{title}</h3>
-                <p className="text-xs text-gray-600 mt-1 truncate">{writer}</p>
-                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{year}</p>
+                <h3 className="dark:text-white text-sm font-semibold text-gray-900 line-clamp-2">{title}</h3>
+                <p className="dark:text-white text-xs text-gray-600 mt-1 truncate">{writer}</p>
+                <p className="dark:text-white text-[10px] sm:text-xs text-gray-400 mt-0.5">{year}</p>
             </div>
         </div>
-
     );
 };
 

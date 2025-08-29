@@ -189,11 +189,11 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
     return (
         <div className="space-y-6">
             <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">About This Book</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 dark:text-white">About This Book</h3>
                 <div className="prose prose-gray max-w-none">
                     <p
                         ref={descriptionRef}
-                        className={`text-gray-700 leading-relaxed mb-4 ${
+                        className={`dark:text-white text-gray-700 leading-relaxed mb-4 ${
                             !showFullDescription ? 'line-clamp-4' : ''
                         }`}
                     >
@@ -260,33 +260,31 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
             </div>
 
             <div>
-                <div className="bg-gray-50 rounded-lg p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">Information</h4>
+                <div className="dark:bg-gray-700 bg-gray-50 rounded-lg p-6">
+                    <h4 className="dark:text-white text-lg font-semibold text-gray-900 mb-4">Information</h4>
                     <div className={"mb-[2%]"}>
-                        <h5 className="text-sm font-medium text-gray-600 mb-2">Rating</h5>
+                        <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Rating</h5>
                         <div className="flex items-center gap-2">
-
                             <StarRating rating={bookData?.rating || 0} onRate={handleRating} editable />
-
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h5 className="text-sm font-medium text-gray-600 mb-2">Publisher</h5>
-                            <p className="text-gray-900">Wiley</p>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Publisher</h5>
+                            <p className="dark:text-white text-gray-900">Wiley</p>
                         </div>
                         <div>
-                            <h5 className="text-sm font-medium text-gray-600 mb-2">Category</h5>
-                            <p className="text-gray-900">{bookData?.category}</p>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Category</h5>
+                            <p className="dark:text-white text-gray-900">{bookData?.category}</p>
                         </div>
                         <div>
-                            <h5 className="text-sm font-medium text-gray-600 mb-2">Year</h5>
-                            <p className="text-gray-900">{bookData?.publicationYear}</p>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Year</h5>
+                            <p className="dark:text-white text-gray-900">{bookData?.publicationYear}</p>
                         </div>
                         <div>
-                            <h5 className="text-sm font-medium text-gray-600 mb-2">Edition</h5>
-                            <p className="text-gray-900">7</p>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Edition</h5>
+                            <p className="dark:text-white text-gray-900">7</p>
                         </div>
                     </div>
                 </div>
@@ -385,7 +383,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
             const replies = comments.filter(c => c.parentCommentId === comment._id);
 
             return (
-                <div key={comment._id} className={`bg-gray-50 rounded-lg p-4 ${level > 0 ? 'mt-2' : 'mb-4'}`}>
+                <div key={comment._id} className={`dark:bg-gray-700 bg-gray-50 rounded-lg p-4 ${level > 0 ? 'mt-2' : 'mb-4'}`}>
                     <div className="flex justify-between items-start mb-2">
                         <span className="font-medium text-gray-900">
                             {comment.userId.username}
@@ -473,15 +471,15 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
 
     return (
         <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="dark:bg-gray-700 bg-white rounded-lg shadow-sm p-6">
                 {user?.user ? (
                     <>
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">
                             {replyingTo ? "Leave a Reply" : "Leave a Comment"}
                         </h3>
-                        <div className="mb-4">
+                        <div className="dark:bg-gray-700 mb-4">
                             <textarea
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="dark:bg-gray-700 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={4}
                                 placeholder={
                                     replyingTo
@@ -529,20 +527,19 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
         </div>
     );
 }
-// userData={user}
-const BookTabs = ({bookData , userData}: { bookData: BookData | null , userData : UserResponse | null }) => {
+
+
+const BookTabs = ({ bookData, userData }: { bookData: BookData | null; userData: UserResponse | null }) => {
     const [activeTab, setActiveTab] = useState("details");
 
     const tabs = [
-        {id: "details", label: "Book details"},
-        {id: "comments", label: "Comments"},
+        { id: "details", label: "Book details" },
+        { id: "comments", label: "Comments" },
     ];
 
-
     return (
-        <div className={"mb-[5%]"}>
-
-            <div className="border-b border-gray-200 mb-6">
+        <div className="mb-[5%]">
+            <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
                 <div className="flex gap-8">
                     {tabs.map((tab) => (
                         <button
@@ -550,8 +547,8 @@ const BookTabs = ({bookData , userData}: { bookData: BookData | null , userData 
                             onClick={() => setActiveTab(tab.id)}
                             className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                                 activeTab === tab.id
-                                    ? "border-blue-600 text-blue-600"
-                                    : "border-transparent text-gray-500 hover:text-gray-700"
+                                    ? "border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400"
+                                    : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                             }`}
                         >
                             {tab.label}
@@ -565,12 +562,9 @@ const BookTabs = ({bookData , userData}: { bookData: BookData | null , userData 
             )}
 
             {activeTab === "comments" && (
-                <BookComment bookData={bookData}/>
+                <BookComment bookData={bookData} />
             )}
-
-
         </div>
     );
 };
-
 export default BookTabs;

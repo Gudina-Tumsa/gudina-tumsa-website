@@ -88,7 +88,7 @@ export function NavMain() {
     };
 
     return (
-        <>
+        <div className="  dark:text-white">
             <SidebarGroup>
                 <SidebarMenu>
                     {navigationItems.map((item) => (
@@ -156,6 +156,6 @@ export function NavMain() {
                     )}
                 </SidebarMenu>
             </SidebarGroup>
-        </>
+        </div>
     );
 }

@@ -55,23 +55,25 @@ export default function Page() {
 
     return (
         <SidebarLayout>
+<div className={"h-screen"}>
+    <SearchBar />
+    <div className="flex flex-row justify-between">
+        <div className="mb-8 mt-[5%]">
+            <h1 className="dark:text-white text-4xl font-[500px] text-gray-900 mb-2">
+                Completed
+            </h1>
 
-            <SearchBar />
-            <div className="flex flex-row justify-between">
-                <div className="mb-8 mt-[5%]">
-                    <h1 className="text-4xl font-[500px] text-gray-900 mb-2">
-                        Completed
-                    </h1>
+        </div>
 
-                </div>
+    </div>
 
-            </div>
+    <BookGrid
+        userId = {user?.user?._id ?? ""}
+        title=""
+        books={books.books}
+    />
+</div>
 
-            <BookGrid
-                userId = {user?.user?._id ?? ""}
-                title=""
-                books={books.books}
-            />
 
         </SidebarLayout>
     )

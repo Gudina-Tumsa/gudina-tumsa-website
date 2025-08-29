@@ -179,7 +179,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <div className={" flex flex-row"}>
                 <SidebarMenuButton
                     asChild
-                    className="data-[slot=sidebar-menu-button]:!p-1.5"
+                    className="data-[slot=sidebar-menu-button]:!p-1.5 dark:text-white"
                 >
                   <a href="/">
                     {/*<IconInnerShadowTop className="!size-5" />*/}

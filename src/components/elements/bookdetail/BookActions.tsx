@@ -11,7 +11,6 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
     const router = useRouter();
     const user = useSelector((state: RootState) => state.user);
 
-
     async function saveBook(id: string, userId: string) {
         try {
             if (!userId) {
@@ -51,7 +50,6 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
             try {
                 await navigator.share(shareData);
                 console.log("Shared successfully!");
-
             } catch (error) {
                 console.error("Error sharing", error);
             }
@@ -65,33 +63,29 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
         }
     };
 
-
-
-
     return (
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
             <Toaster position="top-right" />
             <button
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium text-sm sm:text-base"
+                className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 rounded-md font-medium text-sm sm:text-base transition-colors"
                 onClick={handleReadClick}
             >
                 {user?.user == null ? "Login to Read" : "Read"}
             </button>
 
             <button
-                className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-medium text-sm sm:text-base"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 px-3 py-2 rounded-md font-medium text-sm sm:text-base transition-colors"
                 onClick={() => saveBook(bookData._id, user?.user?._id ?? "")}
             >
                 {user?.user == null ? "Login to Save" : "Add to Library"}
             </button>
+
             <button
                 onClick={handleShare}
-                className={`rounded-md px-4 py-2 transition-colors bg-white hover:bg-gray-100 border border-gray-300 text-gray-800`}
+                className="rounded-md px-4 py-2 transition-colors bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200"
             >
                 Share
             </button>
-
-
         </div>
     );
 };

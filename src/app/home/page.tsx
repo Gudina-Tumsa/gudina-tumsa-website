@@ -17,103 +17,91 @@ import toast, { Toaster } from "react-hot-toast";
 import {EventData} from "@/types/events";
 import {getEvents} from "@/lib/api/events";
 import {createUserBookInteraction} from "@/lib/api/userbookinteraction";
+import {useDispatch} from "react-redux";
 
-const BookCard = ({todaysSelectionResonse} : BookListResponse) => {
+const TodaysSelectionCard = ({ todaysSelectionResonse }: BookListResponse) => {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const user = useSelector((state: RootState) => state.user);
-   const router = useRouter();
+    const router = useRouter();
 
-    if (todaysSelectionResonse?.data?.books.length == 0) {
-        return ("")
+    if (!todaysSelectionResonse?.data?.books?.length) {
+        return null;
     }
+
     useEffect(() => {
-        setIsUserLoggedIn(user?.user != null);
+        setIsUserLoggedIn(Boolean(user?.user));
     }, [user]);
+
+    const book = todaysSelectionResonse.data.books[0];
 
     const handleReadClick = () => {
         if (!isUserLoggedIn) {
             router.push('/login');
-            return;
-        }else{
-            router.push(`/bookdetail/${todaysSelectionResonse.data.books[0]._id}`);
+        } else {
+            router.push(`/bookdetail/${book._id}`);
         }
-
     };
 
     const handleSaveClick = async () => {
         if (!isUserLoggedIn) {
             router.push('/login');
             return;
-        }else{
-            // make constant for the page
-            await createUserBookInteraction({
-                userId: user?.user._id,
-                bookId: todaysSelectionResonse.data.books[0]._id,
-                interactionType: 'save'
-            });
         }
-        //
-        // Handle save action for logged-in users
-        console.log("Save book");
-        toast.success("Book saved successfully!");
+        await createUserBookInteraction({
+            userId: user?.user._id,
+            bookId: book._id,
+            interactionType: 'save',
+        });
+        toast.success('Book saved successfully!');
     };
 
     return (
-        <div className="bg-yellow-50 rounded-lg shadow-md w-full h-full p-6">
+        <div className="bg-yellow-50 rounded-lg shadow-md w-full max-w-4xl mx-auto p-4 md:p-6">
             <Toaster position="top-right" />
-            <div className="flex flex-col md:flex-row gap-6 h-full">
-                <div className="md:w-1/2">
-                    <h3 className="text-xl font-semibold text-gray-800">
-                        {todaysSelectionResonse.data.books[0].title}
-                    </h3>
-                    {/*<p className="text-gray-600 mt-2">Gudina Tumsa Foundation</p>*/}
-                    <hr className="my-4 border-gray-200 md:hidden" />
+            <div className="flex flex-col md:flex-row gap-6">
+                {/* Text Section */}
+                <div className="md:w-1/2 flex flex-col justify-center">
+                    <h3 className="text-xl font-semibold text-gray-800">{book.title}</h3>
+                    <p className="text-gray-600 mt-1">by {book.author}</p>
+                    <hr className="my-4 border-gray-300 md:hidden" />
                 </div>
 
-                <div className="hidden md:block border-l border-gray-200"></div>
+                {/* Divider on desktop */}
+                <div className="hidden md:block border-l border-gray-300"></div>
 
-                <div className="md:w-1/2 h-full">
-                    <div className="flex flex-col sm:flex-row gap-6 items-center h-full">
-                        <div className="w-full sm:w-[50%] h-[100%] bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 overflow-hidden">
+                {/* Image & Actions */}
+                <div className="md:w-1/2 flex flex-col lg:flex-row gap-6 items-center min-w-0">
+                    <div className="w-full lg:w-1/2 bg-gray-200 overflow-hidden rounded-md">
+                        <div className="aspect-[3/4] w-full">
                             <img
                                 className="w-full h-full object-cover"
-                                src= {todaysSelectionResonse.data.books[0].coverImageUrl}
-                                alt="Book cover"
+                                src={`${process.env.NEXT_PUBLIC_BASE_URL}${book.coverImageUrl}`}
+                                alt={`Cover of ${book.title}`}
+                                loading="lazy"
                             />
                         </div>
+                    </div>
 
-                        <div className="flex flex-col gap-3 w-full sm:w-auto">
-                            <button
-                                onClick={handleReadClick}
-                                className={`rounded-md px-4 py-2 transition-colors ${
-                                    isUserLoggedIn
-                                        ? "bg-black hover:bg-gray-800 text-white"
-                                        : "bg-black hover:bg-gray-800 text-white"
-                                }`}
-                            >
-                                {isUserLoggedIn ? "Read" : "Login to Read"}
-                            </button>
-                            <button
-                                onClick={handleSaveClick}
-                                className={`rounded-md px-4 py-2 transition-colors ${
-                                    isUserLoggedIn
-                                        ? "bg-white hover:bg-gray-100 border border-gray-300 text-gray-800"
-                                        : "bg-white hover:bg-gray-100 border border-gray-300 text-gray-800"
-                                }`}
-                            >
-                                {isUserLoggedIn ? "Save" : "Login to Save"}
-                            </button>
-
-
-                        </div>
+                    {/* Buttons */}
+                    <div className="flex flex-col w-full sm:w-auto gap-3">
+                        <button
+                            onClick={handleReadClick}
+                            className="w-full sm:w-auto rounded-md px-4 py-2 bg-black text-white hover:bg-gray-800 transition-colors"
+                        >
+                            {isUserLoggedIn ? 'Read' : 'Login to Read'}
+                        </button>
+                        <button
+                            onClick={handleSaveClick}
+                            className="w-full sm:w-auto rounded-md px-4 py-2  border border-gray-300 text-gray-800 hover:bg-gray-100 transition-colors"
+                        >
+                            {isUserLoggedIn ? 'Save' : 'Login to Save'}
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-
-
 
 const EventCard = () => {
 
@@ -126,19 +114,7 @@ const EventCard = () => {
         })
     }, []);
     return (
-        // <div className="bg-yellow-50 p-4 rounded shadow-md w-full h-full">
-        //     <h3 className="text-base font-medium text-gray-800 mb-2">
-        //         Upcoming Events
-        //     </h3>
-        //     <ul className="list-disc pl-4 text-sm text-gray-600">
-        //         {
-        //             events.map((item)=>{
-        //                 <li>Event 1: Workshop on Productivity</li>
-        //             })
-        //         }
-        //
-        //     </ul>
-        // </div>
+
         <></>
     );
 };
@@ -147,9 +123,35 @@ export default function Page() {
 
   const user = useSelector((state: RootState) => state.user);
   const books = useSelector((state: RootState) => state.book)
+  const dispatch = useDispatch();
   const [currentlyReading, setCurrentlyReading] = useState(null);
-    const [todaysSelection , setTodaysSelection] = useState(null);
+  const [todaysSelection , setTodaysSelection] = useState(null);
 
+  const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
+
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+
+
+        applyTheme(savedTheme);
+    }, []);
     useEffect(()=> {
         const fetchTodaysSelection = async() => {
            try {
@@ -181,7 +183,6 @@ export default function Page() {
 
     }, []);
 
-  const dispatch = useAppDispatch();
   useEffect(() => {
 
     const fetchBooks = async () => {
@@ -198,50 +199,52 @@ export default function Page() {
     }
 
     fetchBooks()
-  }, [dispatch]);
+  }, []);
   return (
-      <SidebarLayout>
-
-              <SearchBar />
-              <div className="flex flex-row justify-between">
-                <div className="mb-8  w-full">
-                  <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-                    Hi {user?.user?.firstName || " user "} 👋
-                  </h1>
-                    {todaysSelection != null ? (
-                        <>
-                            <p className="text-gray-600 mb-[5%]">Today's selection!</p>
-                            <div className="flex flex-col md:flex-row gap-4 h-auto sm:h-40">
-                                <div className="w-full md:w-[60%] h-full">
-                                    <BookCard todaysSelectionResonse={todaysSelection} />
-                                </div>
-                                <div className="w-full md:w-[35%] h-full">
-                                    <EventCard />
-                                </div>
-                            </div>
-                        </>
-                    ) : null}
-
-
-                </div>
-
-              </div>
-
-          {
-              currentlyReading ?<BookGrid
-                  title="Reading"
-                  userId={user?.user?._id ?? ""}
-                  books={currentlyReading}
-                  showCurrentlyReading={true}
-              /> : ""
-          }
+      <SidebarLayout >
+             <div className={"w-full dark:bg-gray-800"}>
+                 <SearchBar />
+                 <div className="flex flex-row justify-between">
+                     <div className="mb-8  w-full">
+                         <h1 className="dark:text-white text-2xl font-semibold text-gray-900 mb-2">
+                             Hi {user?.user?.firstName || " user "} 👋
+                         </h1>
+                         {todaysSelection != null ? (
+                             <div className="mb-8">
+                                 <p className="dark:text-white text-gray-600 mb-4">Today's selection!</p>
+                                 <div className="flex flex-col md:flex-row gap-4 w-full">
+                                     <div className="w-full md:w-[65%]">
+                                         <TodaysSelectionCard todaysSelectionResonse={todaysSelection} />
+                                     </div>
+                                     <div className="w-full md:w-[35%]">
+                                         <EventCard />
+                                     </div>
+                                 </div>
+                             </div>
+                         ) : null}
 
 
-          <BookGrid
-              userId={user?.user?._id ?? ""}
-              title="Top Picks for you"
-              books={books?.books}
-          />
+                     </div>
+
+                 </div>
+
+                 {
+                     currentlyReading ?<BookGrid
+                         title="Reading"
+                         userId={user?.user?._id ?? ""}
+                         books={currentlyReading}
+                         showCurrentlyReading={true}
+                     /> : ""
+                 }
+
+
+                 <BookGrid
+                     userId={user?.user?._id ?? ""}
+                     title="Top Picks for you"
+                     books={books?.books}
+                 />
+             </div>
+
 
       </SidebarLayout>
   )

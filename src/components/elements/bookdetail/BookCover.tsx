@@ -13,7 +13,7 @@ const BookCover = ({bookData } : {bookData : BookData | null} ) => {
     return (
 
             bookData ? <div className="sticky top-8">
-                <div className="bg-white rounded-lg  p-6">
+                <div className="rounded-lg  p-6">
                     <div className="aspect-[3/4] bg-gradient-to-br  rounded-lg overflow-hidden mb-6 relative">
                         {/*{!imageError ? (*/}
                         <img

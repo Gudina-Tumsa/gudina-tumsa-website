@@ -33,7 +33,6 @@ const Index = () => {
     return (
         <SidebarLayout>
             <div className="min-h-screen mt-[6%]">
-                {/* Header with subscribe notification */}
                 <div className="">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {currentbook ? <div className="lg:col-span-1">
