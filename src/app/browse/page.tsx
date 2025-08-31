@@ -33,7 +33,7 @@ export default function Page() {
 
     return (
         <SidebarLayout>
-            <div className="w-full flex flex-col  dark:bg-gray-800 h-screen">
+            <div className="w-full flex flex-col  dark:bg-gray-800 min-h-screen">
                 <div className="mb-8 w-full">
                     <SearchBar />
                     <h1 className="text-2xl font-semibold mt-[5%] text-gray-900 dark:text-white mb-2">

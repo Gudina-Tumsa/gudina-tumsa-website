@@ -28,34 +28,12 @@ const textVariant = {
     }
 };
 
-const containerVariant = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.2,
-        },
-    },
-};
 
-const cardVariant = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-            ease: "easeOut",
-        },
-    },
-};
+
 
 const IconGrid = () => {
     const items = [
-        // {name: 'GTL', image: 'gtf.png' , width : "130" , height : "130" , link : "https://gudinaandtsehaylegacy.org/" },
-        // {name: 'Ilaamee', image: 'ilame.png' , width: "130" , height: "130" , link : "https://gudinatumsafoundation.org/" },
-        // {name : 'GTF', image: 'logo.png' , width: "250" , height: "250"  , link : "#" },
-        // {name : "Biftuu Bole" , image: "biftu.jpg" , width: "110" , height: "110" , link : "https://biftubole.org/" },
-        //
+
         {name: 'GTL', image: 'cropped.webp' , width : "130" , height : "130" , link : "https://gudinaandtsehaylegacy.org/" },
         {name: 'Ilaamee', image: 'cropped.webp' , width: "130" , height: "130" , link : "https://gudinatumsafoundation.org/" },
         {name : 'GTF', image: 'cropped.webp' , width: "130" , height: "130"  , link : "#" },
@@ -107,44 +85,51 @@ const FeatureCards = () => {
     const features = [
         {
             title: "Learn Anywhere, Anytime",
-            description: "Read, research, and reflect on the legacy of Rev. Gudina Tumsa and Tsehay Tolessa from any device, wherever inspiration strikes.",
-            image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80",
-            gradient: "bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400"
+            description:
+                "Read, research, and reflect on the legacy of Rev. Gudina Tumsa and Tsehay Tolessa from any device, wherever inspiration strikes.",
+            image:
+                "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400",
         },
         {
             title: "Instant Legacy Access",
-            description: "Explore curated books, archives, and resources on Rev. Gudina Tumsa and Tsehay Tolessa—ready whenever you are.",
-            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
-            gradient: "bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400"
+            description:
+                "Explore curated books, archives, and resources on Rev. Gudina Tumsa and Tsehay Tolessa—ready whenever you are.",
+            image:
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400",
         },
         {
             title: "Community of Discovery",
-            description: "Engage in meaningful discussions with others passionate about preserving and exploring the legacy of Rev. Gudina Tumsa and Tsehay Tolessa.",
-            image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
-            gradient: "bg-gradient-to-br from-pink-200 via-pink-300 to-pink-400"
-        }
+            description:
+                "Engage in meaningful discussions with others passionate about preserving and exploring the legacy of Rev. Gudina Tumsa and Tsehay Tolessa.",
+            image:
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&auto=format&fit=crop&q=80",
+            gradient: "bg-gradient-to-br from-pink-200 via-pink-300 to-pink-400",
+        },
     ];
 
     return (
         <section className="px-6 py-16">
-            <div className="w-[90%] mx-auto flex justify-center items-start relative">
+            <div className="w-[90%] mx-auto flex flex-col md:flex-row justify-center items-start relative">
                 {features.map((feature, index) => {
-                    let rotation = "rotate-0";
-                    let zIndex = index;
-                    let translateY = ""
-                    if (index === 0) rotation = "-rotate-[4deg]";
-                    if (index === features.length - 1) {
-                        rotation = "rotate-[4deg]";
-                        zIndex = features.length;
-                    }
-                    if (index === 1) translateY = "-translate-y-10";
+                    const zIndex = index === features.length - 1 ? 10 : index;
 
                     return (
                         <div
                             key={index}
-                            className={`relative ${rotation} ${translateY} ${feature.gradient} border-0 p-6 rounded-3xl shadow-md hover:shadow-xl transition-shadow duration-300`}
-                            style={{ marginLeft: index === 0 ? 0 : "-10px", zIndex }}
+                            className={`
+                relative
+                ${feature.gradient} border-0 p-6 rounded-3xl shadow-md hover:shadow-xl transition-shadow duration-300 mb-8 md:mb-0
+                ${index !== 0 ? "md:-ml-2" : ""}
+                md:transform md:transition-transform md:duration-300
+                ${index === 0 ? "md:-rotate-[4deg]" : ""}
+                ${index === 1 ? "md:-translate-y-10" : ""}
+                ${index === features.length - 1 ? "md:rotate-[4deg]" : ""}
+              `}
+                            style={{ zIndex }}
                         >
+                            {/* Content without rotation */}
                             <h3 className="text-xl font-semibold text-gray-800 mb-[25%]">
                                 {feature.title}
                             </h3>
@@ -167,13 +152,9 @@ const FeatureCards = () => {
 };
 
 
-
 const Index = () => {
-    const [showNews, setShowNews] = useState(false);
-
-
-    return (
-        <div className="bg-[#F2F2F2] relative font-poppins">
+   return (
+       <div className="bg-[#F2F2F2] w-screen relative font-poppins overflow-x-hidden">
 
             <Header/>
             <HeroSection/>

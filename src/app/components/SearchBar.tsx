@@ -1,7 +1,7 @@
 /* eslint-disable  */
 // @ts-nocheck
 
-"use client"
+"use client";
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Button } from "./../../components/ui/button";
@@ -36,13 +36,13 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="w-full  mx-auto mt-6 mb-12">
+        <div className="w-full mx-auto mt-6 mb-12">
             <div className="flex h-12 items-center bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
                 <Search className="ml-4 h-5 w-5 text-gray-400" />
 
                 <input
                     type="text"
-                    placeholder="Search for a book , author"
+                    placeholder="Search for a book, author"
                     className="flex-1 px-4 text-base outline-none placeholder-gray-400"
                     onChange={(e) => setValues(e.target.value)}
                     value={values}
@@ -52,6 +52,7 @@ const SearchBar = () => {
                     onClick={callGetBooks}
                     disabled={loading || !values.trim()}
                     className="h-full px-6 rounded-none bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors disabled:opacity-50 flex items-center justify-center"
+                    aria-label="Search"
                 >
                     {loading ? (
                         <div className="flex items-center space-x-2">
@@ -59,11 +60,10 @@ const SearchBar = () => {
                             <span>Searching...</span>
                         </div>
                     ) : (
-                        "Search"
+                        <Search className="h-5 w-5" />
                     )}
                 </Button>
             </div>
-
         </div>
     );
 };

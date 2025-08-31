@@ -50,7 +50,7 @@ export default function Page() {
 
     return (
         <SidebarLayout>
-            <div className={"h-screen"}>
+            <div className={"min-h-screen"}>
                 <SearchBar />
                 <div className="flex flex-row justify-between">
                     <div className="mb-8 mt-[5%]">

@@ -9,7 +9,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main className="w-full bg-white dark:bg-gray-800 ">
+            <main className="w-full bg-white dark:bg-gray-800 min-h-screen ">
                 <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden dark:bg-gray-800">
                     <div className="flex relative p-4 border-b h-[50px] dark:bg-gray-800">
                         <div className="absolute top-2 left-4">

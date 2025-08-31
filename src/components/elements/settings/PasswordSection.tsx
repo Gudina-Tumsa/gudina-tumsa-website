@@ -1,7 +1,7 @@
 /* eslint-disable  */
 // @ts-nocheck
-import React from 'react';
-import { Info } from 'lucide-react';
+import React,{useState} from 'react';
+import { Eye , EyeOff } from 'lucide-react';
 
 interface PasswordSectionProps {
     password: string;
