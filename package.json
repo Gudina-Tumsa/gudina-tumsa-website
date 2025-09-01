@@ -30,6 +30,7 @@
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.519.0",
     "next": "15.3.4",
+    "next-auth": "^4.24.11",
     "next-intl": "^4.1.0",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^2.16.105",
