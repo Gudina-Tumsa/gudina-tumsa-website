@@ -1,16 +1,14 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
-// This component is now responsive.
-// The buttons will stack on small screens and be in a row on larger screens.
+
 function StoreButtons() {
     return (
-        // flex-col sm:flex-row -> Stack vertically on mobile, row on small screens and up.
-        // mt-6 mb-8 -> Replaced inconsistent percentage margins with fixed spacing.
+
         <div className="flex flex-col sm:flex-row gap-4 mt-6 mb-8">
-            {/* App Store Button */}
+
             <button
                 type="button"
-                // w-full sm:w-48 -> Full width on mobile, fixed width on larger screens.
+
                 className="px-3 flex items-center justify-center w-full sm:w-48 h-14 text-white bg-black rounded-xl"
             >
                 <div className="mr-3">

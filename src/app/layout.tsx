@@ -26,14 +26,19 @@ const poppins = Poppins({
 const instrumentSerif = Instrument_Serif({
     variable: "--font-instrument-serif",
     subsets: ["latin"],
-    weight: ["400"], // Currently only Regular (400) is available
+    weight: ["400"],
     style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
     title: "GTL",
     description: "GTL",
+    icons: {
+        icon: "/resized2.svg",
+    },
 };
+
+
 
 export default async function RootLayout({
                                              children,
