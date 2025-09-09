@@ -36,16 +36,13 @@ const StarRating = ({ rating, onRate, editable = false }: StarRatingProps) => {
 
     const getColor = (index: number) => {
         if (hoveredStar !== null) {
-            return index <= hoveredStar ? 'text-yellow-400' : 'text-gray-300';
+            // return index <= hoveredStar ? 'text-yellow-400' : 'text-gray-300';
+            return index <= rating ? 'text-yellow-400' : 'text-gray-300';
         }
         return index <= rating ? 'text-yellow-400' : 'text-gray-300';
     };
 
-    const handleClick = (index: number) => {
-        if (editable && onRate) {
-            onRate(index);
-        }
-    };
+
 
     return (
         <div className="flex items-center">

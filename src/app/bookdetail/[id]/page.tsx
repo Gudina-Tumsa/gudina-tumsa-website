@@ -13,7 +13,6 @@ import {useEffect, useState} from "react";
 import {BookData} from "@/types/book";
 import {RootState} from "@/app/store/store";
 import {useSelector} from "react-redux";
-import {UserResponse} from "@/types/auth";
 
 const Index = () => {
 
@@ -22,14 +21,38 @@ const Index = () => {
     const books = useSelector((state: RootState) => state.book)
     const user = useSelector((state: RootState) => state.user)
     const [currentbook , setCurrentBook] = useState<BookData | null>(null)
+
     useEffect(() => {
         if (!id || !books) return
 
         const foundBook = books?.books?.data.books.find(bookData  => bookData._id === id)
+        console.log("foundBook ", foundBook)
         setCurrentBook(foundBook || null)
     }, [id, books])
 
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
 
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
     return (
         <SidebarLayout>
             <div className="min-h-screen mt-[6%]">

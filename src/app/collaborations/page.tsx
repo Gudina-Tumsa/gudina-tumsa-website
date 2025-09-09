@@ -5,9 +5,10 @@
 // @ts-nocheck
 
 "use client"
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, {useState, ChangeEvent, FormEvent, useEffect} from 'react';
 import Header from "@/components/layout/Header";
 import Link from "next/link";
+import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 
 type FormData = {
     name: string;
@@ -42,6 +43,30 @@ const CollaborationPage = () => {
         message: '',
         agreeToTerms: false
     });
+
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
+
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
 
     const [activeTab, setActiveTab] = useState<'form' | 'info'>('form');
     const [errors, setErrors] = useState<FormErrors>({});

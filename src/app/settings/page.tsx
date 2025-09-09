@@ -21,7 +21,29 @@ const Sessions = () => {
     const user = useSelector((state: RootState) => state.user);
     const [sessions, setSessions] = useState<SessionResponse[]>([]);
     const currentDeviceId = navigator.userAgent;
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
 
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
     useEffect(() => {
         const fetchSessions = async () => {
             if (!user?.user?._id) return;

@@ -1,6 +1,6 @@
 /* eslint-disable  */
 // @ts-nocheck
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Eye , EyeOff } from 'lucide-react';
 
 interface PasswordSectionProps {
@@ -19,6 +19,29 @@ export const PasswordSection: React.FC<PasswordSectionProps> = ({
     const toggleShowPassword = () => {
         setShowPassword((prev) => !prev);
     };
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
+
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
     return (
         <div className="space-y-6">
             {/* Info Message */}
@@ -35,7 +58,7 @@ export const PasswordSection: React.FC<PasswordSectionProps> = ({
             </div>
 
             <div className="space-y-2 relative">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium dark:text-white text-gray-100 ">
                     Password
                 </label>
                 <input
@@ -43,7 +66,7 @@ export const PasswordSection: React.FC<PasswordSectionProps> = ({
                     value={password}
                     onChange={onPasswordChange}
                     placeholder="Enter your new password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors pr-10"
+                    className="w-full px-3 py-2 border dark:text-black border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors pr-10"
                 />
                 <button
                     type="button"

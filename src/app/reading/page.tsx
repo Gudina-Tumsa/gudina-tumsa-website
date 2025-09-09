@@ -14,12 +14,34 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
 import {useEffect} from "react";
-import { getReadingBooks} from "@/lib/api/book";
+import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import { BookListResponse} from "@/types/book";
 
 export default function Page() {
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
 
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
 
     const books = useSelector((state: RootState) => state.book)
     const user = useSelector((state: RootState) => state.user)

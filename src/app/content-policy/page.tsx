@@ -1,11 +1,35 @@
 /* eslint-disable  */
 // @ts-nocheck
-
-import React from 'react';
+"use client"
+import React, {useEffect} from 'react';
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 
 const ContentPolicy = () => {
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
+
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
     return (
         <div className="min-h-screen text-gray-800">
             <Header />

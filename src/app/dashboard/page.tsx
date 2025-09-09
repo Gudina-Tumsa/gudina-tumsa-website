@@ -1,4 +1,4 @@
-
+"use client"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,8 +14,33 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import {AppSidebar} from "@/components/layout/sidebar/app-sidebar";
+import {useEffect} from "react";
+import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 
 export default function Page() {
+  const applyTheme = (selectedTheme: string) => {
+    const root = window.document.documentElement;
+
+    if (selectedTheme === 'dark') {
+      root.classList.add('dark');
+    } else if (selectedTheme === 'light') {
+      root.classList.remove('dark');
+    } else {
+      // Apply system preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'system';
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    applyTheme(savedTheme);
+  }, []);
   return (
     <SidebarProvider>
       <AppSidebar />

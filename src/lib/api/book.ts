@@ -135,3 +135,31 @@ try{
     throw error;
 }
 }
+
+export const  getBookSuggestions= async (token : string): Promise<BookListResponse> => {
+    try {
+        const params = new URLSearchParams();
+        params.append('page', "1");
+        params.append('limit', "100");
+
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/get-suggestions?${params.toString()}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Getting books failed');
+        }
+
+        const data: BookListResponse = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Get books error:', error);
+        throw error;
+    }
+}

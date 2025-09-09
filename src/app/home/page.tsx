@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import {RootState} from "@/app/store/store";
 import {useAppDispatch} from "@/lib/hooks";
 import {useEffect, useState} from "react";
-import {getBooks, GetBooksRequest, getReadingBooks,getTodaysSelection} from "@/lib/api/book";
+import {getBooks, GetBooksRequest, getBookSuggestions, getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 import {BookListResponse} from "@/types/book"
 import {getBooksSuccess} from "@/app/store/features/bookSlice";
 import {useRouter} from "next/navigation";
@@ -126,6 +126,7 @@ export default function Page() {
   const dispatch = useDispatch();
   const [currentlyReading, setCurrentlyReading] = useState(null);
   const [todaysSelection , setTodaysSelection] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
 
   const applyTheme = (selectedTheme: string) => {
         const root = window.document.documentElement;
@@ -148,23 +149,34 @@ export default function Page() {
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') || 'system';
         const savedLanguage = localStorage.getItem('language') || 'en';
-
-
         applyTheme(savedTheme);
     }, []);
+
     useEffect(()=> {
         const fetchTodaysSelection = async() => {
-           try {
-              const token = user?.user?.token
-              const response = await getTodaysSelection(token)
-              setTodaysSelection(response)
-           } catch(err : unknown) {
-               console.log("failed to fetch todaysSelection", err);
-           }
+            try {
+                const token = user?.user?.token
+                const response = await getTodaysSelection(token)
+                setTodaysSelection(response)
+            } catch(err : unknown) {
+                console.log("failed to fetch todaysSelection", err);
+            }
         }
         fetchTodaysSelection();
     },[])
 
+    useEffect(()=> {
+        const  fetchRecommendation= async() => {
+            try {
+                const token = user?.user?.token
+                const response = await getBookSuggestions(token)
+                setRecommendations(response)
+            } catch(err : unknown) {
+                console.log("failed to fetch todaysSelection", err);
+            }
+        }
+        fetchRecommendation();
+    },[])
     useEffect(() => {
        console.log({"todayssleection" : todaysSelection});
        console.log(todaysSelection);
@@ -241,7 +253,7 @@ export default function Page() {
                  <BookGrid
                      userId={user?.user?._id ?? ""}
                      title="Top Picks for you"
-                     books={books?.books}
+                     books={recommendations}
                  />
              </div>
 

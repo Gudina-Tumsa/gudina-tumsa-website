@@ -11,11 +11,36 @@ import { getCategoriesSuccess } from "@/app/store/features/categorySlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { useRouter } from "next/navigation";
+import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
 
 export default function Page() {
     const router = useRouter();
     const categories = useSelector((state: RootState) => state.category);
     const dispatch = useAppDispatch();
+
+    const applyTheme = (selectedTheme: string) => {
+        const root = window.document.documentElement;
+
+        if (selectedTheme === 'dark') {
+            root.classList.add('dark');
+        } else if (selectedTheme === 'light') {
+            root.classList.remove('dark');
+        } else {
+            // Apply system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+        }
+    };
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const savedLanguage = localStorage.getItem('language') || 'en';
+        applyTheme(savedTheme);
+    }, []);
 
     useEffect(() => {
         const fetchCategories = async () => {

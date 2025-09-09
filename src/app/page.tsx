@@ -137,11 +137,11 @@ const FeatureCards = () => {
                                 <p className="text-gray-700 text-sm leading-relaxed max-w-[65%]">
                                     {feature.description}
                                 </p>
-                                <img
-                                    src={feature.image}
-                                    alt={feature.title}
-                                    className="rounded-md w-[100px] h-[100px] object-cover"
-                                />
+                                {/*<img*/}
+                                {/*    src={feature.image}*/}
+                                {/*    alt={feature.title}*/}
+                                {/*    className="rounded-md w-[100px] h-[100px] object-cover"*/}
+                                {/*/>*/}
                             </div>
                         </div>
                     );

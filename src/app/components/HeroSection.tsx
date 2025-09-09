@@ -84,7 +84,7 @@ const HeroSection = () => {
                     <div className="relative w-full max-w-md lg:max-w-none">
                         <img
                             // src="https://static.blinkist.com/cdn-cgi/image/width=508,height=433,format=webp,quality=70,dpr=1/https://static.blinkist.com/web-growth/homepage/hero_desktop.png?c=365"
-                            src="backgroundimage.png"
+                            src="back.png"
                             alt="Knowledge at your fingertips"
                             width={508}
                             height={433}
