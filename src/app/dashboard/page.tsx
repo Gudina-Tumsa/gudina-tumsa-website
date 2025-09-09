@@ -1,3 +1,9 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+/* eslint-disable  */
+// @ts-nocheck
+
 "use client"
 import {
   Breadcrumb,

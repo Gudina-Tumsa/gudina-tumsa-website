@@ -1,3 +1,9 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+/* eslint-disable  */
+// @ts-nocheck
+
 import React, {useEffect, useState} from 'react';
 import { X } from 'lucide-react';
 

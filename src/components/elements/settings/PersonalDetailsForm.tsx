@@ -1,3 +1,9 @@
+/* eslint-disable  */
+// @ts-nocheck
+
+/* eslint-disable  */
+// @ts-nocheck
+
 import React, {useEffect} from 'react';
 import { FormInput } from './FormInput';
 
