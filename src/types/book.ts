@@ -25,6 +25,8 @@ export interface BookData {
     isActive: boolean;
     metadata: Record<string, unknown>;
     rating: number;
+    pageReached : string;
+    contentType : string;
 }
 
 

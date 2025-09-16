@@ -1,4 +1,4 @@
-import { BookListResponse } from '@/types/book';
+import {BookData, BookListResponse} from '@/types/book';
 
 export interface GetBooksRequest {
     search?: string;
@@ -18,6 +18,34 @@ export interface GetBooksRequest {
 interface ApiError {
     message: string;
     statusCode: number;
+}
+
+export interface BookResponse {
+    data : {
+        book?: BookData;
+    }
+}
+
+export const getBookById = async (id : string) : Promise<BookData | undefined> => {
+    try {
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            const errorData: ApiError = await response.json();
+            throw new Error(errorData.message || 'Getting books failed');
+        }
+
+        const data: BookResponse  = await response.json();
+        return data.data?.book
+    }catch(error) {
+        throw error;
+    }
 }
 
 export const getBooks = async (request: GetBooksRequest): Promise<BookListResponse> => {

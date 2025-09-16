@@ -5,7 +5,14 @@
 
 import {useState, useEffect, useRef} from "react";
 import {BookData} from "@/types/book";
-import {createComment, dislikeAComment, getComments, likeAComment} from "@/lib/api/comment";
+import {
+    createComment,
+    deleteAComment,
+    dislikeAComment,
+    getComments,
+    likeAComment,
+    updateComment
+} from "@/lib/api/comment";
 import {useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
@@ -296,6 +303,11 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
     const [replyingTo, setReplyingTo] = useState<string | null>(null);
     const [replyContent, setReplyContent] = useState("");
     const [expandedReplies, setExpandedReplies] = useState<Record<string, boolean>>({});
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+    const [isEditSelected, setIsEditSelected] = useState<boolean | null>(null);
+    const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+    const [editedContent, setEditedContent] = useState<string>("");
+
     const user = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
@@ -362,7 +374,6 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
             setReplyContent("");
             setReplyingTo(null);
             await fetchComments();
-            // Expand the parent comment's replies when adding a new reply
             setExpandedReplies(prev => ({
                 ...prev,
                 [parentId]: true
@@ -371,6 +382,31 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
             console.error("Failed to add reply:", error);
         }
     };
+
+    const handleSaveEditedComment = (commentId: string, newContent: string) => {
+        if (!newContent.trim()) return;
+
+        updateComment(commentId, newContent)
+            .then(() => {
+                setEditingCommentId(null);
+                setEditedContent("");
+                fetchComments();
+            })
+            .catch((error) => {
+                console.error("Failed to update comment:", error);
+            });
+    };
+
+    const deleteComment = async (id: string) => {
+        if (!id.trim()) return;
+        deleteAComment(id).
+        then(() => {
+                setEditingCommentId(null);
+                setEditedContent("");
+                fetchComments();
+            }).catch((error) => {})
+
+    }
 
     const renderComments = (commentList: CommentData[], level = 0 , userId : string) => {
 
@@ -382,27 +418,112 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
             return (
                 <div key={comment._id} className={`dark:bg-gray-700 bg-gray-50 rounded-lg p-4 ${level > 0 ? 'mt-2' : 'mb-4'}`}>
                     <div className="flex justify-between items-start mb-2">
-                        <span className="font-medium text-gray-900">
-                            {comment.userId.username}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                            {new Date(comment.createdAt).toLocaleString()}
-                            {comment.isEdited && " (edited)"}
-                        </span>
-                    </div>
-                    <p className="text-gray-700 mb-2">{comment.content}</p>
+                       <div className="flex items-center">
+                            <span className="font-medium text-gray-900">
+                                {comment.userId.username}
+                            </span>
+                           <span className="ml-[6px] text-sm text-gray-500">
+                                {new Date(comment.createdAt).toLocaleString()}
+                                {comment.isEdited && " (edited)"}
+                            </span>
+                       </div>
 
+                        <div className="relative">
+
+                            <button
+                                onClick={() =>
+                                    setOpenDropdown(openDropdown === comment._id ? null : comment._id)
+                                }
+                                className="text-gray-500 hover:text-gray-700 px-2"
+                            >
+                                ⋯
+                            </button>
+                            {openDropdown === comment._id && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                                    <button
+                                        onClick={() => {
+                                            setReplyingTo(comment._id);
+                                            setOpenDropdown(null);
+                                        }}
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    >
+                                        Reply
+                                    </button>
+
+                                    {comment.userId._id === userId && (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    setEditedContent(comment.content);
+                                                    setEditingCommentId(comment._id);
+                                                    setOpenDropdown(null);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    deleteComment(comment._id);
+
+                                                    setOpenDropdown(null);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                            >
+                                                Delete
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+
+
+                    </div>
+                    {/*<p className="dark:bg-gray-700 bg-gray-50 mb-2">{comment.content}</p>*/}
+                    {editingCommentId === comment._id ? (
+                        <div className="mb-2">
+        <textarea
+            className="w-full px-3 py-2  dark:text-white text-black bg-transparent border-0 focus:border-0"
+            rows={2}
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
+        />
+                            <div className="flex space-x-2 mt-2">
+                                <button
+                                    onClick={() => {
+                                        handleSaveEditedComment(comment._id, editedContent);
+                                    }}
+                                    className="px-3 py-1 bg-[#C084FC] text-white rounded-md bg-[#C084FC] transition-colors text-sm"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setEditingCommentId(null);
+                                        setEditedContent("");
+                                    }}
+                                    className="px-3 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors text-sm"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="dark:bg-gray-700 bg-gray-50 mb-2">{comment.content}</p>
+                    )}
                     <div className="flex space-x-4 text-sm">
                         <button
                             onClick={() => setReplyingTo(replyingTo === comment._id ? null : comment._id)}
-                            className="text-blue-600 hover:text-blue-800"
+                            className="text-[#C084FC] hover:text-[#C084FC]/50"
                         >
                             Reply
                         </button>
                         {hasReplies && (
                             <button
                                 onClick={() => toggleReplies(comment._id)}
-                                className="text-blue-600 hover:text-blue-800"
+                                className="text-[#C084FC] hover:text-[#C084FC]/50"
                             >
                                 {isExpanded ? 'Hide replies' : `Show replies (${comment.repliesCount})`}
                             </button>
@@ -429,7 +550,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                     {replyingTo === comment._id && (
                         <div className="mt-3 ml-4">
                             <textarea
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2"
                                 rows={2}
                                 placeholder="Write your reply..."
                                 value={replyContent}
@@ -441,7 +562,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
 
                                         handleAddReply(comment._id)
                                     }}
-                                    className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                                    className="px-3 py-1 bg-[#C084FC] text-white rounded-md  transition-colors text-sm"
                                 >
                                     Post Reply
                                 </button>
@@ -455,7 +576,6 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                         </div>
                     )}
 
-                    {/* Render replies if expanded */}
                     {hasReplies && isExpanded && (
                         <div className="mt-3 border-l-2 border-gray-200 pl-4">
                             {renderComments(replies, level + 1 , userId)}
@@ -490,7 +610,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                         <div className="flex space-x-2">
                             <button
                                 onClick={handleAddComment}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                                className="px-4 py-2 bg-[#C084FC] text-white rounded-md hover:bg-[#C084FC] transition-colors"
                             >
                                 {replyingTo ? "Post Reply" : "Post Comment"}
                             </button>
@@ -544,7 +664,7 @@ const BookTabs = ({ bookData, userData }: { bookData: BookData | null; userData:
                             onClick={() => setActiveTab(tab.id)}
                             className={`pb-3 px-1 text-sm font-medium border-b-2 transition-colors ${
                                 activeTab === tab.id
-                                    ? "border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400"
+                                    ? "border-[#C084FC]  text-[#C084FC] dark:text-[#C084FC] dark:border-[#C084FC]"
                                     : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                             }`}
                         >

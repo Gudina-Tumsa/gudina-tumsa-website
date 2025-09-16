@@ -172,15 +172,12 @@ export default function Page() {
                 const response = await getBookSuggestions(token)
                 setRecommendations(response)
             } catch(err : unknown) {
-                console.log("failed to fetch todaysSelection", err);
+                console.log("failed to fetch todays Selection", err);
             }
         }
         fetchRecommendation();
     },[])
-    useEffect(() => {
-       console.log({"todayssleection" : todaysSelection});
-       console.log(todaysSelection);
-    }, [todaysSelection]);
+
     useEffect(() => {
            const fetchReadingBooks = async () => {
                 try {
@@ -194,7 +191,6 @@ export default function Page() {
             fetchReadingBooks()
 
     }, []);
-
   useEffect(() => {
 
     const fetchBooks = async () => {
@@ -241,7 +237,7 @@ export default function Page() {
                  </div>
 
                  {
-                     currentlyReading ?<BookGrid
+                     currentlyReading ? <BookGrid
                          title="Reading"
                          userId={user?.user?._id ?? ""}
                          books={currentlyReading}

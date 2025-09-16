@@ -11,12 +11,15 @@ interface BookGridProps {
 }
 
 const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps) => {
-    return (
+    const hasBooks = books?.data?.books && books.data.books.length > 0;
+
+    return hasBooks ?
+    (
         <section className="mb-12 w-full  ">
             <h2 className="dark:text-white text-xl font-semibold text-gray-900 mb-6">{title}</h2>
             <div className="w-full  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
             {books &&
-                    books.data.books.map((book) => (
+                    books.data.books.map((book) => book.contentType != "audio" ? (
 
                             <BookCard
                                 key={book._id}
@@ -29,10 +32,12 @@ const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps
                                 id={book._id}
                             />
 
-                    ))}
+                    ) : ""
+
+                    )}
             </div>
         </section>
-    );
+    ) : <div></div>
 };
 
 export default BookGrid;

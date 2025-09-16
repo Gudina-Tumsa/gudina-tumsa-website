@@ -145,3 +145,34 @@ export const dislikeAComment =  async (userId: string, commentId: string) => {
         throw error;
     }
 }
+
+export const deleteAComment = async(commentId: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/${commentId}`, {
+        method: 'DELETE'
+    })
+
+    if (!response.ok) {
+        const errorData: ApiError = await response.json();
+        throw new Error(errorData.message || 'Failed to delete comment');
+    }
+    return await response.json();
+}
+
+export const updateComment = async (commentId: string, content: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/${commentId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content }),
+    });
+
+    if (!response.ok) {
+        const errorData: ApiError = await response.json();
+        throw new Error(errorData.message || 'Failed to update comment');
+    }
+
+    return await response.json();
+};
+
+

@@ -15,6 +15,35 @@ import { useSelector } from "react-redux";
 import type { Rendition } from "epubjs";
 import { Dialog, Transition } from "@headlessui/react";
 import { Settings, X, Sun, Moon } from 'lucide-react';
+import * as React from 'react';
+import { createStore, Plugin, PluginFunctions } from '@react-pdf-viewer/core';
+import {getBookById} from "@/lib/api/book";
+import {BookData} from "@/types/book";
+
+interface StoreProps {
+    jumpToPage?(pageIndex: number): void;
+}
+
+interface JumpToPagePlugin extends Plugin {
+    jumpToPage(pageIndex: number): void;
+}
+
+const jumpToPagePlugin = (): JumpToPagePlugin => {
+    const store = React.useMemo(() => createStore<StoreProps>(), []);
+
+    return {
+        install: (pluginFunctions: PluginFunctions) => {
+            store.update('jumpToPage', pluginFunctions.jumpToPage);
+        },
+        jumpToPage: (pageIndex: number) => {
+            const fn = store.get('jumpToPage');
+            if (fn) {
+                fn(pageIndex);
+            }
+        },
+    };
+};
+
 const getPageNumberFromCFI = (cfi: string): number => {
     if (!cfi || typeof cfi !== 'string') return 0;
     const match = cfi.match(/epubcfi\(\/6\/(\d+)/);
@@ -50,7 +79,6 @@ const EpubControls = ({ rendition, theme, setTheme }) => {
                 <Settings className="w-5 h-5" />
             </button>
 
-            {/* Modal */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div
@@ -58,7 +86,6 @@ const EpubControls = ({ rendition, theme, setTheme }) => {
                             ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'}
                         `}
                     >
-                        {/* Close Button */}
                         <button
                             onClick={() => setIsOpen(false)}
                             className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
@@ -69,7 +96,6 @@ const EpubControls = ({ rendition, theme, setTheme }) => {
 
                         <h2 className="text-xl font-semibold mb-6">Reader Settings</h2>
 
-                        {/* Font Size Controls */}
                         <div className="mb-5">
                             <label className="block text-sm font-medium mb-2">Font Size</label>
                             <div className="flex items-center gap-3">
@@ -88,8 +114,22 @@ const EpubControls = ({ rendition, theme, setTheme }) => {
                                 </button>
                             </div>
                         </div>
+                        <div className="mb-5">
+                            <label className="block text-sm font-medium mb-2">Line Spacing</label>
+                            <select
+                                onChange={(e) => setTheme({ ...theme, lineHeight: e.target.value })}
+                                value={theme.lineHeight}
+                                className={`w-full border px-3 py-2 rounded text-sm 
+            ${isDark ? 'bg-gray-800 text-white border-gray-700' : 'bg-white border-gray-300'}
+        `}
+                            >
+                                <option value="1.2">1.2</option>
+                                <option value="1.5">1.5</option>
+                                <option value="1.8">1.8</option>
+                                <option value="2">2.0</option>
+                            </select>
+                        </div>
 
-                        {/* Font Family */}
                         <div className="mb-5">
                             <label className="block text-sm font-medium mb-2">Font Family</label>
                             <select
@@ -137,13 +177,18 @@ export default function Home() {
     const user = useSelector((state: RootState) => state.user);
     const [bookData, setBookData] = useState<ArrayBuffer | null>(null);
 
-    const [theme, setTheme] = useState({ fontFamily: 'Arial', fontSize: '100%', mode: 'light' });
+    const [theme, setTheme] = useState({
+        fontFamily: 'Arial',
+        fontSize: '100%',
+        mode: 'light',
+        lineHeight: '1.5',
+        textColor: '#1f2937',
+    });
 
 
     const [currentPdfPage, setCurrentPdfPage] = useState(0);
     const [totalPdfPages, setTotalPdfPages] = useState(0);
 
-    // Modal + rating state
     const [showFinishModal, setShowFinishModal] = useState(false);
     const [rating, setRating] = useState(0);
     useEffect(() => {
@@ -232,6 +277,7 @@ export default function Home() {
             const isDark = theme.mode === 'dark';
 
             rendition.current.themes.override('font-family', theme.fontFamily);
+            rendition.current.themes.override('line-height', theme.lineHeight);
             rendition.current.themes.fontSize(theme.fontSize);
 
             // Background & text color
@@ -306,6 +352,34 @@ export default function Home() {
             color: 'white',
         },
     }
+
+    const jumpToPagePluginInstance = jumpToPagePlugin();
+    const { jumpToPage } = jumpToPagePluginInstance;
+
+    const hasJumped = useRef(false);
+
+    const [jumpToPageNumber , setJumpToPage] = useState(0);
+    const [currentBook , setCurrentBook] = useState<BookData | null>(null);
+
+    useEffect(() => {
+       try {
+           getBookById(id).then((book) => {
+               console.log(book)
+               setCurrentBook(book)
+               if (book) {
+                   let parsedInt = parseInt(book?.pageReached , 10)
+                   setJumpToPage(parsedInt);
+               }
+           }).catch(err => {
+               console.error(err);
+           })
+       }catch(err : unknown){
+           console.log(err)
+       }
+    }, []);
+
+
+
     return (
         <main className={`relative h-screen ${theme.mode === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
 
@@ -320,14 +394,24 @@ export default function Home() {
                     <div style={{ height: "100vh" }}>
                         <Viewer
                             fileUrl={pdfUrl}
-                            plugins={[defaultLayoutPluginInstance]}
+                            plugins={[defaultLayoutPluginInstance, jumpToPagePluginInstance]}
+                            onDocumentLoad={() => {
+                                if (!hasJumped.current) {
+                                   console.log()
+                                    setTimeout(() => {
+                                        jumpToPage(jumpToPageNumber);
+                                    }, 300);
+                                    hasJumped.current = true;
+                                }
+                            }}
+
+
                             onPageChange={(e) => {
                                 const currentPage = e.currentPage + 1; // pages are 0-indexed
                                 const totalPages = e?.doc?._pdfInfo?.numPages;
-                                console.log("currentPage", currentPage, totalPages);
                                 setCurrentPdfPage(currentPage);
                                 setTotalPdfPages(totalPages);
-
+                                console.log("currentPage", currentPage);
 
                                 if (currentPage === totalPages && !showFinishModal) {
                                    setTimeout(() => {
@@ -356,6 +440,7 @@ export default function Home() {
                     <ReactReader
                         url={bookData}
                         location={location}
+
                         readerStyles={theme.mode === 'dark' ? darkReaderTheme : lightReaderTheme}
                         // epubOptions={{
                         //     flow: 'scrolled',
@@ -363,13 +448,11 @@ export default function Home() {
                         // }}
                         locationChanged={async (cfi: string) => {
                             setLocation(cfi);
-                            const pageNumber = getPageNumberFromCFI(cfi);
-
                             let interactionType: 'view' | 'finished' = 'view';
 
                             try {
-                                const totalLocations = rendition.current?.book.locations.length();
-                                const currentLocation = rendition.current?.book.locations.locationFromCfi(cfi);
+                                const totalLocations = _rendition.book.locations.length();
+                                const currentLocation = _rendition.book.locations.locationFromCfi(cfi);
 
                                 if (currentLocation >= totalLocations * 0.95 && !showFinishModal) {
                                     interactionType = 'finished';
@@ -383,7 +466,7 @@ export default function Home() {
                                 userId: user?.user._id,
                                 bookId: id,
                                 interactionType,
-                                pageReached: pageNumber,
+                                pageReached: cfi,
                                 duration: 0,
                             });
                         }}
@@ -394,8 +477,8 @@ export default function Home() {
 
                             _rendition.themes.default({
                                 body: {
-                                    background: isDark ? '#1f2937' : '#ffffff', // Tailwind gray-900 or white
-                                    color: isDark ? '#f9fafb' : '#1f2937',       // Tailwind gray-100 or gray-900
+                                    background: isDark ? '#1f2937' : '#ffffff',
+                                    color: isDark ? '#f9fafb' : '#1f2937',
                                     margin: 0,
                                     padding: 0,
                                 },
@@ -409,10 +492,38 @@ export default function Home() {
 
                             _rendition.themes.fontSize(theme.fontSize);
                             _rendition.themes.override('font-family', theme.fontFamily);
+                            _rendition.themes.override('line-height', theme.lineHeight);
 
-                            _rendition.book.ready.then(() => {
-                                _rendition.book.locations.generate(1000);
+                            _rendition.book.ready.then(async () => {
+                                try {
+                                    await _rendition.book.locations.generate(1000);
+
+                                    if (!hasJumped.current) {
+                                        const customCfi = currentBook?.pageReached
+                                        try {
+                                            await _rendition.display(customCfi);
+                                            setLocation(customCfi);
+                                            hasJumped.current = true;
+                                            return;
+                                        } catch (err) {
+                                            console.warn("Failed to jump to custom CFI:", err);
+                                        }
+
+                                        await _rendition.display();
+                                        setLocation(null);
+                                        hasJumped.current = true;
+                                    }
+                                } catch (err) {
+                                    console.error("Error preparing EPUB locations:", err);
+                                    try {
+                                        await _rendition.display();
+                                        setLocation(null);
+                                    } catch (fallbackErr) {
+                                        console.error("Failed to fallback to first page:", fallbackErr);
+                                    }
+                                }
                             });
+
                         }}
 
                     />
@@ -420,7 +531,6 @@ export default function Home() {
                 </>
             )}
 
-            {/* 📘 Finish Modal */}
             <Transition appear show={showFinishModal} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setShowFinishModal(false)}>
                     <Transition.Child

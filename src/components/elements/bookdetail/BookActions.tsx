@@ -6,10 +6,15 @@ import { createUserBookInteraction } from "@/lib/api/userbookinteraction";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setCurrentBook } from "./../../../app/store/features/bookSlice";
+import {getBookById} from "@/lib/api/book";
+import {useEffect} from "react";
 
 const BookActions = ({ bookData }: { bookData: BookData }) => {
     const router = useRouter();
     const user = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
 
     async function saveBook(id: string, userId: string) {
         try {
@@ -34,6 +39,8 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
         if (!user?.user) {
             router.push("/login");
         } else {
+
+
             router.push(`/book/${bookData._id}`);
         }
     };
@@ -66,8 +73,9 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
     return (
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
             <Toaster position="top-right" />
+
             <button
-                className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 px-4 py-2 rounded-md font-medium text-sm sm:text-base transition-colors"
+                className="bg-[#C084FC] text-white dark:bg-[#C084FC] dark:bg-[#C084FC] px-4 py-2 rounded-md font-medium text-sm sm:text-base transition-colors"
                 onClick={handleReadClick}
             >
                 {user?.user == null ? "Login to Read" : "Read"}

@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
     env: {
 
         // NEXT_PUBLIC_BASE_URL:  "https://apitest.gebeta.app",
-        //NEXT_PUBLIC_BASE_URL:  "http://localhost:3000",
-        NEXT_PUBLIC_BASE_URL: "https://api.gudinatumsa.com"
+        NEXT_PUBLIC_BASE_URL:  "http://localhost:3000"
+        //NEXT_PUBLIC_BASE_URL: "https://api.gudinatumsa.com"
     },
     webpack: (config) => {
         // Disable canvas and encoding modules (for @react-pdf-viewer)

@@ -14,7 +14,7 @@ const BookDetails = ({ bookData }: { bookData: BookData | null }) => {
                 <div className="flex flex-wrap gap-2 mb-6">
                     <a
                         href="#"
-                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-600 font-medium"
+                        className="text-[#C084FC] dark:text-[#C084FC] font-medium"
                     >
                         {bookData.author}
                     </a>

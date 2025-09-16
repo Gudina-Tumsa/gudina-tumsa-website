@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import { BookListResponse} from "@/types/book"
+import { BookListResponse , BookData} from "@/types/book"
 
 interface BooksState {
     books: BookListResponse | null;
+    currentBook: BookData | null;
     error: string | null;
 }
 const initialState : BooksState = {
     books: null,
+    currentBook:   null,
     error : null
 }
 
@@ -29,12 +31,20 @@ const bookSlice = createSlice({
             state.books.data.page = action.payload.data.page
             state.books.data.limit = action.payload.data.limit
             state.books.data.total = action.payload.data.total
-        }
+        },
+        setCurrentBook: (state, action: PayloadAction<BookData>) => {
+            state.currentBook = action.payload;
+        },
+        clearCurrentBook: (state) => {
+            state.currentBook = null;
+        },
     }
 })
 
 export const {
-    getBooksSuccess
+    getBooksSuccess,
+    setCurrentBook,
+    clearCurrentBook,
 } = bookSlice.actions
 
 export default bookSlice.reducer;
