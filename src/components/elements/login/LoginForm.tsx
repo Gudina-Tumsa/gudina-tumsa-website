@@ -49,7 +49,7 @@ const LoginForm = () => {
     return (
         <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
             <div className="text-center mb-8">
-                <h1 className="text-3xl font-extrabold text-purple-700 mb-2">Log in to GTL</h1>
+                <h1 className="text-3xl font-extrabold text-purple-700 mb-2 font-poppins">Login to GTL</h1>
             </div>
 
             {errorMsg && (
@@ -131,7 +131,7 @@ const LoginForm = () => {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className={`w-full flex justify-center items-center gap-2 ${
+                    className={`w-full font-poppins flex justify-center items-center gap-2 ${
                         isLoading
                             ? "bg-purple-700 cursor-not-allowed"
                             : "bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-1"

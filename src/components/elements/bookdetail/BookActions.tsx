@@ -10,9 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { setCurrentBook } from "./../../../app/store/features/bookSlice";
-import {getBookById} from "@/lib/api/book";
-import {useEffect} from "react";
+
 
 const BookActions = ({ bookData }: { bookData: BookData }) => {
     const router = useRouter();

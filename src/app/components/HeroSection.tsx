@@ -36,7 +36,7 @@ const HeroSection = () => {
                         </motion.h1>
 
                         <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-2">
-                            At the tip
+                            at the tip
                         </h1>
                         <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
                             of your fingers

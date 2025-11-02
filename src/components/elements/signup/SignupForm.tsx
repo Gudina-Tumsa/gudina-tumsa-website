@@ -121,7 +121,7 @@ const SignUpForm = () => {
     return (
         <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
             <div className="text-center mb-8">
-                <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                <h1 className="font-poppins text-2xl font-semibold text-gray-900 mb-2">
                     Create your GTL account
                 </h1>
             </div>
@@ -263,7 +263,7 @@ const SignUpForm = () => {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className={`w-full bg-[#9407F2] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 ${
+                    className={`w-full font-poppins bg-[#9407F2] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 ${
                         isLoading ? "opacity-60 cursor-not-allowed" : "hover:bg-purple-800"
                     }`}
                 >
