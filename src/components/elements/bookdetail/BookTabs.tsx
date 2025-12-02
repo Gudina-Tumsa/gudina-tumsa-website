@@ -214,7 +214,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     )}
 
                     {
-                        bookData?.audioSummarizationUrl && (
+                        ( bookData?.audioSummarizationUrl && bookData?.contentType != "audio") && (
                             <div className="mt-6">
                                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Audio Summary</h4>
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">

@@ -7,7 +7,7 @@ import BookDetails from "@/components/elements/bookdetail/BookDetails";
 import BookActions from "@/components/elements/bookdetail/BookActions";
 import BookTabs from "@/components/elements/bookdetail/BookTabs";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
-
+import {getBookById} from "@/lib/api/book";
 import { useParams } from 'next/navigation';
 import {useEffect, useState} from "react";
 import {BookData} from "@/types/book";
@@ -25,10 +25,20 @@ const Index = () => {
     useEffect(() => {
         if (!id || !books) return
 
-        const foundBook = books?.books?.data.books.find(bookData  => bookData._id === id)
-        console.log("foundBook ", foundBook)
-        setCurrentBook(foundBook || null)
+        const fetchBook = async () => {
+            try {
+                const foundBook = await getBookById(id)
+                console.log("foundBook ", foundBook)
+                setCurrentBook(foundBook || null)
+            } catch (error) {
+                console.error("Error fetching book:", error)
+                setCurrentBook(null)
+            }
+        }
+
+        fetchBook()
     }, [id, books])
+
 
     const applyTheme = (selectedTheme: string) => {
         const root = window.document.documentElement;

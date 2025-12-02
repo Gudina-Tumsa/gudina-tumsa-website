@@ -127,6 +127,7 @@ export default function Page() {
   const [currentlyReading, setCurrentlyReading] = useState(null);
   const [todaysSelection , setTodaysSelection] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const [audioBooks , setAudioBooks] = useState(null);
 
   const applyTheme = (selectedTheme: string) => {
         const root = window.document.documentElement;
@@ -177,6 +178,27 @@ export default function Page() {
         }
         fetchRecommendation();
     },[])
+
+    useEffect(()=> {
+        const  fetchRecommendation= async() => {
+            try {
+                let bookRequest:GetBooksRequest =  {
+                    page : 1,
+                    limit: 20,
+                    contentType: "Audio"
+                }
+                const response = await getBooks(bookRequest)
+
+                setAudioBooks(response)
+            } catch(err : unknown) {
+                console.log("failed to fetch todays Selection", err);
+            }
+        }
+        fetchRecommendation();
+    },[])
+
+
+
 
     useEffect(() => {
            const fetchReadingBooks = async () => {
@@ -244,6 +266,12 @@ export default function Page() {
                          showCurrentlyReading={true}
                      /> : ""
                  }
+
+                 <BookGrid
+                     userId={user?.user?._id ?? ""}
+                     title="Audio books"
+                     books={audioBooks}
+                 />
 
 
                  <BookGrid

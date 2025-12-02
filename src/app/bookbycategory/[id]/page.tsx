@@ -1,105 +1,105 @@
 /* eslint-disable  */
 // @ts-nocheck
 
-
 "use client"
-import SearchBar from "@/app/components/SearchBar";
 
+import SearchBar from "@/app/components/SearchBar";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import BookGrid from "@/app/components/BookGrid";
-import {useSelector} from "react-redux";
-import {RootState} from "@/app/store/store";
-import {useAppDispatch} from "@/lib/hooks";
-import {useEffect, useState} from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "next/navigation";
-import {getBooks, GetBooksRequest, getReadingBooks, getTodaysSelection} from "@/lib/api/book";
-import { BookListResponse } from '@/types/book';
-import {getBooksSuccess} from "@/app/store/features/bookSlice";
+import { getBooks, GetBooksRequest } from "@/lib/api/book";
+import { BookData, BookListResponse } from "@/types/book";
 
 export default function Page() {
-
-    const applyTheme = (selectedTheme: string) => {
-        const root = window.document.documentElement;
-
-        if (selectedTheme === 'dark') {
-            root.classList.add('dark');
-        } else if (selectedTheme === 'light') {
-            root.classList.remove('dark');
-        } else {
-            // Apply system preference
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (prefersDark) {
-                root.classList.add('dark');
-            } else {
-                root.classList.remove('dark');
-            }
-        }
-    };
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') || 'system';
-        const savedLanguage = localStorage.getItem('language') || 'en';
-        applyTheme(savedTheme);
-    }, []);
-    const books = useSelector((state: RootState) => state.book)
-    const [category, setCategory] = useState("");
-    const user = useSelector((state: RootState) => state.user)
+    const user = useSelector((state: RootState) => state.user);
     const params = useParams();
-    const categoryId = params?.id as string;
+    const categoryName = params?.id ? decodeURIComponent(params.id) : "";
 
-    const dispatch = useAppDispatch();
-    useEffect(() => {
+    const [books, setBooks] = useState<BookListResponse | null>(null);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
-        const fetchBooks = async () => {
-            try {
-                const bookRequest:GetBooksRequest =  {
-                    page : 1,
-                    limit: 20
-                }
-                const response = await getBooks(bookRequest)
+    const observer = useRef<IntersectionObserver>();
 
-                let filteredBooks = response?.data?.books.filter((book , index)=>(  book.category._id != categoryId))
+    const lastBookRef = useCallback((node: HTMLDivElement) => {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
 
-                let bookListResponse:BookListResponse =  {
-                    data : {
-                        books : filteredBooks,
-                        total : filteredBooks.length,
-                        page : response?.data?.page,
-                        limit: response?.data?.limit,
-
-                    }
-                }
-                dispatch(getBooksSuccess(bookListResponse))
-            } catch (err: unknown) {
-                console.error("failed to fetch books:", err)
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                setPage(prev => prev + 1);
             }
-        }
+        });
 
-        fetchBooks()
-    }, [dispatch]);
+        if (node) observer.current.observe(node);
+    }, [loading, hasMore]);
+
+    // fetch books using your async style
+    useEffect(() => {
+        const fetchRecommendation = async () => {
+            setLoading(true);
+            try {
+                const bookRequest: GetBooksRequest = {
+                    page,
+                    limit: 20,
+                    contentType: "Book",
+                    category: categoryName,
+                };
+
+                const response = await getBooks(bookRequest);
+
+                console.log({ response : response });
+
+                setBooks(prev => {
+                    if (!prev) return response;
+                    return {
+                        ...response,
+                        data: {
+                            ...response.data,
+                            books: [...prev.data.books, ...response.data.books]
+                        }
+                    };
+                });
+
+                setHasMore((response?.data?.books?.length ?? 0) > 0);
+
+            } catch (err: unknown) {
+                console.error("Failed to fetch books:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRecommendation();
+    }, [page, categoryName]);
+
+    useEffect(() => {
+        setBooks(null);
+        setPage(1);
+        setHasMore(true);
+    }, [categoryName]);
 
     return (
         <SidebarLayout>
-
             <SearchBar />
-            <div className="flex flex-row justify-between">
-                <div className="mb-8 mt-[5%]">
-                    <h1 className="text-4xl font-[500px] text-gray-900 mb-2">
-                        {category}
-                    </h1>
-
-                </div>
-
+            <div className="flex flex-row justify-between mb-8 mt-[5%]">
+                <h1 className="text-2xl font-[500px]  mb-2">
+                     {categoryName}
+                </h1>
             </div>
 
             <BookGrid
-                userId = {user?.user?._id ?? ""}
+                userId={user?.user?._id ?? ""}
                 title=""
-                books={books.books}
+                books={books}
+                lastBookRef={lastBookRef}
             />
 
+            {loading && <p className="text-center mt-4">Loading more books...</p>}
         </SidebarLayout>
-    )
+    );
 }
-
-

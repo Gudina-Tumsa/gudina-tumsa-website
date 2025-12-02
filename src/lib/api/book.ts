@@ -2,7 +2,7 @@ import {BookData, BookListResponse} from '@/types/book';
 
 export interface GetBooksRequest {
     search?: string;
-    categories?: string[];
+    category?: string;
     tags?: string[];
     language?: string;
     author?: string;
@@ -13,6 +13,7 @@ export interface GetBooksRequest {
     limit?: number;
     sort?: 'recent' | 'popular' | 'downloads' | 'views';
     savedByUser? : string;
+    contentType?: string;
 }
 
 interface ApiError {
@@ -54,7 +55,7 @@ export const getBooks = async (request: GetBooksRequest): Promise<BookListRespon
 
 
         if (request.search) params.append('search', request.search);
-        if (request.categories) request.categories.forEach(cat => params.append('categories', cat));
+        if (request.category) params.append('category', request.category);
         if (request.tags) request.tags.forEach(tag => params.append('tags', tag));
         if (request.language) params.append('language', request.language);
         if (request.author) params.append('author', request.author);
@@ -65,6 +66,13 @@ export const getBooks = async (request: GetBooksRequest): Promise<BookListRespon
         if (request.limit) params.append('limit', String(request.limit));
         if (request.sort) params.append('sort', request.sort);
         if (request.savedByUser) params.append('savedByUser' , request.savedByUser)
+        if (request.contentType == undefined) {
+            params.append('contentType','Book')
+        } else{
+            params.append('contentType', request.contentType);
+        }
+
+        console.log({ requst : request })
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book?${params.toString()}`, {
             method: 'GET',
