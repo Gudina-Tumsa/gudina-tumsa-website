@@ -18,6 +18,7 @@ import {RootState} from "@/app/store/store";
 import {CommentData} from "@/types/comments";
 import {UserResponse} from "@/types/auth";
 import {ThumbsUp , ThumbsDown } from "lucide-react";
+import {RateBook} from "@/lib/api/rating";
 
 const AudioPlayer = ({audioUrl, audioRef}) => {
     const fileName = audioUrl.split('/').pop();
@@ -33,23 +34,48 @@ const AudioPlayer = ({audioUrl, audioRef}) => {
 
 
 interface StarRatingProps {
+    bookId: string;
     rating: number;
-    onRate?: (rating: number) => void;
+    onRate: (newRating: number) => void;
     editable?: boolean;
 }
 
-const StarRating = ({ rating, onRate, editable = false }: StarRatingProps) => {
+const StarRating = ({ bookId, rating, onRate, editable = false }: StarRatingProps) => {
     const [hoveredStar, setHoveredStar] = useState<number | null>(null);
+    const [currentRating, setCurrentRating] = useState(rating);
+
+    useEffect(() => {
+        setCurrentRating(rating);
+    }, [rating]);
 
     const getColor = (index: number) => {
-        if (hoveredStar !== null) {
-            // return index <= hoveredStar ? 'text-yellow-400' : 'text-gray-300';
-            return index <= rating ? 'text-yellow-400' : 'text-gray-300';
+        if (editable && hoveredStar !== null) {
+
+            return index <= hoveredStar ? 'text-yellow-400' : 'text-gray-300';
         }
-        return index <= rating ? 'text-yellow-400' : 'text-gray-300';
+
+        return index <= currentRating ? 'text-yellow-400' : 'text-gray-300';
     };
 
+    const handleClick = (star: number) => {
+        if (!editable) return;
 
+        setCurrentRating(star);
+
+        onRate(star);
+
+
+        RateBook(bookId, star)
+            .then((data) => {
+                console.log({ data });
+
+            })
+            .catch((err) => {
+                console.error({ err });
+
+                setCurrentRating(rating);
+            });
+    };
 
     return (
         <div className="flex items-center">
@@ -59,7 +85,7 @@ const StarRating = ({ rating, onRate, editable = false }: StarRatingProps) => {
                     onMouseEnter={() => editable && setHoveredStar(star)}
                     onMouseLeave={() => editable && setHoveredStar(null)}
                     onClick={() => handleClick(star)}
-                    className={`w-6 h-6 cursor-pointer ${getColor(star)}`}
+                    className={`w-6 h-6 cursor-${editable ? 'pointer' : 'default'} ${getColor(star)}`}
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,6 +96,7 @@ const StarRating = ({ rating, onRate, editable = false }: StarRatingProps) => {
         </div>
     );
 };
+
 
 
 
@@ -272,7 +299,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     <div className={"mb-[2%]"}>
                         <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Rating</h5>
                         <div className="flex items-center gap-2">
-                            <StarRating rating={bookData?.rating || 0} onRate={handleRating} editable />
+                            <StarRating bookId={bookData?._id} rating={bookData?.rating || 0} onRate={handleRating} editable />
                         </div>
                     </div>
 
