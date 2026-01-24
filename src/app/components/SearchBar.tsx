@@ -43,9 +43,14 @@ const SearchBar = () => {
                 <input
                     type="text"
                     placeholder="Search for a book, author"
-                    className="flex-1 px-4 text-base outline-none placeholder-gray-400"
+                    className="flex-1 px-4 text-black outline-none placeholder-gray-400"
                     onChange={(e) => setValues(e.target.value)}
                     value={values}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && values.trim() && !loading) {
+                            callGetBooks();
+                        }
+                    }}
                 />
 
                 <Button

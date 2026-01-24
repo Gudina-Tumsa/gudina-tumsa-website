@@ -182,18 +182,18 @@ const Preference = () => {
             </div>
 
             {/* Uncomment to enable Language selection */}
-            {/* <div className="bg-white dark:bg-gray-800 border rounded-2xl shadow-sm p-6">
+            <div className="bg-white dark:bg-gray-800 border rounded-2xl shadow-sm p-6">
         <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Language</h2>
         <select
           value={language}
           onChange={handleLanguageChange}
-          className="block w-full sm:w-auto border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="block w-full sm:w-auto text-black border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="en">English</option>
           <option value="am">Amharic</option>
           <option value="om">Oromo</option>
         </select>
-      </div> */}
+      </div>
         </div>
     );
 };

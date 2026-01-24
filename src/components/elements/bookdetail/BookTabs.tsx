@@ -262,6 +262,9 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     }
                 </div>
             </div>
+            {
+                console.log({bookDatt : bookData})
+            }
 
             <div>
                 <div className="dark:bg-gray-700 bg-gray-50 rounded-lg p-6">
@@ -280,7 +283,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                         </div>
                         <div>
                             <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Category</h5>
-                            <p className="dark:text-white text-gray-900">{bookData?.category}</p>
+                            <p className="dark:text-white text-gray-900">{bookData?.category} </p>
                         </div>
                         <div>
                             <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Year</h5>
