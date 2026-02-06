@@ -67,38 +67,38 @@ const HomePageCategory = () => {
 
             {/* Category Tabs */}
             <div className="px-4 sm:px-6 mb-6 sm:mb-8">
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12">
-                    {categories?.categories?.data.categories.map((category) => (
-                        <button
-                            key={category.name}
-                            onClick={() => setActiveCategory(category.name)}
-                            className={`
-                                px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium 
-                                transition-all duration-200 hover:scale-105
-                                ${activeCategory === category.name
-                                ? 'bg-blue-100 text-[#9407F2] shadow-md'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                            }
-                            `}
-                        >
-                            <div className="flex flex-row items-center">
-                                {category.icon && (
-                                    <span className="mr-1 sm:mr-2 text-sm sm:text-base">
-                                        {category.icon}
-                                    </span>
-                                )}
-                                {category.name}
-                            </div>
-                        </button>
-                    ))}
-                </div>
+                {/*<div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12">*/}
+                {/*    {categories?.categories?.data.categories.map((category) => (*/}
+                {/*        <button*/}
+                {/*            key={category.name}*/}
+                {/*            onClick={() => setActiveCategory(category.name)}*/}
+                {/*            className={`*/}
+                {/*                px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium */}
+                {/*                transition-all duration-200 hover:scale-105*/}
+                {/*                ${activeCategory === category.name*/}
+                {/*                ? 'bg-blue-100 text-[#9407F2] shadow-md'*/}
+                {/*                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'*/}
+                {/*            }*/}
+                {/*            `}*/}
+                {/*        >*/}
+                {/*            <div className="flex flex-row items-center">*/}
+                {/*                {category.icon && (*/}
+                {/*                    <span className="mr-1 sm:mr-2 text-sm sm:text-base">*/}
+                {/*                        {category.icon}*/}
+                {/*                    </span>*/}
+                {/*                )}*/}
+                {/*                {category.name}*/}
+                {/*            </div>*/}
+                {/*        </button>*/}
+                {/*    ))}*/}
+                {/*</div>*/}
 
                 {/* Books Grid */}
                 <div className="max-w-7xl mx-auto">
                     <div
                         className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
-                        {books?.books?.data.books.map((book: BookData) => (
-                            book.category === activeCategory ?
+                        {books?.books?.data.books.slice(0, 6).map((book: BookData) => (
+
                             <div key={book._id} className="group cursor-pointer" onClick={() => {
                                 readBookNavigate(book._id)
                             }}>
@@ -127,7 +127,7 @@ const HomePageCategory = () => {
                                     <p className="text-xs sm:text-sm text-gray-600 line-clamp-1">{book.author}</p>
                                     <p className="text-xs sm:text-sm text-gray-500">{book.publicationYear}</p>
                                 </div>
-                            </div> : ""
+                            </div>
                         ))}
                     </div>
                 </div>

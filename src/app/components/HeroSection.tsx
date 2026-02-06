@@ -67,7 +67,7 @@ const HeroSection = () => {
                             <a
                                 className="inline-flex space-x-2 items-center px-6 sm:px-8 sm:py-2 text-black  transition-all duration-200 group"
                                 aria-label="Get Started"
-                                href={"/home"}
+                                href={"/about"}
                             >
                                 <CircleArrowRight className=" w-5 h-5 group-hover:translate-x-1 transition-transform -rotate-45" />
                                 {/*font-instrument regula*/}
