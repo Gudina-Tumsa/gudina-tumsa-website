@@ -34,10 +34,10 @@ const textVariant = {
 const IconGrid = () => {
     const items = [
 
-        {name: 'GTL', image: 'cropped.webp' , width : "130" , height : "130" , link : "https://gudinaandtsehaylegacy.org/" },
-        {name: 'Ilaamee', image: 'cropped.webp' , width: "130" , height: "130" , link : "https://gudinatumsafoundation.org/" },
-        {name : 'GTF', image: 'cropped.webp' , width: "130" , height: "130"  , link : "#" },
-        {name : "Biftuu Bole" , image: "cropped.webp" , width: "130" , height: "130" , link : "https://biftubole.org/" },
+        {name: 'GTL', image: 'GTL.png' , width : "240" , height : "240" , link : "https://gudinaandtsehaylegacy.org/" },
+        {name: 'Ilaamee', image: 'ilame.png' , width: "240" , height: "240" , link : "https://gudinatumsafoundation.org/" },
+        {name : 'GTF', image: 'gtf.png' , width: "130" , height: "130"  , link : "#" },
+        {name : "Biftuu Bole" , image: "BiftuBole.png" , width: "130" , height: "130" , link : "https://biftubole.org/" },
 
 
 
