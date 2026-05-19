@@ -194,7 +194,7 @@ const Header = () => {
                             <Link href="/">
                                 <img
                                     className={"w-[150px] height-[150px]"}
-                                    src={"logo.png"}
+                                    src={"logonew.png"}
                                 />
                             </Link>
                         </div>
