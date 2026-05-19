@@ -35,8 +35,8 @@ const IconGrid = () => {
     const items = [
 
         {name: 'GTL', image: 'GTL.png' , width : "240" , height : "240" , link : "https://gudinaandtsehaylegacy.org/" },
-        {name: 'Ilaamee', image: 'ilame.png' , width: "240" , height: "240" , link : "https://gudinatumsafoundation.org/" },
-        {name : 'GTF', image: 'gtf.png' , width: "130" , height: "130"  , link : "#" },
+        {name: 'Ilaamee', image: 'ilame.png' , width: "240" , height: "240" , link : "" },
+        {name : 'GTF', image: 'gtf.png' , width: "130" , height: "130"  , link : "https://gudinatumsafoundation.org/" },
         {name : "Biftuu Bole" , image: "BiftuBole.png" , width: "130" , height: "130" , link : "https://biftubole.org/" },
 
 
