@@ -88,7 +88,7 @@ const Footer = () => {
                         <ul className="space-y-2 text-sm text-gray-600">
                             <li><a href="https://gudinaandtsehaylegacy.org/" className="hover:text-gray-900 transition-colors">Gudina and Tsehay Legacy</a></li>
                             <li><a href="https://gudinatumsafoundation.org/" className="hover:text-gray-900 transition-colors">Gudina Tumsa Foundation</a></li>
-                            <li><a href="#" className="hover:text-gray-900 transition-colors">Ilaamee Ministry</a></li>
+                            <li><a href="https://ilaamee.org/" className="hover:text-gray-900 transition-colors">Ilaamee Ministry</a></li>
                             <li><a href="https://biftubole.org/" className="hover:text-gray-900 transition-colors">Biftu Bole Mekane Yesus</a></li>
                         </ul>
                     </div>
@@ -118,7 +118,7 @@ const Footer = () => {
                 <div className="border-t border-gray-300 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left gap-4">
                     {/* Copyright */}
                     <div className="text-sm text-gray-500 flex flex-wrap justify-center sm:justify-start gap-x-2 gap-y-1">
-                        <span>© GTL 2025</span>
+                        <span>© GT 2025</span>
                         <span className="hidden sm:inline">|</span>
                         <a href="/content-policy" className="hover:text-gray-700 transition-colors">Content Policy</a>
                         <span className="hidden sm:inline">|</span>
