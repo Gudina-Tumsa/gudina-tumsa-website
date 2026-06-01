@@ -193,8 +193,8 @@ const Header = () => {
                             {/*<h1 className="text-2xl font-bold text-black">{t('logo')}</h1>*/}
                             <Link href="/">
                                 <img
-                                    className={"w-[150px] height-[150px]"}
-                                    src={"logonew.png"}
+                                    className={"w-[100px] height-[100px]"}
+                                    src={"logo-removebg-preview.png"}
                                 />
                             </Link>
                         </div>
