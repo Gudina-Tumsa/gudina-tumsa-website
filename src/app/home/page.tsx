@@ -28,6 +28,7 @@ const TodaysSelectionCard = ({ todaysSelectionResponse }) => {
 
     const book = todaysSelectionResponse?.data?.books?.[0];
     if (!book) return null;
+    console.log({book : book})
 
     useEffect(() => {
         setIsUserLoggedIn(Boolean(user?.user));

@@ -19,6 +19,13 @@ const textSlideUp = {
 
 
 const HeroSection = () => {
+    const scrollToBottom = () => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+        });
+    };
+
     return (
         <div className="flex flex-col justify-between min-h-screen">
             <div className=" flex flex-col lg:flex-row justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
@@ -96,7 +103,12 @@ const HeroSection = () => {
             </div>
 
             {/* Scroll indicator */}
-            <div className="text-center animate-bounce">
+            <div
+                onClick={scrollToBottom}
+                className="text-center animate-bounce cursor-pointer inline-block mx-auto"
+                role="button"
+                aria-label="Scroll to bottom"
+            >
                 <p className="text-lg font-medium text-gray-700 flex items-center justify-center gap-1">
                     <ChevronDown size={24} className="sm:size-[30px]" />
                 </p>

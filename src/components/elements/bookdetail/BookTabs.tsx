@@ -306,7 +306,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Publisher</h5>
-                            <p className="dark:text-white text-gray-900">Wiley</p>
+                            <p className="dark:text-white text-gray-900">{bookData?.publisher}</p>
                         </div>
                         <div>
                             <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Category</h5>
