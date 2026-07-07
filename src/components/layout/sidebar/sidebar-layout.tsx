@@ -9,19 +9,19 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main className="w-full bg-white dark:bg-gray-800 min-h-screen ">
-                <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden dark:bg-gray-800">
-                    <div className="flex relative p-4 border-b h-[50px] dark:bg-gray-800">
+            <main className="w-full min-h-screen bg-gray-50 dark:bg-gray-800">
+                <header className="sticky top-0 z-10 bg-gray-50/95 backdrop-blur supports-[backdrop-filter]:bg-gray-50/80 md:hidden dark:bg-gray-800">
+                    <div className="flex relative p-4 border-b border-gray-200 h-[50px] dark:bg-gray-800 dark:border-gray-700">
                         <div className="absolute top-2 left-4">
                             <SidebarTrigger />
                         </div>
-                        <div className="absolute top-3 right-4 text-lg font-semibold text-gray-800 dark:text-white">
+                        <div className="absolute top-3 right-4 font-serif text-lg font-medium text-gray-900 dark:text-white">
                             GTL
                         </div>
                     </div>
                 </header>
 
-                <div className="w-[80%] mx-auto bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+                <div className="w-full max-w-[1400px] mx-auto px-6 py-8 sm:px-10 sm:py-10 text-gray-900 dark:text-white">
                     {children}
                 </div>
             </main>

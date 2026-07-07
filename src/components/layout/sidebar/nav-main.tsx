@@ -2,7 +2,6 @@
 // @ts-nocheck
 "use client"
 
-import { Home, Search, BookOpen, BookMarked, CheckCircle } from "lucide-react"
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -10,13 +9,11 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Settings, Mail, LogOut } from "lucide-react";
 import Link from "next/link";
+import {usePathname, useRouter} from "next/navigation";
 import {logoutAuth} from "@/lib/api/auth";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import {persistor, RootState} from "@/app/store/store";
-import {useRouter} from "next/navigation";
-import { useDispatch } from 'react-redux';
 import { logout } from '@/app/store/features/userSlice';
 import {useEffect, useState} from "react";
 
@@ -24,18 +21,20 @@ export function NavMain() {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const dispatch = useDispatch();
     const router = useRouter();
-    const currentDeviceId = navigator.userAgent;
+    const pathname = usePathname();
+    const currentDeviceId = typeof navigator !== "undefined" ? navigator.userAgent : "";
     const user = useSelector((state: RootState) => state.user);
 
     const activityItems = [
-        { title: "Reading", url: "/reading", icon: BookOpen, count: 1, requireLogin: true },
-        { title: "Completed", url: "/completed", icon: CheckCircle, count: 0, requireLogin: true },
+        { title: "Reading", url: "/reading", count: 1, requireLogin: true },
+        { title: "Completed", url: "/completed", count: 0, requireLogin: true },
     ];
 
     const navigationItems = [
-        { title: "Home", url: "/home", icon: Home, requireLogin: false },
-        { title: "My library", url: "/toread", icon: BookMarked, requireLogin: true },
-        { title: "Browse", url: "/browse", icon: Search, requireLogin: false },
+        { title: "Home", url: "/home", requireLogin: false },
+        { title: "My library", url: "/toread", requireLogin: true },
+        { title: "Browse", url: "/browse", requireLogin: false },
+        { title: "Marketplace", url: "/marketplace", requireLogin: true },
     ];
 
     useEffect(() => {
@@ -48,7 +47,7 @@ export function NavMain() {
 
     const handleLogout = async () => {
         try {
-            await logoutAuth(user?.user?._id ?? "", currentDeviceId);
+            await logoutAuth(user?.user?._id ?? "", currentDeviceId, user?.session?.token);
             dispatch(logout());
             await persistor.purge();
             router.push('/');
@@ -57,18 +56,16 @@ export function NavMain() {
         }
     };
 
-    const renderLinkOrButton = (item: any) => {
+    const renderNavItem = (item: any) => {
+        const isActive = pathname?.startsWith(item.url);
+
         if (item.requireLogin && !isUserLoggedIn) {
             return (
                 <button
-                    className="flex items-center w-full px-3 py-2 opacity-50 cursor-not-allowed"
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-[15px] text-gray-400 cursor-not-allowed"
                     disabled
                 >
-                    {item.icon && <item.icon className="mr-3 h-5 w-5" />}
                     <span>{item.title}</span>
-                    {item.count !== undefined && (
-                        <span className="text-gray-400 text-xs ml-auto">{item.count}</span>
-                    )}
                 </button>
             );
         }
@@ -76,86 +73,119 @@ export function NavMain() {
         return (
             <Link
                 href={item.url}
-                className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md"
+                className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-[15px] transition-colors ${
+                    isActive
+                        ? "bg-[#9407F2] text-white font-medium"
+                        : "text-gray-700 hover:bg-[#C084FC]/10"
+                }`}
             >
-                {item.icon && <item.icon className="mr-3 h-5 w-5" />}
                 <span>{item.title}</span>
-                {item.count !== undefined && (
-                    <span className="text-gray-400 text-xs ml-auto">{item.count}</span>
-                )}
+            </Link>
+        );
+    };
+
+    const renderActivityItem = (item: any) => {
+        const isActive = pathname?.startsWith(item.url);
+        const disabled = item.requireLogin && !isUserLoggedIn;
+
+        const content = (
+            <>
+                <span className={disabled ? "text-gray-400" : "text-gray-700"}>{item.title}</span>
+                <span className={`text-sm font-medium ${item.count > 0 ? "text-[#9407F2]" : "text-gray-400"}`}>
+                    {item.count}
+                </span>
+            </>
+        );
+
+        if (disabled) {
+            return (
+                <button className="flex w-full items-center justify-between rounded-xl px-4 py-2 cursor-not-allowed" disabled>
+                    {content}
+                </button>
+            );
+        }
+
+        return (
+            <Link
+                href={item.url}
+                className={`flex w-full items-center justify-between rounded-xl px-4 py-2 transition-colors ${
+                    isActive ? "bg-[#C084FC]/15" : "hover:bg-[#C084FC]/10"
+                }`}
+            >
+                {content}
             </Link>
         );
     };
 
     return (
-        <div className="  dark:text-white">
-            <SidebarGroup>
-                <SidebarMenu>
-                    {navigationItems.map((item) => (
-                        <SidebarMenuItem key={item.title} className="min-w-[200px]">
-                            <SidebarMenuButton asChild className="w-full truncate">
-                                {renderLinkOrButton(item)}
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-            </SidebarGroup>
+        <div className="flex h-full flex-col justify-between font-sans">
+            <div>
+                <SidebarGroup>
+                    <SidebarMenu className="gap-1">
+                        {navigationItems.map((item) => (
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
+                                    {renderNavItem(item)}
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
 
-            <SidebarGroup>
-                <SidebarGroupLabel>My Activity</SidebarGroupLabel>
-                <SidebarMenu>
-                    {activityItems.map((item) => (
-                        <SidebarMenuItem key={item.title} className="min-w-[200px]">
-                            <SidebarMenuButton asChild className="w-full truncate">
-                                {renderLinkOrButton(item)}
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-            </SidebarGroup>
+                <SidebarGroup className="mt-4">
+                    <SidebarGroupLabel className="px-4 text-xs font-medium uppercase tracking-wide text-gray-400">
+                        My Activity
+                    </SidebarGroupLabel>
+                    <SidebarMenu className="gap-0.5">
+                        {activityItems.map((item) => (
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton asChild className="h-auto w-full p-0 text-sm hover:bg-transparent">
+                                    {renderActivityItem(item)}
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+            </div>
 
-            <SidebarGroup>
-                <div className="border-t border-gray-200 my-4" />
-                <SidebarMenu>
-                    <SidebarMenuItem className="min-w-[200px]">
-                        <SidebarMenuButton asChild className="w-full truncate">
-
+            <div className="mt-6 border-t border-gray-200 pt-4">
+                <SidebarMenu className="gap-0.5">
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                             <Link
                                 href="/settings"
-                                className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md"
+                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
                             >
-                                <Settings className="mr-3 h-5 w-5" />
-                                <span>Settings</span>
+                                Settings
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
 
-                    <SidebarMenuItem className="min-w-[200px]">
-                        <SidebarMenuButton asChild className="w-full truncate">
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                             <Link
                                 href="/contactus"
-                                  className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md">
-                                <Mail className="mr-3 h-5 w-5" />
-                                <span>Contact Us</span>
+                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                            >
+                                Contact us
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
 
                     {isUserLoggedIn && (
-                        <SidebarMenuItem className="min-w-[200px]">
-                            <SidebarMenuButton asChild className="w-full truncate">
+                        <SidebarMenuItem>
+                            <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                                 <button
                                     onClick={handleLogout}
-                                    className="flex items-center w-full px-3 py-2 hover:bg-gray-100 rounded-md text-red-600"
+                                    className="flex w-full items-center rounded-xl px-4 py-2 text-left text-sm font-medium text-red-600 hover:bg-gray-100"
                                 >
-                                    <LogOut className="mr-3 h-5 w-5" />
-                                    <span>Logout</span>
+                                    Log out
                                 </button>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     )}
                 </SidebarMenu>
-            </SidebarGroup>
+            </div>
         </div>
     );
 }

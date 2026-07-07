@@ -11,6 +11,12 @@ const BookDetails = ({ bookData }: { bookData: BookData | null }) => {
                     {bookData.category}
                 </p>
 
+                {bookData.payable && (
+                    <p className="inline-block bg-[#C084FC]/10 text-[#C084FC] font-semibold px-3 py-1 rounded-full text-sm mb-4">
+                        {bookData.price} ETB
+                    </p>
+                )}
+
                 <div className="flex flex-wrap gap-2 mb-6">
                     <a
                         href="#"

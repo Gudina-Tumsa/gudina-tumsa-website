@@ -46,9 +46,9 @@ const Sessions = () => {
     }, []);
     useEffect(() => {
         const fetchSessions = async () => {
-            if (!user?.user?._id) return;
+            if (!user?.user?._id || !user?.session?.token) return;
             try {
-                const data = await getSessions(user.user._id);
+                const data = await getSessions(user.user._id, user.session.token);
                 setSessions(data.data.sessions);
             } catch (error) {
                 console.error("Failed to fetch sessions:", error);
@@ -57,10 +57,10 @@ const Sessions = () => {
         };
 
         fetchSessions();
-    }, [user?.user?._id]);
+    }, [user?.user?._id, user?.session?.token]);
 
     const handleLogoutSession = async (sessionId: string) => {
-        const promise = logoutSession(sessionId);
+        const promise = logoutSession(sessionId, user.session?.token);
         toast.promise(promise, {
             loading: "Logging out session...",
             success: () => {
@@ -245,10 +245,20 @@ const Settings = () => {
                 updates.password = password;
             }
 
-            await updateUser(updates, user.user._id);
+            await updateUser(updates, user.user._id, user.session?.token);
+
+            if (updates.password) {
+                // Changing the password revokes every existing session
+                // (including the one we just used) — the old token is dead,
+                // so send the user to log in again instead of refreshing.
+                setPassword("");
+                toast.success("Password changed — please log in again.");
+                router.push("/login");
+                return;
+            }
 
             try {
-                const token = user?.user?.token;
+                const token = user?.session?.token;
                 let response = await getMe(token);
                 localStorage.setItem("accessToken", response.data.session.token);
                 localStorage.setItem("refreshToken", response.data.session.refreshToken);

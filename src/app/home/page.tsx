@@ -19,6 +19,10 @@ import { BookListResponse } from "@/types/book";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { createUserBookInteraction } from "@/lib/api/userbookinteraction";
+import MarketplaceSection from "@/components/elements/marketplace/MarketplaceSection";
+import FilterPillBar from "@/components/elements/filters/FilterPillBar";
+import { useCategories } from "@/lib/hooks/useCategories";
+import { CatalogFilters, defaultCatalogFilters } from "@/components/elements/filters/types";
 
 // ------------------ TodaysSelectionCard ------------------
 const TodaysSelectionCard = ({ todaysSelectionResponse }) => {
@@ -129,6 +133,8 @@ export default function HomePage() {
     const [total, setTotal] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [catalogFilters, setCatalogFilters] = useState<CatalogFilters>(defaultCatalogFilters);
+    const { categories } = useCategories();
 
     const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -169,7 +175,13 @@ export default function HomePage() {
 
         setLoading(true);
         try {
-            const response = await getBooks({ page, limit: 20 });
+            const response = await getBooks({
+                page,
+                limit: 20,
+                category: catalogFilters.category || undefined,
+                contentType: catalogFilters.contentType || undefined,
+                sort: catalogFilters.sort,
+            });
             const newBooks = response?.data?.books || [];
             const totalCount = response?.data?.total || 0;
 
@@ -185,7 +197,45 @@ export default function HomePage() {
         } finally {
             setLoading(false);
         }
-    }, [page, loading, hasMore, books.length]);
+    }, [page, loading, hasMore, books.length, catalogFilters]);
+
+    // Reset and load the first page of the catalog whenever filters change (including initial mount)
+    useEffect(() => {
+        let cancelled = false;
+
+        setBooks([]);
+        setTotal(0);
+        setHasMore(true);
+        setPage(2);
+        setLoading(true);
+
+        getBooks({
+            page: 1,
+            limit: 20,
+            category: catalogFilters.category || undefined,
+            contentType: catalogFilters.contentType || undefined,
+            sort: catalogFilters.sort,
+        })
+            .then((response) => {
+                if (cancelled) return;
+                const newBooks = response?.data?.books || [];
+                const totalCount = response?.data?.total || 0;
+                setBooks(newBooks);
+                setTotal(totalCount);
+                setHasMore(newBooks.length < totalCount && newBooks.length > 0);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch books:", err);
+                toast.error("Unable to load more books");
+            })
+            .finally(() => {
+                if (!cancelled) setLoading(false);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [catalogFilters]);
 
     // Set up IntersectionObserver to trigger fetch on scroll
     useEffect(() => {
@@ -208,23 +258,16 @@ export default function HomePage() {
         };
     }, [fetchBooks, loading, hasMore]);
 
-    // Optional: Load first page of books immediately for better UX
-    // If you want PURE lazy (no initial load), delete this useEffect
-    useEffect(() => {
-        if (books.length === 0 && hasMore && page === 1) {
-            fetchBooks();
-        }
-    }, []); // Only on initial mount
-
     return (
         <SidebarLayout>
             <div className="w-full dark:bg-gray-800 min-h-screen">
-                <SearchBar />
-
                 <div className="mb-8 w-full px-4 sm:px-6">
-                    <h1 className="dark:text-white text-2xl font-semibold text-gray-900 mb-2">
-                        Hi {user?.user?.firstName || "user"} 👋
-                    </h1>
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-2">
+                        <h1 className="dark:text-white text-2xl font-semibold text-gray-900">
+                            Hi {user?.user?.firstName || "user"} 👋
+                        </h1>
+                        <SearchBar className="w-full sm:max-w-xs" />
+                    </div>
 
                     {/* Today's Selection */}
                     {todaysSelection?.data?.books?.length! > 0 && (
@@ -269,13 +312,26 @@ export default function HomePage() {
                         />
                     )}
 
+                    {/* Marketplace */}
+                    <MarketplaceSection mode="preview" title="Marketplace" limit={4} />
+
                     {/* Main Book List (Lazy Loaded) */}
-                    {  (books.length > 0 && user.user?._id == null) && (
-                        <BookGrid
-                            title="All Books"
-                            userId={user?.user?._id ?? ""}
-                            books={{ data: { books, total } }}
-                        />
+                    {user.user?._id == null && (
+                        <>
+                            <h2 className="dark:text-white text-xl font-semibold text-gray-900 mb-4">All Books</h2>
+                            <FilterPillBar
+                                categories={categories}
+                                filters={catalogFilters}
+                                onChange={setCatalogFilters}
+                            />
+                            {books.length > 0 && (
+                                <BookGrid
+                                    title=""
+                                    userId={user?.user?._id ?? ""}
+                                    books={{ data: { books, total } }}
+                                />
+                            )}
+                        </>
                     )}
 
                     {/* Sentinel for infinite scroll */}

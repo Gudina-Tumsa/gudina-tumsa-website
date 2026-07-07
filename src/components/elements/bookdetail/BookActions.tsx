@@ -6,6 +6,8 @@
 import { BookData } from "@/types/book";
 import { useRouter } from "next/navigation";
 import { createUserBookInteraction } from "@/lib/api/userbookinteraction";
+import { hasPurchased } from "@/lib/api/sales";
+import PurchaseModal from "@/components/elements/marketplace/PurchaseModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import toast, { Toaster } from "react-hot-toast";
@@ -42,12 +44,22 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isMuted, setIsMuted] = useState(false);
+    const [isOwned, setIsOwned] = useState(!bookData.payable);
+    const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
     const audioRef = useRef<HTMLAudioElement>(null);
     const progressBarRef = useRef<HTMLDivElement>(null);
 
     // Determines if the book is an audio or text
     const isAudioBook = bookData.contentType === "audio";
+
+    useEffect(() => {
+        if (!bookData.payable || !user?.user?.token) return;
+
+        hasPurchased(user.user.token, bookData._id)
+            .then((response) => setIsOwned(response.data.purchased))
+            .catch((err) => console.error("Failed to check purchase status:", err));
+    }, [bookData._id, bookData.payable, user?.user?.token]);
 
     // --- Interaction Handlers ---
 
@@ -74,6 +86,11 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
     const handleReadClick = () => {
         if (!user?.user) {
             router.push("/login");
+            return;
+        }
+
+        if (bookData.payable && !isOwned) {
+            setShowPurchaseModal(true);
             return;
         }
 
@@ -205,7 +222,9 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
                 {isAudioBook ? <Play className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}
                 {user?.user == null
                     ? "Login to Access"
-                    : (isAudioBook ? "Start Listening" : "Start Reading")}
+                    : bookData.payable && !isOwned
+                        ? `Buy for ${bookData.price} ETB`
+                        : (isAudioBook ? "Start Listening" : "Start Reading")}
             </button>
             <div className="flex gap-3">
                 {/* Secondary Action: Add to Library */}
@@ -328,6 +347,15 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
                         <audio ref={audioRef} src={audioUrl} preload="metadata" className="hidden" />
                     </div>
                 </div>
+            )}
+
+            {showPurchaseModal && user?.user?.token && (
+                <PurchaseModal
+                    book={bookData}
+                    token={user.user.token}
+                    onClose={() => setShowPurchaseModal(false)}
+                    onPurchased={() => setIsOwned(true)}
+                />
             )}
         </div>
     );

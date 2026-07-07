@@ -37,12 +37,13 @@ export const loginUser = async (credentials: LoginRequest): Promise<LoginRespons
 
 
 
-export const logoutAuth = async (userId : string , deviceId : string) => {
+export const logoutAuth = async (userId : string , deviceId : string, token: string) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 userId : userId,

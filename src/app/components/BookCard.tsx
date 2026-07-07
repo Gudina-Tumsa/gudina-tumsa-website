@@ -1,9 +1,6 @@
 /* eslint-disable  */
 // @ts-nocheck
 
-import { MoreHorizontal } from "lucide-react";
-import {createUserBookInteraction} from "@/lib/api/userbookinteraction";
-
 import {useRouter} from "next/navigation";
 
 interface BookCardProps {
@@ -25,30 +22,27 @@ const BookCard = ({ id, userId, title, year, coverImage, writer, isCurrentlyRead
 
     return (
         <div
-            className="dark:text-white relative group transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-lg overflow-hidden cursor-pointer
-                       w-64 p-4"
+            className="group flex flex-col cursor-pointer"
             onClick={() => readBookNavigate(id)}
         >
-            <div className="rounded-lg overflow-hidden relative aspect-[3/4] bg-gray-100">
+            <div className="rounded-2xl overflow-hidden relative aspect-[3/4] bg-gray-100 dark:bg-gray-700 shadow-sm">
                 <img
                     src={coverImage}
                     alt={title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-
-                {isCurrentlyReading && (
-                    <div className="absolute top-3 right-3 z-20">
-                        <button className="p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                            <MoreHorizontal className="h-4 w-4 text-gray-600" />
-                        </button>
-                    </div>
-                )}
             </div>
 
-            <div className="mt-4 px-1">
-                <h3 className="dark:text-white text-sm font-semibold text-gray-900 line-clamp-2">{title}</h3>
-                <p className="dark:text-white text-xs text-gray-600 mt-1 truncate">{writer}</p>
-                <p className="dark:text-white text-[10px] sm:text-xs text-gray-400 mt-0.5">{year}</p>
+            <div className="mt-3">
+                <h3 className="font-semibold text-[#1C1B19] dark:text-white line-clamp-2">{title}</h3>
+                <p className="text-sm text-[#8A8374] dark:text-gray-400 truncate mt-0.5">{writer}</p>
+                {isCurrentlyReading ? (
+                    <span className="text-sm font-medium text-[#C15A34] underline mt-1 inline-block">
+                        Continue reading
+                    </span>
+                ) : (
+                    <p className="text-xs text-[#B4AC9C] mt-1">{year}</p>
+                )}
             </div>
         </div>
     );

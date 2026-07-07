@@ -1,18 +1,16 @@
+import { ArrowUpRight } from "lucide-react";
+
 interface CategoryCardProps {
     title: string;
-
 }
 
 export const CategoryCard = ({ title }: CategoryCardProps) => {
     return (
-        <div className=" rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200 hover:scale-105 hover:-translate-y-1 cursor-pointer group p-4">
-            <div className="flex items-start space-x-4 ">
-                <div className="flex-1  p-5 ">
-                    <h3 className="text-lg font-[500px] dark:text-white text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-200">
-                        {title}
-                    </h3>
-                </div>
-            </div>
+        <div className="group flex items-center justify-between rounded-2xl bg-white dark:bg-gray-700 shadow-sm border border-[#EDE6D8] dark:border-gray-600 px-6 py-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer">
+            <h3 className="font-semibold text-[#1C1B19] dark:text-white">
+                {title}
+            </h3>
+            <ArrowUpRight className="h-5 w-5 text-[#B4AC9C] transition-colors group-hover:text-[#1C1B19] dark:group-hover:text-white" />
         </div>
     );
 };

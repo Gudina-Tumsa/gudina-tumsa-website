@@ -45,12 +45,13 @@ export const getMe = async (token : string): Promise<LoginResponse> => {
 
 
 
-export const updateUser = async (request : UpdateUserRequest , id : string) => {
+export const updateUser = async (request : UpdateUserRequest , id : string, token: string) => {
    try {
        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${id}`, {
            method: 'PUT',
            headers: {
                'Content-Type': 'application/json',
+               'Authorization': `Bearer ${token}`,
            },
            body: JSON.stringify(request),
            credentials: 'include',

@@ -7,7 +7,7 @@ interface ApiError {
 }
 
 
-export const logoutSession = async (sessionId : string) => {
+export const logoutSession = async (sessionId : string, token: string) => {
     try{
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/api/sessions/${sessionId}`,
@@ -15,6 +15,7 @@ export const logoutSession = async (sessionId : string) => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
             }
         );
@@ -32,7 +33,7 @@ export const logoutSession = async (sessionId : string) => {
     }
 }
 
-export const getSessions = async (userId: string): Promise<SessionListResponse> => {
+export const getSessions = async (userId: string, token: string): Promise<SessionListResponse> => {
     try {
 
 
@@ -42,6 +43,7 @@ export const getSessions = async (userId: string): Promise<SessionListResponse> 
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
             }
         );

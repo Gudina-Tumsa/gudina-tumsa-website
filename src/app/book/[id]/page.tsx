@@ -3,7 +3,8 @@
 
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin, ToolbarProps } from "@react-pdf-viewer/default-layout";
@@ -168,6 +169,7 @@ const EpubControls = ({ rendition, theme, setTheme }) => {
 };
 export default function Home() {
     const params = useParams();
+    const router = useRouter();
     const id = params?.id as string;
     const rendition = useRef<Rendition | undefined>(undefined);
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -247,7 +249,18 @@ export default function Home() {
             setPdfUrl(null);
             setBookData(null);
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${id}/pages?page=1&limit=1000`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${id}/pages?page=1&limit=1000`, {
+                headers: {
+                    'Authorization': `Bearer ${user?.user?.token ?? ""}`,
+                },
+            });
+
+            if (response.status === 402) {
+                toast.error("Purchase this book to continue reading.");
+                router.push(`/bookdetail/${id}`);
+                return;
+            }
+
             if (!response.ok) throw new Error("Failed to fetch book");
 
             const format = response.headers.get('X-Book-Format') as "pdf" | "epub" | null;

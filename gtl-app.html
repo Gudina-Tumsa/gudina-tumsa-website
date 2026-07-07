@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GTL — Library & Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F7F7F8;
+      --surface:#FFFFFF;
+      --border:#E7E8EA;
+      --text:#161618;
+      --text-soft:#6B6E76;
+      --text-faint:#9A9CA4;
+      --accent:#12876F;
+      --accent-soft:#E7F3EF;
+      --accent-deep:#0B5C4C;
+      --price:#161618;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);-webkit-font-smoothing:antialiased;}
+    .amh{font-family:'Noto Sans Ethiopic',sans-serif;}
+    .app{display:flex;min-height:100vh;}
+
+    /* Sidebar */
+    .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);flex-shrink:0;padding:24px 14px;display:flex;flex-direction:column;}
+    .brand{font-weight:700;font-size:19px;margin:4px 8px 28px;letter-spacing:-.3px;}
+    .nav-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--text-faint);margin:18px 10px 8px;}
+    .nav-item{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px;color:var(--text-soft);font-size:14px;font-weight:500;cursor:pointer;}
+    .nav-item svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.8;}
+    .nav-item:hover{background:var(--bg);}
+    .nav-item.active{background:var(--accent-soft);color:var(--accent-deep);}
+    .nav-count{margin-left:auto;font-size:12px;color:var(--text-faint);}
+    .nav-item.active .nav-count{color:var(--accent-deep);}
+    .badge-new{margin-left:auto;font-size:9.5px;font-weight:600;background:var(--accent);color:#fff;padding:2px 7px;border-radius:20px;}
+    .sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:14px;border-top:1px solid var(--border);}
+    .logout{color:#C4463F !important;}
+
+    /* Main */
+    .main{flex:1;padding:28px 44px;max-width:1240px;}
+    .topbar{display:flex;gap:12px;align-items:center;margin-bottom:14px;}
+    .search{flex:1;max-width:420px;display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:8px 13px;color:var(--text-faint);font-size:13.5px;}
+    .search svg{width:15px;height:15px;stroke-width:1.8;flex-shrink:0;}
+    .quick-filters{flex:1;display:flex;gap:8px;flex-wrap:wrap;}
+    .qf-chip{display:flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--border);padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--text-soft);cursor:pointer;}
+    .qf-chip svg{width:12px;height:12px;stroke-width:2;}
+    .qf-chip:hover{border-color:var(--text-faint);}
+    .cart-btn{position:relative;display:flex;align-items:center;gap:8px;background:var(--text);color:#fff;border:none;padding:11px 18px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+    .cart-btn svg{width:16px;height:16px;stroke-width:1.8;}
+    .cart-count{background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:20px;}
+
+    h1.greet{font-size:24px;font-weight:700;margin:0 0 2px;letter-spacing:-.4px;}
+    .sub{color:var(--text-soft);margin:0 0 26px;font-size:14.5px;}
+    .view{display:none;}
+    .view.active{display:block;}
+
+    /* Continue card */
+    .hero{display:flex;gap:16px;align-items:stretch;}
+    .continue-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 26px;display:flex;align-items:center;gap:22px;}
+    .cover{width:64px;height:88px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;text-align:center;padding:8px;font-weight:600;line-height:1.3;}
+    .continue-body{flex:1;}
+    .eyebrow{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:6px;}
+    .continue-title{font-size:17px;font-weight:700;margin:0 0 3px;}
+    .continue-author{color:var(--text-soft);font-size:13.5px;margin:0 0 12px;}
+    .progress-row{display:flex;align-items:center;gap:10px;}
+    .progress{flex:1;height:6px;background:var(--border);border-radius:6px;overflow:hidden;max-width:220px;}
+    .progress span{display:block;height:100%;background:var(--accent);}
+    .progress-pct{font-size:12.5px;font-weight:600;color:var(--text-soft);}
+    .btn{border:none;padding:10px 18px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+    .btn-primary{background:var(--accent);color:#fff;}
+    .btn-dark{background:var(--text);color:#fff;}
+
+    .events{width:250px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;flex-shrink:0;}
+    .events h3{font-size:13.5px;font-weight:700;margin:0 0 14px;}
+    .event-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text-soft);}
+    .event-item:last-child{border:none;}
+    .event-date{background:var(--accent-soft);color:var(--accent-deep);border-radius:6px;padding:5px 7px;font-size:10.5px;text-align:center;min-width:36px;font-weight:700;flex-shrink:0;}
+
+    .section-head{display:flex;justify-content:space-between;align-items:baseline;margin:32px 0 14px;}
+    .section-head h2{font-size:17px;font-weight:700;margin:0;}
+    .link{color:var(--accent-deep);font-size:13px;font-weight:600;text-decoration:none;}
+
+    .shelf{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    .book-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .15s;}
+    .book-cover{height:120px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12.5px;font-weight:600;text-align:center;padding:12px;line-height:1.3;}
+    .book-meta{padding:13px 14px 15px;}
+    .tag{display:inline-block;font-size:10.5px;font-weight:600;color:var(--accent-deep);background:var(--accent-soft);padding:2px 8px;border-radius:20px;margin-bottom:8px;}
+    .book-meta .t{font-size:13.5px;font-weight:700;margin:0 0 3px;}
+    .book-meta .a{font-size:12px;color:var(--text-soft);margin:0 0 10px;}
+    .b-progress{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+    .b-progress span{display:block;height:100%;background:var(--accent);}
+
+    .meta-row{font-size:11.5px;color:var(--text-faint);}
+    .star{color:#E8A33D;}
+
+    .topic-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+    .topic-tile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 16px;display:flex;align-items:center;gap:11px;font-size:13.5px;font-weight:500;color:var(--text);cursor:pointer;}
+    .topic-tile svg{width:19px;height:19px;stroke-width:1.7;color:var(--accent-deep);flex-shrink:0;}
+    .topic-tile:hover{border-color:var(--accent);background:var(--accent-soft);}
+
+    /* Marketplace */
+    .mkt-banner{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px 28px;display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
+    .mkt-banner h2{font-size:19px;font-weight:700;margin:0 0 5px;}
+    .mkt-banner p{margin:0;color:var(--text-soft);font-size:13.5px;}
+
+    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+    .chip{background:var(--surface);border:1px solid var(--border);padding:8px 15px;border-radius:20px;font-size:13px;font-weight:500;color:var(--text-soft);cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .chip.on{background:var(--text);border-color:var(--text);color:#fff;}
+    .chip svg{width:12px;height:12px;stroke-width:2;}
+
+    .mkt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .mkt-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;}
+    .mkt-cover{height:150px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;text-align:center;padding:14px;position:relative;line-height:1.3;}
+    .format-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);color:var(--text);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:.2px;}
+    .mkt-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px;flex:1;}
+    .mkt-title{font-size:14px;font-weight:700;margin:0;}
+    .mkt-author{font-size:12px;color:var(--text-soft);margin:0;}
+    .avail{font-size:12px;color:var(--accent-deep);font-weight:500;}
+    .price-row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px;}
+    .price{font-size:16px;font-weight:700;}
+    .add-btn{background:var(--text);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;}
+    .add-btn:active{transform:scale(.97);}
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">GTL</div>
+
+    <div class="nav-item active" data-view="library" onclick="setNav(this,'library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 9v11h14V9"/></svg>
+      Home
+    </div>
+    <div class="nav-item" data-view="library" onclick="setNav(this,'library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5a2 2 0 0 1 2-2h11v18H6a2 2 0 0 1-2-2Z"/><path d="M17 3v18"/></svg>
+      My library
+    </div>
+    <div class="nav-item" data-view="browse" onclick="setNav(this,'browse')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Browse
+    </div>
+    <div class="nav-item" data-view="marketplace" onclick="setNav(this,'marketplace')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8h16l-1.5 11H5.5Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
+      Marketplace
+      <span class="badge-new">NEW</span>
+    </div>
+
+    <div class="nav-label">My activity</div>
+    <div class="nav-item" data-view="library" onclick="setNav(this,'library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5a2 2 0 0 1 2-2h11v18H6a2 2 0 0 1-2-2Z"/></svg>
+      Reading <span class="nav-count">1</span>
+    </div>
+    <div class="nav-item" data-view="library" onclick="setNav(this,'library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6 9 17l-5-5"/></svg>
+      Completed <span class="nav-count">0</span>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>Settings</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4Z"/><path d="m4 6 8 7 8-7"/></svg>Contact us</div>
+      <div class="nav-item logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17 21 12 16 7"/><path d="M21 12H9"/></svg>Log out</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Search for a book, author, or category
+      </div>
+      <div class="quick-filters">
+        <div class="qf-chip">Category <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="qf-chip">Language <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg></div>
+        <div class="qf-chip">Format <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg></div>
+      </div>
+      <button class="cart-btn" onclick="bump()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 8h16l-1.5 11H5.5Z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+
+    <!-- LIBRARY -->
+    <section class="view active" id="view-library">
+      <h1 class="greet">Welcome back, System</h1>
+      <p class="sub">Pick up where you left off, or see what's new.</p>
+
+      <div class="hero">
+        <div class="continue-card">
+          <div class="cover amh" style="background:#B5502F;">በእቶኑ<br>እሳት ውስጥ</div>
+          <div class="continue-body">
+            <div class="eyebrow">Continue reading</div>
+            <p class="continue-title amh">በእቶኑ እሳት ውስጥ</p>
+            <p class="continue-author amh">በአሳየኸኝ</p>
+            <div class="progress-row">
+              <div class="progress"><span style="width:64%"></span></div>
+              <span class="progress-pct">64%</span>
+              <button class="btn btn-primary" style="margin-left:auto;">Resume</button>
+            </div>
+          </div>
+        </div>
+        <div class="events">
+          <h3>Upcoming events</h3>
+          <div class="event-item"><div class="event-date">JUL<br>18</div><div>Reading circle — 6:00pm</div></div>
+          <div class="event-item"><div class="event-date">AUG<br>02</div><div>Author talk: Aud Sæverås</div></div>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>Continue reading</h2><a class="link" href="#">View all</a></div>
+      <div class="shelf">
+        <div class="book-card">
+          <div class="book-cover" style="background:#D8C79B;color:#3A2C20;">Gospel: The Religion of Love and Justice</div>
+          <div class="book-meta"><span class="tag">Theology</span><p class="t">Gospel, the Religion of Love and Justice</p><p class="a">Gudina Tumsa's theological legacy</p><div class="b-progress"><span style="width:64%"></span></div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#B5502F;">In the Fiery Furnace</div>
+          <div class="book-meta"><span class="tag">Biography</span><p class="t">In the Fiery Furnace</p><p class="a">Aud Sæverås with Tsehay Tolessa</p><div class="b-progress"><span style="width:30%"></span></div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#2B2119;">Life and Ministry of Rev. Gudina Tumsa</div>
+          <div class="book-meta"><span class="tag">History</span><p class="t">Life and Ministry of Rev. Gudina Tumsa</p><p class="a">Report volume & lectures, 2001</p><div class="b-progress"><span style="width:12%"></span></div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#2C4436;">Church and Society</div>
+          <div class="book-meta"><span class="tag">Theology</span><p class="t">Church and Society</p><p class="a">Second missiological seminar, 2003</p><div class="b-progress"><span style="width:0%"></span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BROWSE -->
+    <section class="view" id="view-browse">
+      <h1 class="greet">Browse</h1>
+      <p class="sub">Explore the full collection by topic.</p>
+
+      <div class="section-head" style="margin-top:8px;"><h2>Trending</h2><a class="link" href="#">See all</a></div>
+      <div class="shelf">
+        <div class="book-card">
+          <div class="book-cover" style="background:#B5502F;">In the Fiery Furnace</div>
+          <div class="book-meta"><span class="tag">Biography</span><p class="t">In the Fiery Furnace</p><p class="a">Aud Sæverås with Tsehay Tolessa</p><div class="meta-row">18 min read · <span class="star">★</span> 4.6</div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#D8C79B;color:#3A2C20;">Gospel: The Religion of Love and Justice</div>
+          <div class="book-meta"><span class="tag">Theology</span><p class="t">Gospel, the Religion of Love and Justice</p><p class="a">Gudina Tumsa's theological legacy</p><div class="meta-row">32 min read · <span class="star">★</span> 4.8</div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#2B2119;">Life and Ministry of Rev. Gudina Tumsa</div>
+          <div class="book-meta"><span class="tag">History</span><p class="t">Life and Ministry of Rev. Gudina Tumsa</p><p class="a">Report volume & lectures, 2001</p><div class="meta-row">40 min read · <span class="star">★</span> 4.5</div></div>
+        </div>
+        <div class="book-card">
+          <div class="book-cover" style="background:#2C4436;">Church and Society</div>
+          <div class="book-meta"><span class="tag">Theology</span><p class="t">Church and Society</p><p class="a">Second missiological seminar, 2003</p><div class="meta-row">25 min read · <span class="star">★</span> 4.4</div></div>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>Browse by topic</h2></div>
+      <div class="topic-grid">
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5a2 2 0 0 1 2-2h11v18H6a2 2 0 0 1-2-2Z"/><path d="M9 7h6M9 11h6"/></svg>
+          Academic research
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M6 7h12M6 17h12"/></svg>
+          Biblical theology
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3 4 7v6c0 5 4 8 8 8s8-3 8-8V7Z"/></svg>
+          Catechism, creeds & confessions
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3"/><path d="M6 21c0-4 3-6 6-6s6 2 6 6"/></svg>
+          Devotions and teachings
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          Gudina's corner
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg>
+          History and context
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/></svg>
+          Legacy and biography
+        </div>
+        <div class="topic-tile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2 2 7l10 5 10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Theology and faith
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKETPLACE -->
+    <section class="view" id="view-marketplace">
+      <div class="mkt-banner">
+        <div>
+          <h2>Marketplace</h2>
+          <p>Buy print and digital editions from the Gudina Tumsa Foundation. Pay by Telebirr, CBE Birr, or card.</p>
+        </div>
+        <button class="btn btn-dark">Track my orders</button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="chip on">All categories</div>
+        <div class="chip">Theology</div>
+        <div class="chip">Biography</div>
+        <div class="chip">Amharic originals</div>
+        <div class="chip">Print</div>
+        <div class="chip">eBook</div>
+        <div class="chip" style="margin-left:auto;">Sort: newest <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg></div>
+      </div>
+
+      <div class="mkt-grid">
+        <div class="mkt-card">
+          <div class="mkt-cover" style="background:#B5502F;">
+            <span class="format-badge">PRINT</span>
+            In the Fiery Furnace
+          </div>
+          <div class="mkt-body">
+            <p class="mkt-title">In the Fiery Furnace</p>
+            <p class="mkt-author">Aud Sæverås with Tsehay Tolessa</p>
+            <div class="avail">In stock — ships in 2–3 days</div>
+            <div class="price-row"><span class="price">420 ETB</span><button class="add-btn" onclick="bump()">Add to cart</button></div>
+          </div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-cover" style="background:#2B2119;">
+            <span class="format-badge">EBOOK</span>
+            Life and Ministry of Rev. Gudina Tumsa
+          </div>
+          <div class="mkt-body">
+            <p class="mkt-title">Life and Ministry of Rev. Gudina Tumsa</p>
+            <p class="mkt-author">Report volume & lectures</p>
+            <div class="avail">Instant download</div>
+            <div class="price-row"><span class="price">180 ETB</span><button class="add-btn" onclick="bump()">Add to cart</button></div>
+          </div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-cover" style="background:#2C4436;">
+            <span class="format-badge">PRINT + EBOOK</span>
+            Church and Society
+          </div>
+          <div class="mkt-body">
+            <p class="mkt-title">Church and Society</p>
+            <p class="mkt-author">Second missiological seminar, 2003</p>
+            <div class="avail">In stock — ships in 2–3 days</div>
+            <div class="price-row"><span class="price">260 ETB</span><button class="add-btn" onclick="bump()">Add to cart</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  function setNav(el,view){
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+view).classList.add('active');
+  }
+  let cart=0;
+  function bump(){
+    cart++;
+    document.getElementById('cartCount').textContent=cart;
+  }
+</script>
+</body>
+</html>

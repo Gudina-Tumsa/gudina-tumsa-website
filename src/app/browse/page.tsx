@@ -3,20 +3,29 @@
 "use client"
 import SearchBar from "@/app/components/SearchBar";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
+import BookGrid from "@/app/components/BookGrid";
 import { CategoryCard } from "@/components/elements/index/browse/CategoryCard";
 import { useAppDispatch } from "@/lib/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCategories } from "@/lib/api/category";
 import { getCategoriesSuccess } from "@/app/store/features/categorySlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { useRouter } from "next/navigation";
-import {getReadingBooks, getTodaysSelection} from "@/lib/api/book";
+import { getBooks, getReadingBooks, getTodaysSelection } from "@/lib/api/book";
+import { BookListResponse } from "@/types/book";
+import FilterPillBar from "@/components/elements/filters/FilterPillBar";
+import { CatalogFilters, defaultCatalogFilters } from "@/components/elements/filters/types";
 
 export default function Page() {
     const router = useRouter();
     const categories = useSelector((state: RootState) => state.category);
     const dispatch = useAppDispatch();
+    const user = useSelector((state: RootState) => state.user);
+
+    const [catalogFilters, setCatalogFilters] = useState<CatalogFilters>(defaultCatalogFilters);
+    const [results, setResults] = useState<BookListResponse | null>(null);
+    const [resultsLoading, setResultsLoading] = useState(false);
 
     const applyTheme = (selectedTheme: string) => {
         const root = window.document.documentElement;
@@ -56,23 +65,68 @@ export default function Page() {
         fetchCategories();
     }, [dispatch]);
 
+    useEffect(() => {
+        let cancelled = false;
+        setResultsLoading(true);
+
+        getBooks({
+            page: 1,
+            limit: 24,
+            category: catalogFilters.category || undefined,
+            contentType: catalogFilters.contentType || undefined,
+            sort: catalogFilters.sort,
+        })
+            .then((response) => {
+                if (!cancelled) setResults(response);
+            })
+            .catch((err) => console.error("Failed to fetch books:", err))
+            .finally(() => {
+                if (!cancelled) setResultsLoading(false);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [catalogFilters]);
+
     return (
         <SidebarLayout>
-            <div className="w-full flex flex-col  dark:bg-gray-800 min-h-screen">
-                <div className="mb-8 w-full">
-                    <SearchBar />
-                    <h1 className="text-2xl font-semibold mt-[5%] text-gray-900 dark:text-white mb-2">
-                        Browse by topic
-                    </h1>
+            <div className="w-full flex flex-col dark:bg-gray-800">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
+                    <div>
+                        <h1 className="font-serif text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">Browse</h1>
+                        <p className="text-[#8A8374] dark:text-gray-300">Explore the full collection by topic.</p>
+                    </div>
+                    <SearchBar className="w-full sm:max-w-xs" />
                 </div>
-                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-[5%]">
+
+                <div className="h-px bg-[#E8E1D3] dark:bg-gray-700 mb-8" />
+
+                <div className="mb-2 w-full">
+                    <FilterPillBar
+                        categories={categories?.categories?.data.categories ?? []}
+                        filters={catalogFilters}
+                        onChange={setCatalogFilters}
+                    />
+                </div>
+
+                {results?.data?.books && results.data.books.length > 0 && (
+                    <BookGrid title="Trending" userId={user?.user?._id ?? ""} books={results} />
+                )}
+                {!resultsLoading && results && results.data.books.length === 0 && (
+                    <p className="text-[#8A8374] dark:text-gray-400 mb-8">No books match these filters.</p>
+                )}
+
+                <h2 className="font-serif text-2xl text-[#1C1B19] dark:text-white mb-4">
+                    Browse by topic
+                </h2>
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
                     {categories?.categories?.data.categories.map((category) => (
                         <div
                             key={category._id}
                             onClick={() => {
                                 router.push(`/bookbycategory/${category.name}`);
                             }}
-                            className="cursor-pointer"
                         >
                             <CategoryCard title={category.name} />
                         </div>

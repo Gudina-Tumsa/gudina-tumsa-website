@@ -32,33 +32,36 @@ export default function Page() {
         fetchBooks()
     }, [dispatch]);
 
+    const hasBooks = (books?.books?.data?.books?.length ?? 0) > 0;
+
     return (
         <SidebarLayout>
-<div className="min-h-screen ">
-    <SearchBar />
-    <div className="flex flex-row justify-between mt-[5%]">
-        <div className="mb-2">
-            <h1 className="dark:text-white text-4xl font-[500px] text-gray-900 mb-2">
-                To read
-            </h1>
+            <div className="w-full">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
+                    <div>
+                        <h1 className="font-serif text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">
+                            My library
+                        </h1>
+                        <p className="text-[#8A8374] dark:text-gray-300">Books you&apos;ve saved to read.</p>
+                    </div>
+                    <SearchBar className="w-full sm:max-w-xs" />
+                </div>
 
-        </div>
+                <div className="h-px bg-[#E8E1D3] dark:bg-gray-700 mb-8" />
 
-    </div>
-
-    <BookGrid
-        title=""
-        userId = {user?.user?._id ?? ""}
-        books={books.books}
-        showCurrentlyReading={true}
-    />
-
-</div>
-
-
-
+                {hasBooks ? (
+                    <BookGrid
+                        title=""
+                        userId={user?.user?._id ?? ""}
+                        books={books.books}
+                        showCurrentlyReading={true}
+                    />
+                ) : (
+                    <p className="text-[#8A8374] dark:text-gray-400">
+                        You haven&apos;t saved any books yet — browse the collection to add some.
+                    </p>
+                )}
+            </div>
         </SidebarLayout>
     )
 }
-
-
