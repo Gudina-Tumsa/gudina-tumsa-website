@@ -49,7 +49,7 @@ const LoginForm = () => {
     return (
         <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
             <div className="text-center mb-8">
-                <h1 className="text-3xl font-extrabold text-purple-700 mb-2 font-poppins">Login to GTL</h1>
+                <h1 className="text-3xl font-extrabold text-[#9407F2] mb-2 font-poppins">Login to GTL</h1>
             </div>
 
             {errorMsg && (
@@ -67,7 +67,7 @@ const LoginForm = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="bg-gray-50 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600"
+                            className="bg-gray-50 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9407F2] focus:border-[#9407F2]"
                             required
                             disabled={isLoading}
                         />
@@ -82,14 +82,14 @@ const LoginForm = () => {
                             type={showPassword ? "text" : "password"}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="bg-gray-50 block w-full h-full px-3 py-3 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600"
+                            className="bg-gray-50 block w-full h-full px-3 py-3 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#9407F2] focus:border-[#9407F2]"
                             required
                             disabled={isLoading}
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-600 hover:text-purple-700 focus:outline-none"
+                            className="absolute right-2 bottom-0 transform -translate-y-1/2 text-gray-600 hover:text-[#9407F2] focus:outline-none"
                             aria-label={showPassword ? "Hide password" : "Show password"}
                             tabIndex={isLoading ? -1 : 0}
                             disabled={isLoading}
@@ -107,7 +107,7 @@ const LoginForm = () => {
                     <div></div>
                     <Link
                         href="/reset"
-                        className="text-sm text-purple-600 hover:underline"
+                        className="text-sm text-[#9407F2] hover:underline"
                         tabIndex={isLoading ? -1 : 0}
                     >
                         Forgot password?
@@ -120,7 +120,7 @@ const LoginForm = () => {
                         type="checkbox"
                         checked={keepLoggedIn}
                         onChange={(e) => setKeepLoggedIn(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-600 cursor-pointer"
+                        className="h-4 w-4 rounded border-gray-300 text-[#9407F2] focus:ring-[#9407F2] cursor-pointer"
                         disabled={isLoading}
                     />
                     <label htmlFor="keepLoggedIn" className="ml-2 text-sm text-gray-700 cursor-pointer">
@@ -133,8 +133,8 @@ const LoginForm = () => {
                     disabled={isLoading}
                     className={`w-full font-poppins flex justify-center items-center gap-2 ${
                         isLoading
-                            ? "bg-purple-700 cursor-not-allowed"
-                            : "bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-1"
+                            ? "bg-[#7d06cc] cursor-not-allowed"
+                            : "bg-[#9407F2] hover:bg-[#7d06cc] focus:ring-2 focus:ring-[#9407F2] focus:ring-offset-1"
                     } text-white font-semibold py-3 rounded-md transition-colors duration-200`}
                 >
                     {isLoading ? (
@@ -173,7 +173,7 @@ const LoginForm = () => {
                     Don't have an account?{" "}
                     <Link
                         href="/signup"
-                        className="text-purple-600 hover:underline"
+                        className="text-[#9407F2] hover:underline"
                         tabIndex={isLoading ? -1 : 0}
                     >
                         Sign up

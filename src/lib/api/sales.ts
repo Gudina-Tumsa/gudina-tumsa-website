@@ -1,4 +1,5 @@
 import {
+    CreateBankTransferSaleRequest,
     CreateSaleRequest,
     CreateSaleResponse,
     GetSaleResponse,
@@ -43,6 +44,34 @@ export const createSale = async (
             'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+        return parseErrorAndThrow(response);
+    }
+
+    return response.json();
+};
+
+// Bank Transfer only — multipart, since it carries the receipt photo. No Content-Type header:
+// the browser sets the multipart boundary itself when the body is a FormData instance.
+export const createBankTransferSale = async (
+    token: string,
+    request: CreateBankTransferSaleRequest
+): Promise<CreateSaleResponse> => {
+    const formData = new FormData();
+    formData.append('bookId', request.bookId);
+    formData.append('method', 'BANK_TRANSFER');
+    formData.append('bankAccountId', request.bankAccountId);
+    formData.append('receiptImage', request.receiptImage);
+    if (request.returnUrl) formData.append('returnUrl', request.returnUrl);
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sales`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
     });
 
     if (!response.ok) {

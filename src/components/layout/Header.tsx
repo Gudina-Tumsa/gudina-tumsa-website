@@ -107,7 +107,7 @@ const NotificationBar = () => {
             {/* Notification Bar */}
             {
                 currentEvent && (
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg">
+                    <div className="bg-gradient-to-r from-blue-600 to-[#9407F2] text-white shadow-lg">
                         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2">
                             <div className="flex justify-between items-center">
                                 <div

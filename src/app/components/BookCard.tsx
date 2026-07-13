@@ -37,7 +37,7 @@ const BookCard = ({ id, userId, title, year, coverImage, writer, isCurrentlyRead
                 <h3 className="font-semibold text-[#1C1B19] dark:text-white line-clamp-2">{title}</h3>
                 <p className="text-sm text-[#8A8374] dark:text-gray-400 truncate mt-0.5">{writer}</p>
                 {isCurrentlyReading ? (
-                    <span className="text-sm font-medium text-[#C15A34] underline mt-1 inline-block">
+                    <span className="text-sm font-medium text-[#9407F2] dark:text-[#C084FC] underline mt-1 inline-block">
                         Continue reading
                     </span>
                 ) : (

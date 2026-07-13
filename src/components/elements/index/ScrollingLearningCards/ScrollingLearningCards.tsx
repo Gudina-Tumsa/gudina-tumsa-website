@@ -40,7 +40,7 @@ const ScrollingLearningCards = () => {
                 "Sync progress across devices",
                 "Distraction-free interfaces"
             ],
-            gradient: "from-purple-500 to-indigo-600",
+            gradient: "from-[#9407F2] to-[#7d06cc]",
             texts : {
                 title : "How to create an account",
                 texts : [
@@ -182,12 +182,12 @@ const LearningCardWithScroll = ({
                 </div>
             )}
 
-            <div className={`mt-[10%] bg-gradient-to-br from-purple-100 to-blue-100 w-full py-6 sm:py-8 md:py-[2%] rounded-xl sm:rounded-2xl`}>
+            <div className={`mt-[10%] bg-gradient-to-br from-[#C084FC]/20 to-blue-100 w-full py-6 sm:py-8 md:py-[2%] rounded-xl sm:rounded-2xl`}>
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center px-4 sm:px-6">
                     {/* Left Content */}
                     <div className="space-y-4 sm:space-y-6">
                         <div>
-                            <h2 className="font-instrument regula sm:text-4xl md:text-5xl font-bold text-purple-600 mb-1 sm:mb-2">
+                            <h2 className="font-instrument regula sm:text-4xl md:text-5xl font-bold text-[#9407F2] mb-1 sm:mb-2">
                                 {method.title}
                             </h2>
                             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">

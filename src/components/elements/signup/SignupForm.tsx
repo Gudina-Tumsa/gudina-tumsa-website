@@ -264,7 +264,7 @@ const SignUpForm = () => {
                     type="submit"
                     disabled={isLoading}
                     className={`w-full font-poppins bg-[#9407F2] text-white font-medium py-2 px-4 rounded-md transition-colors duration-200 ${
-                        isLoading ? "opacity-60 cursor-not-allowed" : "hover:bg-purple-800"
+                        isLoading ? "opacity-60 cursor-not-allowed" : "hover:bg-[#7d06cc]"
                     }`}
                 >
                     {isLoading ? "Signing up..." : "Sign up"}

@@ -10,7 +10,7 @@ const MobileAppSection = () => {
                     OUR APP
                 </p>
                 <h1 className="text-5xl md:text-6xl font-light leading-tight">
-                    <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium italic">
+                    <span className="bg-gradient-to-r from-blue-600 to-[#9407F2] bg-clip-text text-transparent font-medium italic">
                         Take every book
                     </span>{" "}
                     <span className="text-gray-900">with you.</span>
@@ -51,7 +51,7 @@ const MobileAppSection = () => {
 
                             {/* Floating elements for visual interest */}
                             <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-500 rounded-full opacity-20"></div>
-                            <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-500 rounded-full opacity-15"></div>
+                            <div className="absolute -bottom-6 -left-6 w-12 h-12 bg-[#9407F2] rounded-full opacity-15"></div>
                         </div>
                     </div>
                 </div>

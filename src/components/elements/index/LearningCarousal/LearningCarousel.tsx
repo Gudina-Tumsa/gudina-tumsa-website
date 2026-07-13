@@ -19,12 +19,12 @@ interface LearningCardProps {
 
 const LearningCard = ({ method }: LearningCardProps) => {
     return (
-        <div className="bg-gradient-to-br from-purple-100 to-blue-100 py-[2%]">
+        <div className="bg-gradient-to-br from-[#C084FC]/20 to-blue-100 py-[2%]">
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left Content */}
                 <div className="space-y-6">
                     <div>
-                        <h2 className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
+                        <h2 className="text-3xl md:text-4xl font-bold text-[#9407F2] mb-2">
                             {method.title}
                         </h2>
                         <h3 className="text-2xl md:text-3xl font-bold text-slate-800">
@@ -108,7 +108,7 @@ const learningMethods = [
         image: "/lovable-uploads/55cdb2fe-c1b0-4013-9076-5b7205bdf735.png",
         cardType: "guide",
         features: ["Expert tips", "Guided plan", "How to Master Robert Glazer's 4 Capacities For Success", "Exclusive"],
-        gradient: "from-purple-500 to-indigo-600"
+        gradient: "from-[#9407F2] to-[#7d06cc]"
     },
     {
         id: 2,

@@ -216,7 +216,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
 
             {/* Primary Action Button (Read/Listen) */}
             <button
-                className="bg-purple-600 text-white dark:bg-purple-700 px-6 py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-lg hover:bg-purple-700 dark:hover:bg-purple-800 transition-all transform hover:scale-[1.02]"
+                className="bg-[#9407F2] text-white px-6 py-3 rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-lg hover:bg-[#7d06cc] transition-all transform hover:scale-[1.02]"
                 onClick={handleReadClick}
             >
                 {isAudioBook ? <Play className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}

@@ -24,7 +24,7 @@ const GrowSection = () => {
                         {/* Left Column */}
                         <div className="flex flex-col h-full gap-6">
                             {/* Card with CTA */}
-                            <div className="bg-[#DAB6F2] rounded-xl p-6 shadow flex flex-col justify-between flex-grow">
+                            <div className="bg-[#C084FC]/40 rounded-xl p-6 shadow flex flex-col justify-between flex-grow">
                                 <h3 className="font-poppins text-2xl md:text-4xl font-semibold text-gray-800">
                                     Dive into<br /> the legacy
                                 </h3>
@@ -37,7 +37,7 @@ const GrowSection = () => {
                             </div>
 
                             {/* Replaced Image Card */}
-                            <div className="flex-1 bg-[#E9D5FF] rounded-xl p-8 flex flex-col items-center justify-center text-center shadow">
+                            <div className="flex-1 bg-[#C084FC]/25 rounded-xl p-8 flex flex-col items-center justify-center text-center shadow">
                                 <h3 className="font-poppins text-2xl font-semibold text-slate-700">Explore the Archives</h3>
                                 <p className="text-slate-600 mt-2">Discover sermons, letters, and historical documents.</p>
                             </div>
@@ -55,11 +55,11 @@ const GrowSection = () => {
                         {/* Right Column */}
                         <div className="grid grid-rows-4 h-full gap-6">
                             {/* Replaced Image Card */}
-                            <div className="bg-[#F3E8FF] rounded-xl p-8 flex flex-col items-center justify-center text-center shadow row-span-3">
+                            <div className="bg-[#C084FC]/15 rounded-xl p-8 flex flex-col items-center justify-center text-center shadow row-span-3">
                                 <h3 className="font-poppins text-2xl font-semibold text-slate-700">Listen on the Go</h3>
                                 <p className="text-slate-600 mt-2">Engaging audio stories and podcasts available anytime, anywhere.</p>
                             </div>
-                            <div className="bg-[#DAB6F2] rounded-xl p-6 flex items-center justify-center shadow row-span-1">
+                            <div className="bg-[#C084FC]/40 rounded-xl p-6 flex items-center justify-center shadow row-span-1">
                                 <h3 className="text-xl md:text-2xl font-poppins font-semibold text-gray-800 text-center">
                                     Always your favourite
                                 </h3>

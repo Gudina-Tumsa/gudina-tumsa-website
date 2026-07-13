@@ -51,7 +51,7 @@ const Careers = () => {
                 </section>
 
                 {/* Current Hiring Status */}
-                <section className="text-center py-12 bg-[#DAB6F2] rounded-xl">
+                <section className="text-center py-12 bg-[#C084FC]/40 rounded-xl">
                     <div className="max-w-2xl mx-auto">
 
                         <h2 className="font-instrument regula text-5xl font-bold mb-4">We're Not Currently Hiring</h2>

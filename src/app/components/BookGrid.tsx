@@ -11,8 +11,6 @@ interface BookGridProps {
 }
 
 const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps) => {
-    console.log("BookGrid", books, showCurrentlyReading);
-
     const hasBooks = books?.data?.books && books.data.books.length > 0;
 
 

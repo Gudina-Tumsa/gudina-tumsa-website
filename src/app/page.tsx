@@ -89,7 +89,7 @@ const FeatureCards = () => {
                 "Read, research, and reflect on the legacy of Rev. Gudina Tumsa and Tsehay Tolessa from any device, wherever inspiration strikes.",
             image:
                 "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&auto=format&fit=crop&q=80",
-            gradient: "bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400",
+            gradient: "bg-gradient-to-br from-[#C084FC]/30 via-[#C084FC]/45 to-[#9407F2]/60",
         },
         {
             title: "Instant Legacy Access",

@@ -6,6 +6,13 @@ export interface CreateSaleRequest {
     returnUrl?: string;
 }
 
+export interface CreateBankTransferSaleRequest {
+    bookId: string;
+    bankAccountId: string;
+    receiptImage: File;
+    returnUrl?: string;
+}
+
 export interface CreateSaleResponse {
     success: boolean;
     message: string;

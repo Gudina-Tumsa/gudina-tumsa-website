@@ -282,8 +282,8 @@ const ResetPasswordForm = () => {
                         disabled={loading}
                         className={`w-full flex justify-center items-center gap-2 py-3 rounded-md transition-colors duration-200 ${
                             loading
-                                ? "bg-purple-700 cursor-not-allowed text-white"
-                                : "bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-1 text-white"
+                                ? "bg-[#7d06cc] cursor-not-allowed text-white"
+                                : "bg-[#9407F2] hover:bg-[#7d06cc] focus:ring-2 focus:ring-[#9407F2] focus:ring-offset-1 text-white"
                         }`}
                     >
                         {loading ? (
