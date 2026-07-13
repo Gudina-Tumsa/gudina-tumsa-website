@@ -8,42 +8,28 @@ import {BookData} from "@/types/book";
 
 const BookCover = ({bookData } : {bookData : BookData | null} ) => {
     const [imageError, setImageError] = useState(false);
-    console.log(imageError)
+
+    if (!bookData) return null;
 
     return (
-
-            bookData ? <div className="sticky top-8">
-                <div className="rounded-lg  p-6">
-                    <div className="aspect-[3/4] bg-gradient-to-br  rounded-lg overflow-hidden mb-6 relative">
-                        {/*{!imageError ? (*/}
+        <div className="sticky top-8">
+            <div className="rounded-lg p-6">
+                <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden mb-6 relative">
+                    {!imageError ? (
                         <img
-                            src={process.env.NEXT_PUBLIC_BASE_URL+ bookData.coverImageUrl}
-                            alt=""
-                            className=" object-contains"
+                            src={process.env.NEXT_PUBLIC_BASE_URL + bookData.coverImageUrl}
+                            alt={bookData.title}
+                            className="w-full h-full object-contain"
                             onError={() => setImageError(true)}
                         />
-
-                    </div>
-
-                    {/* Format options */}
-                    <div className="space-y-3 text-sm text-gray-600">
-                        {/*<div className="flex items-center gap-3">*/}
-                        {/*    <span className="w-5 h-5 text-gray-400">🌐</span>*/}
-                        {/*    <span>English</span>*/}
-                        {/*</div>*/}
-                        {/*<div className="flex items-center gap-3">*/}
-                        {/*    <span className="w-5 h-5 text-gray-400">📱</span>*/}
-                        {/*    <span>ePUB (mobile friendly)</span>*/}
-                        {/*</div>*/}
-                        {/*<div className="flex items-center gap-3">*/}
-                        {/*    <span className="w-5 h-5 text-gray-400">📱</span>*/}
-                        {/*    <span>Available on iOS & Android</span>*/}
-                        {/*</div>*/}
-                    </div>
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-sm text-gray-400 dark:text-gray-500">
+                            No cover available
+                        </div>
+                    )}
                 </div>
-            </div> : ""
-
-
+            </div>
+        </div>
     );
 };
 

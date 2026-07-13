@@ -207,7 +207,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
         };
     }, [isAudioModalOpen]); // Re-run when modal state changes to ensure cleanup
 
-    const audioUrl = bookData?.audioSummarizationUrl ? `https://api.gudinatumsa.com${bookData.audioSummarizationUrl}` : null;
+    const audioUrl = bookData?.audioSummarizationUrl ? `${process.env.NEXT_PUBLIC_BASE_URL}${bookData.audioSummarizationUrl}` : null;
 
     // --- JSX Rendering ---
     return (
@@ -263,9 +263,9 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
 
                     <div className="flex flex-col items-center max-w-lg w-full text-center gap-6">
                         {/* Cover Image */}
-                        {bookData.coverUrl && (
+                        {bookData.coverImageUrl && (
                             <img
-                                src={bookData.coverUrl}
+                                src={`${process.env.NEXT_PUBLIC_BASE_URL}${bookData.coverImageUrl}`}
                                 alt={bookData.title}
                                 className="w-64 h-64 sm:w-80 sm:h-80 object-cover rounded-2xl mb-4 shadow-2xl transition-shadow"
                             />

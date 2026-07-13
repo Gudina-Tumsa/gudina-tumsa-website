@@ -1,9 +1,7 @@
-let baseUrl = "https://api.gudinatumsa.com"
-
 export const RateBook = async (bookId : string, rating : number) => {
 
     try {
-        const response = await fetch(`${baseUrl}/api/book/rating/${bookId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/rating/${bookId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -15,9 +13,7 @@ export const RateBook = async (bookId : string, rating : number) => {
             throw new Error(`Failed to rate book: ${response.status}`);
         }
 
-        const data = await response.json();
-        console.log("Book rated successfully:", data);
-        return data;
+        return await response.json();
     } catch (e) {
         console.error("Error rating book:", e);
     }

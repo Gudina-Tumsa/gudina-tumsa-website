@@ -23,7 +23,6 @@ import {RateBook} from "@/lib/api/rating";
 const AudioPlayer = ({audioUrl, audioRef}) => {
     const fileName = audioUrl.split('/').pop();
     const streamUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/audio/stream/${fileName}`;
-    console.log(streamUrl);
     return (
         <audio ref={audioRef} controls className="mt-2 w-full">
             <source src={streamUrl} type="audio/mpeg"/>
@@ -64,12 +63,7 @@ const StarRating = ({ bookId, rating, onRate, editable = false }: StarRatingProp
 
         onRate(star);
 
-
         RateBook(bookId, star)
-            .then((data) => {
-                console.log({ data });
-
-            })
             .catch((err) => {
                 console.error({ err });
 
@@ -243,7 +237,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     {
                         ( bookData?.audioSummarizationUrl && bookData?.contentType != "audio") && (
                             <div className="mt-6">
-                                <h4 className="text-lg font-semibold text-gray-900 mb-2">Audio Summary</h4>
+                                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Audio Summary</h4>
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                                     <button
                                         onClick={handleListenClick}
@@ -289,17 +283,16 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                     }
                 </div>
             </div>
-            {
-                console.log({bookDatt : bookData})
-            }
-
             <div>
                 <div className="dark:bg-gray-700 bg-gray-50 rounded-lg p-6">
                     <h4 className="dark:text-white text-lg font-semibold text-gray-900 mb-4">Information</h4>
                     <div className={"mb-[2%]"}>
                         <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Rating</h5>
                         <div className="flex items-center gap-2">
-                            <StarRating bookId={bookData?._id} rating={bookData?.rating || 0} onRate={handleRating} editable />
+                            <StarRating bookId={bookData?._id} rating={userRating ?? bookData?.rating ?? 0} onRate={handleRating} editable />
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {averageRating.toFixed(1)} ({ratingCount} {ratingCount === 1 ? "rating" : "ratings"})
+                            </span>
                         </div>
                     </div>
 
@@ -317,8 +310,12 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                             <p className="dark:text-white text-gray-900">{bookData?.publicationYear}</p>
                         </div>
                         <div>
-                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Edition</h5>
-                            <p className="dark:text-white text-gray-900">7</p>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">Language</h5>
+                            <p className="dark:text-white text-gray-900">{bookData?.language}</p>
+                        </div>
+                        <div>
+                            <h5 className="dark:text-white text-sm font-medium text-gray-600 mb-2">ISBN</h5>
+                            <p className="dark:text-white text-gray-900">{bookData?.isbn}</p>
                         </div>
                     </div>
                 </div>
@@ -387,7 +384,6 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
     };
 
     const handleAddReply = async (parentId: string) => {
-        console.log(parentId);
         if (!replyContent.trim() || !user?.user?._id || !bookData?._id) return;
 
         try {
@@ -396,11 +392,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                 user.user._id,
                 replyContent,
                 parentId
-            ).then((data)=>{
-                console.log(data)
-            }).catch((error)=>{
-                console.error("Failed to add reply:", error);
-            });
+            );
             setReplyContent("");
             setReplyingTo(null);
             await fetchComments();
@@ -441,7 +433,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
     const renderComments = (commentList: CommentData[], level = 0 , userId : string) => {
 
         return commentList.map((comment) => {
-            const hasReplies = comment?.repliesCount || 0 > 0;
+            const hasReplies = (comment?.repliesCount ?? 0) > 0;
             const isExpanded = expandedReplies[comment._id];
             const replies = comments.filter(c => c.parentCommentId === comment._id);
 
@@ -449,33 +441,32 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                 <div key={comment._id} className={`dark:bg-gray-700 bg-gray-50 rounded-lg p-4 ${level > 0 ? 'mt-2' : 'mb-4'}`}>
                     <div className="flex justify-between items-start mb-2">
                        <div className="flex items-center">
-                            <span className="font-medium text-gray-900">
+                            <span className="font-medium text-gray-900 dark:text-white">
                                 {comment.userId.username}
                             </span>
-                           <span className="ml-[6px] text-sm text-gray-500">
+                           <span className="ml-[6px] text-sm text-gray-500 dark:text-gray-400">
                                 {new Date(comment.createdAt).toLocaleString()}
                                 {comment.isEdited && " (edited)"}
                             </span>
                        </div>
 
                         <div className="relative">
-
                             <button
                                 onClick={() =>
                                     setOpenDropdown(openDropdown === comment._id ? null : comment._id)
                                 }
-                                className="text-gray-500 hover:text-gray-700 px-2"
+                                className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 px-2"
                             >
                                 ⋯
                             </button>
                             {openDropdown === comment._id && (
-                                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                                <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-50">
                                     <button
                                         onClick={() => {
                                             setReplyingTo(comment._id);
                                             setOpenDropdown(null);
                                         }}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                                     >
                                         Reply
                                     </button>
@@ -488,7 +479,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                                                     setEditingCommentId(comment._id);
                                                     setOpenDropdown(null);
                                                 }}
-                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 Edit
                                             </button>
@@ -498,7 +489,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
 
                                                     setOpenDropdown(null);
                                                 }}
-                                                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
                                             >
                                                 Delete
                                             </button>
@@ -507,11 +498,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                                 </div>
                             )}
                         </div>
-
-
-
                     </div>
-                    {/*<p className="dark:bg-gray-700 bg-gray-50 mb-2">{comment.content}</p>*/}
                     {editingCommentId === comment._id ? (
                         <div className="mb-2">
         <textarea
@@ -541,9 +528,9 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                             </div>
                         </div>
                     ) : (
-                        <p className="dark:bg-gray-700 bg-gray-50 mb-2">{comment.content}</p>
+                        <p className="dark:text-white text-gray-900 mb-2">{comment.content}</p>
                     )}
-                    <div className="flex space-x-4 text-sm">
+                    <div className="flex space-x-4 text-sm items-center">
                         <button
                             onClick={() => setReplyingTo(replyingTo === comment._id ? null : comment._id)}
                             className="text-[#C084FC] hover:text-[#C084FC]/50"
@@ -558,20 +545,28 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                                 {isExpanded ? 'Hide replies' : `Show replies (${comment.repliesCount})`}
                             </button>
                         )}
-                        <div className="flex items-center space-x-4 text-gray-500 text-sm">
-                            <div className="flex items-center space-x-1"
-                                onClick={() => likeAComment(user?.user?._id ?? "" , comment._id).finally(() => fetchComments())}
+                        <div className="flex items-center space-x-4 text-gray-500 dark:text-gray-400 text-sm">
+                            <button
+                                type="button"
+                                disabled={!userId}
+                                onClick={() => likeAComment(userId, comment._id).finally(() => fetchComments())}
+                                className="flex items-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed hover:text-gray-700 dark:hover:text-gray-200"
+                                aria-label="Like comment"
                             >
-                                <ThumbsUp/>
+                                <ThumbsUp className="w-4 h-4"/>
                                 <span>{comment.likes.length || 0}</span>
-                            </div>
+                            </button>
 
-                            <div className="flex items-center space-x-1"
-                                onClick={() => dislikeAComment(user?.user?._id ?? "" , comment._id).finally(() => fetchComments())}
+                            <button
+                                type="button"
+                                disabled={!userId}
+                                onClick={() => dislikeAComment(userId, comment._id).finally(() => fetchComments())}
+                                className="flex items-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed hover:text-gray-700 dark:hover:text-gray-200"
+                                aria-label="Dislike comment"
                             >
-                                <ThumbsDown/>
+                                <ThumbsDown className="w-4 h-4"/>
                                 <span>{comment.dislikes.length || 0}</span>
-                            </div>
+                            </button>
                         </div>
 
                     </div>
@@ -580,7 +575,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                     {replyingTo === comment._id && (
                         <div className="mt-3 ml-4">
                             <textarea
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2"
+                                className="w-full px-3 py-2 dark:text-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2"
                                 rows={2}
                                 placeholder="Write your reply..."
                                 value={replyContent}
@@ -607,7 +602,7 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                     )}
 
                     {hasReplies && isExpanded && (
-                        <div className="mt-3 border-l-2 border-gray-200 pl-4">
+                        <div className="mt-3 border-l-2 border-gray-200 dark:border-gray-600 pl-4">
                             {renderComments(replies, level + 1 , userId)}
                         </div>
                     )}
@@ -621,12 +616,12 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
             <div className="dark:bg-gray-700 bg-white rounded-lg shadow-sm p-6">
                 {user?.user ? (
                     <>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                             {replyingTo ? "Leave a Reply" : "Leave a Comment"}
                         </h3>
-                        <div className="dark:bg-gray-700 mb-4">
+                        <div className="mb-4">
                             <textarea
-                                className="dark:bg-gray-700 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="dark:bg-gray-800 dark:text-white w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={4}
                                 placeholder={
                                     replyingTo
@@ -655,20 +650,20 @@ function BookComment({ bookData }: { bookData: BookData | null }) {
                         </div>
                     </>
                 ) : (
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-300">
                         Please log in to leave comments.
                     </p>
                 )}
             </div>
 
             <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                     Comments ({comments.filter(c => !c.parentCommentId).length})
                 </h3>
                 {comments.length > 0 ? (
                     renderComments(comments.filter(c => !c.parentCommentId) ,0,user?.user?._id ?? "")
                 ) : (
-                    <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+                    <p className="text-gray-500 dark:text-gray-400">No comments yet. Be the first to comment!</p>
                 )}
             </div>
         </div>
