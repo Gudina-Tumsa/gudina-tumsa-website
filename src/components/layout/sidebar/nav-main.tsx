@@ -62,7 +62,7 @@ export function NavMain() {
         if (item.requireLogin && !isUserLoggedIn) {
             return (
                 <button
-                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-[15px] text-gray-400 cursor-not-allowed"
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-[15px] font-semibold text-gray-400 dark:text-gray-600 cursor-not-allowed"
                     disabled
                 >
                     <span>{item.title}</span>
@@ -75,8 +75,8 @@ export function NavMain() {
                 href={item.url}
                 className={`flex w-full items-center justify-between rounded-xl px-4 py-2.5 text-[15px] transition-colors ${
                     isActive
-                        ? "bg-[#9407F2] text-white font-medium"
-                        : "text-gray-700 hover:bg-[#C084FC]/10"
+                        ? "bg-[#9407F2] text-white font-bold"
+                        : "text-gray-700 hover:bg-[#C084FC]/10 dark:text-gray-300 font-semibold"
                 }`}
             >
                 <span>{item.title}</span>
@@ -90,8 +90,8 @@ export function NavMain() {
 
         const content = (
             <>
-                <span className={disabled ? "text-gray-400" : "text-gray-700"}>{item.title}</span>
-                <span className={`text-sm font-medium ${item.count > 0 ? "text-[#9407F2]" : "text-gray-400"}`}>
+                <span className={disabled ? "text-gray-400 dark:text-gray-600 font-semibold" : "text-gray-700 dark:text-gray-300 font-semibold"}>{item.title}</span>
+                <span className={`text-sm font-bold ${item.count > 0 ? "text-[#9407F2]" : "text-gray-400 dark:text-gray-600"}`}>
                     {item.count}
                 </span>
             </>
@@ -133,7 +133,7 @@ export function NavMain() {
                 </SidebarGroup>
 
                 <SidebarGroup className="mt-4">
-                    <SidebarGroupLabel className="px-4 text-xs font-medium uppercase tracking-wide text-gray-400">
+                    <SidebarGroupLabel className="px-4 text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
                         My Activity
                     </SidebarGroupLabel>
                     <SidebarMenu className="gap-0.5">
@@ -148,13 +148,13 @@ export function NavMain() {
                 </SidebarGroup>
             </div>
 
-            <div className="mt-6 border-t border-gray-200 pt-4">
+            <div className="mt-6 border-t border-gray-200 dark:border-gray-800 pt-4">
                 <SidebarMenu className="gap-0.5">
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                             <Link
                                 href="/settings"
-                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Settings
                             </Link>
@@ -165,7 +165,7 @@ export function NavMain() {
                         <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                             <Link
                                 href="/contactus"
-                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                                className="flex w-full items-center rounded-xl px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Contact us
                             </Link>
@@ -177,7 +177,7 @@ export function NavMain() {
                             <SidebarMenuButton asChild className="h-auto w-full p-0 hover:bg-transparent">
                                 <button
                                     onClick={handleLogout}
-                                    className="flex w-full items-center rounded-xl px-4 py-2 text-left text-sm font-medium text-red-600 hover:bg-gray-100"
+                                    className="flex w-full items-center rounded-xl px-4 py-2 text-left text-sm font-bold text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-800"
                                 >
                                     Log out
                                 </button>

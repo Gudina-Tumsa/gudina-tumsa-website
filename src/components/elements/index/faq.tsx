@@ -65,7 +65,7 @@ const Faq = ({ include }: { include: boolean }) => {
     return (
         <div className="w-full px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 md:mt-16 lg:mt-20">
             <div className="max-w-4xl mx-auto">
-                <h2 className="text-center font-bold font-instrument regula text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 sm:mb-8 md:mb-10 leading-tight">
+                <h2 className="text-center font-extrabold tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 sm:mb-8 md:mb-10 leading-tight">
                     Frequently <br className="sm:hidden" /> Asked Questions
                 </h2>
 

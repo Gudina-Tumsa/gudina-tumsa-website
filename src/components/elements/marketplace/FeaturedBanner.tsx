@@ -23,13 +23,13 @@ const FeaturedBanner = ({ book, isOwned, onBuyClick }: FeaturedBannerProps) => {
                 <div className="text-xs font-semibold tracking-widest uppercase text-[#9407F2] dark:text-[#C084FC] mb-3">
                     Featured this week
                 </div>
-                <h2 className="font-serif text-3xl sm:text-4xl text-gray-900 dark:text-white mb-1">{book.title}</h2>
+                <h2 className="font-extrabold tracking-tight text-3xl sm:text-4xl text-gray-900 dark:text-white mb-1">{book.title}</h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-4">by {book.author}</p>
                 <p className="text-gray-600 dark:text-gray-300 max-w-xl line-clamp-2">{book.description}</p>
             </div>
 
             <div className="flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-4 flex-shrink-0 w-full md:w-auto">
-                <div className="text-gray-900 dark:text-white font-serif text-3xl whitespace-nowrap">
+                <div className="text-gray-900 dark:text-white font-extrabold tracking-tight text-3xl whitespace-nowrap">
                     {book.price} <span className="text-sm text-gray-500 dark:text-gray-400 font-sans font-normal">ETB</span>
                 </div>
                 <button

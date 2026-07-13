@@ -94,7 +94,7 @@ export default function Page() {
             <div className="w-full flex flex-col dark:bg-gray-800">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
                     <div>
-                        <h1 className="font-serif text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">Browse</h1>
+                        <h1 className="font-extrabold tracking-tight text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">Browse</h1>
                         <p className="text-[#8A8374] dark:text-gray-300">Explore the full collection by topic.</p>
                     </div>
                     <SearchBar className="w-full sm:max-w-xs" />
@@ -117,7 +117,7 @@ export default function Page() {
                     <p className="text-[#8A8374] dark:text-gray-400 mb-8">No books match these filters.</p>
                 )}
 
-                <h2 className="font-serif text-2xl text-[#1C1B19] dark:text-white mb-4">
+                <h2 className="font-bold tracking-tight text-2xl text-[#1C1B19] dark:text-white mb-4">
                     Browse by topic
                 </h2>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">

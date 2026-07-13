@@ -36,7 +36,7 @@ const ContentPolicy = () => {
 
             <main className="w-full max-w-6xl mx-auto px-6 md:px-8 my-10 space-y-6">
                 <section>
-                    <h1 className="font-instrument regula  md:text-5xl mb-2">GTL Library Content Policy</h1>
+                    <h1 className="md:text-5xl font-extrabold tracking-tight mb-2">GTL Library Content Policy</h1>
                     <p className="ml-[1%] text-md text-gray-600">Effective Date: August 5, 2025</p>
                 </section>
 

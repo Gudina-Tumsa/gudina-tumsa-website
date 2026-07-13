@@ -15,7 +15,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
       <Sidebar
           collapsible="icon"
-          className="border-r border-gray-200 bg-white [&_[data-sidebar=sidebar]]:bg-white"
+          className="border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 [&_[data-sidebar=sidebar]]:bg-white dark:[&_[data-sidebar=sidebar]]:bg-gray-900"
           {...props}
       >
         <SidebarHeader className="px-4 pt-6 pb-2">
@@ -26,7 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   className="h-auto p-0 hover:bg-transparent data-[slot=sidebar-menu-button]:!p-0"
               >
                 <a href="/">
-                  <span className="font-serif text-2xl font-medium tracking-tight text-gray-900">GTL</span>
+                  <span className="font-sans text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">GTL</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

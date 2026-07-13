@@ -15,7 +15,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
                         <div className="absolute top-2 left-4">
                             <SidebarTrigger />
                         </div>
-                        <div className="absolute top-3 right-4 font-serif text-lg font-medium text-gray-900 dark:text-white">
+                        <div className="absolute top-3 right-4 font-sans text-lg font-extrabold tracking-tight text-gray-900 dark:text-white">
                             GTL
                         </div>
                     </div>

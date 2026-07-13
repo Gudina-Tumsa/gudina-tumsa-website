@@ -52,7 +52,7 @@ body.sidebar-open {
 }
 
 @theme inline {
-    --font-sans: var(--font-poppins);
+    --font-sans: var(--font-plus-jakarta-sans);
     --font-serif: var(--font-instrument-serif);
     --color-background: var(--background);
     --color-foreground: var(--foreground);

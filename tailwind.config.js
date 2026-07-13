@@ -28,6 +28,7 @@ module.exports = {
 			geistMono: ["var(--font-geist-mono)", "monospace"],
 			instrument: ["var(--font-instrument-serif)", "serif"],
 			serif: ["var(--font-instrument-serif)", "Georgia", "serif"],
+			jakarta: ["var(--font-plus-jakarta-sans)", "sans-serif"],
 
 		},
   	}

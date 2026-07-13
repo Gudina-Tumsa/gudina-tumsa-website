@@ -163,7 +163,7 @@ const CollaborationPage = () => {
 
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                         <div className="text-center text-white max-w-2xl px-4">
-                            <h1 className="font-instrument regula  md:text-5xl font-bold mb-2">Collaborate With Us</h1>
+                            <h1 className="md:text-5xl font-extrabold tracking-tight mb-2">Collaborate With Us</h1>
                             <p className=" font-medium ">Join us in preserving and sharing the legacy of Rev. Gudina Tumsa and Tsehay Tolessa</p>
                         </div>
                     </div>
@@ -404,7 +404,7 @@ const CollaborationPage = () => {
                                 </section>
                             ) : (
                                 <section className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
-                                    <h2 className="font-instrument regula text-4xl font-semibold mb-6">Collaboration Information</h2>
+                                    <h2 className="text-4xl font-extrabold tracking-tight mb-6">Collaboration Information</h2>
 
                                     <div className="mb-8">
                                         <h3 className="text-xl font-semibold mb-4">About GTL Online Library</h3>

@@ -9,7 +9,7 @@ const MobileAppSection = () => {
                 <p className="font-medium text-black tracking-wider uppercase mb-4">
                     OUR APP
                 </p>
-                <h1 className="text-5xl md:text-6xl font-light leading-tight">
+                <h1 className="text-5xl md:text-6xl font-black tracking-tighter leading-tight">
                     <span className="bg-gradient-to-r from-blue-600 to-[#9407F2] bg-clip-text text-transparent font-medium italic">
                         Take every book
                     </span>{" "}
@@ -23,10 +23,10 @@ const MobileAppSection = () => {
                     {/* Left Content */}
                     <div className=""> {/* Added right padding */}
                         <div>
-                            <h2 className="text-3xl font-light text-gray-900 mb-2">
+                            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 mb-2">
                                 Start at your desk.
                             </h2>
-                            <h2 className="text-3xl font-light text-gray-900 mb-6">
+                            <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 mb-6">
                                 Continue on-the-go.
                             </h2>
                         </div>

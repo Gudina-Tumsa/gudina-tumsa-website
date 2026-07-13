@@ -14,7 +14,7 @@ const LibraryEmptyState = ({ icon: Icon, title, description, ctaLabel, ctaHref }
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#9407F2]/10">
             <Icon className="h-6 w-6 text-[#9407F2] dark:text-[#C084FC]" />
         </div>
-        <h3 className="font-serif text-2xl text-[#1C1B19] dark:text-white mb-2">{title}</h3>
+        <h3 className="font-bold tracking-tight text-2xl text-[#1C1B19] dark:text-white mb-2">{title}</h3>
         <p className="text-[#8A8374] dark:text-gray-400 max-w-sm mx-auto mb-6">{description}</p>
         {ctaLabel && ctaHref && (
             <Link

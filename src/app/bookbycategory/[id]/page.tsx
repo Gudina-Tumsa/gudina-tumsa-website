@@ -87,7 +87,7 @@ export default function Page() {
         <SidebarLayout>
             <SearchBar />
             <div className="flex flex-row justify-between mb-8 mt-[5%]">
-                <h1 className="text-2xl font-[500px]  mb-2">
+                <h1 className="text-2xl font-bold tracking-tight mb-2">
                      {categoryName}
                 </h1>
             </div>

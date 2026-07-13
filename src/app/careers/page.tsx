@@ -42,7 +42,7 @@ const Careers = () => {
 
                     <div className=" inset-0 flex items-center justify-center ">
                         <div className="text-center max-w-2xl px-4">
-                            <h1 className="font-instrument regula  md:text-5xl font-bold mb-4">Join Our Mission</h1>
+                            <h1 className="md:text-5xl font-extrabold tracking-tight mb-4">Join Our Mission</h1>
                             <p className="text-lg">
                                 We're building the future of accessible learning
                             </p>
@@ -54,7 +54,7 @@ const Careers = () => {
                 <section className="text-center py-12 bg-[#C084FC]/40 rounded-xl">
                     <div className="max-w-2xl mx-auto">
 
-                        <h2 className="font-instrument regula text-5xl font-bold mb-4">We're Not Currently Hiring</h2>
+                        <h2 className="text-5xl font-extrabold tracking-tight mb-4">We're Not Currently Hiring</h2>
                         <p className="text-lg mb-6">
                             At this time, we don't have any open positions at GTL.
                             We appreciate your interest in joining our team!
@@ -65,7 +65,7 @@ const Careers = () => {
 
                 {/* Why Work With Us */}
                 <section>
-                    <h2 className="font-instrument regula text-4xl font-semibold mb-8 text-center">Why GTL?</h2>
+                    <h2 className="text-4xl font-extrabold tracking-tight mb-8 text-center">Why GTL?</h2>
                     <div className="grid md:grid-cols-2 gap-8">
                         <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
                             <h3 className="text-xl font-semibold mb-4 flex items-center">
@@ -94,7 +94,7 @@ const Careers = () => {
 
 
                 <section className=" py-12 border-t border-gray-200">
-                    <h2 className="font-instrument regual text-center text-5xl  mb-4">Stay in Touch</h2>
+                    <h2 className="text-center text-5xl font-extrabold tracking-tight mb-4">Stay in Touch</h2>
                     <p className="text-lg mb-6 max-w-2xl mx-auto">
                         While we're not hiring now, we're always excited to connect with talented people
                         who share our passion for learning.

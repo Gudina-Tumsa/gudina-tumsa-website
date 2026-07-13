@@ -65,7 +65,7 @@ export default function Page() {
             <div className="min-h-screen">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
                     <div>
-                        <h1 className="font-serif text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">
+                        <h1 className="font-extrabold tracking-tight text-4xl sm:text-5xl text-[#1C1B19] dark:text-white mb-1">
                             Completed
                         </h1>
                         <p className="text-[#8A8374] dark:text-gray-300">

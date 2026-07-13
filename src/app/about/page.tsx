@@ -14,7 +14,7 @@ const AboutUs = () => {
 
                 <section className="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2 className="font-instrument regula text-5xl font-semibold mb-6">Our Story</h2>
+                        <h2 className="text-5xl font-extrabold tracking-tight mb-6">Our Story</h2>
                         <p className="text-md mb-4">
                             The GTL Online Library is a digital knowledge hub dedicated to preserving, sharing, and promoting the life, works, and legacy of Rev. Gudina Tumsa and Tsehay Tolessa. We provide free and easy access to books, articles, archival materials, and multimedia resources that highlight their spiritual, social, and cultural contributions in Ethiopia and beyond.
                         </p>
@@ -38,7 +38,7 @@ const AboutUs = () => {
 
              {/* Values Section */}
                 <section className="py-12  rounded-xl px-8">
-                    <h2 className="font-instrument regula text-5xl font-semibold text-center">Our Values</h2>
+                    <h2 className="text-5xl font-extrabold tracking-tight text-center">Our Values</h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             {

@@ -154,7 +154,7 @@ const FeatureCards = () => {
 
 const Index = () => {
    return (
-       <div className="bg-[#F2F2F2] w-screen relative font-poppins overflow-x-hidden">
+       <div className="bg-[#F2F2F2] w-screen relative overflow-x-hidden">
 
             <Header/>
             <HeroSection/>
@@ -183,7 +183,7 @@ const Index = () => {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="font-instrument regula sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4 text-black text-center"
+                    className="sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-2 sm:mb-4 text-black text-center"
                 >
                     Join the GTL community
                 </motion.h1>
@@ -222,7 +222,7 @@ const Index = () => {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="font-instrument regula sm:text-3xl md:text-3xl font-bold text-black text-center"
+                    className="sm:text-3xl md:text-3xl font-extrabold tracking-tight text-black text-center"
                 >
                     Backing our Vision
                 </motion.h1>

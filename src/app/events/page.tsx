@@ -88,7 +88,7 @@ const Page = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Page Header */}
                 <div className="text-center mb-16">
-                    <h1 className="font-instrument regula text-5xl font-bold text-gray-900 mb-4">Events</h1>
+                    <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 mb-4">Events</h1>
                     <p className="text-xl text-gray-600 mx-auto">
                         Stay updated with the latest library  events
                     </p>

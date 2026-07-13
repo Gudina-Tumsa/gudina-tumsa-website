@@ -34,7 +34,7 @@ const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRa
         <section className="mb-12">
             <div className="flex items-end justify-between gap-4 mb-4">
                 <div className="min-w-0">
-                    <h2 className="font-serif text-2xl sm:text-3xl text-[#1C1B19] dark:text-white">
+                    <h2 className="font-extrabold tracking-tight text-2xl sm:text-3xl text-[#1C1B19] dark:text-white">
                         {title}
                     </h2>
                     {subtitle && (
@@ -50,12 +50,7 @@ const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRa
                             Show all
                         </Link>
                     )}
-                    <button onClick={() => scroll(-1)} aria-label={`Scroll ${title} left`} className={arrowClass}>
-                        <ChevronLeft className="h-4 w-4" />
-                    </button>
-                    <button onClick={() => scroll(1)} aria-label={`Scroll ${title} right`} className={arrowClass}>
-                        <ChevronRight className="h-4 w-4" />
-                    </button>
+
                 </div>
             </div>
 

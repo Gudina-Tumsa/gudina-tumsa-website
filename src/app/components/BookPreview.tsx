@@ -46,7 +46,7 @@ const BookPreview = () => {
                                     style={{ position: "relative" }}
                                 >
                                     <p
-                                        className={`font-poppins ${
+                                        className={`${
                                             index === 0 ? "italic text-lg sm:text-xl md:text-2xl" : "text-base sm:text-lg md:text-xl"
                                         }`}
                                         ref={(el) => {

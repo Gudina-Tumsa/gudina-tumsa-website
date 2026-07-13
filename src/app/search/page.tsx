@@ -16,7 +16,7 @@ export default function Page() {
         <SidebarLayout>
             <div className="w-full flex flex-col justify-between">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-8 w-full">
-                    <h1 className="text-2xl font-medium text-gray-900 dark:text-white">Search Results</h1>
+                    <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Search Results</h1>
                     <SearchBar className="w-full sm:max-w-xs" />
                 </div>
 

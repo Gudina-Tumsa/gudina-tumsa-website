@@ -24,7 +24,7 @@ const MyPurchases = ({ sales }: { sales: MySaleEntry[] }) => {
     return (
         <section className="mb-10 w-full">
             <div className="flex items-baseline gap-2 mb-4">
-                <h2 className="font-serif text-2xl text-gray-900 dark:text-white">My purchases</h2>
+                <h2 className="font-bold tracking-tight text-2xl text-gray-900 dark:text-white">My purchases</h2>
                 <span className="text-sm text-gray-400">{sales.length} items</span>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -143,7 +143,7 @@ export default function MarketplacePage() {
             <div className="w-full">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-8">
                     <div>
-                        <h1 className="font-serif text-4xl sm:text-5xl text-gray-900 dark:text-white mb-1">
+                        <h1 className="font-extrabold tracking-tight text-4xl sm:text-5xl text-gray-900 dark:text-white mb-1">
                             Marketplace
                         </h1>
                         <p className="text-gray-500 dark:text-gray-300">Books and audiobooks from the collection</p>
@@ -175,7 +175,7 @@ export default function MarketplacePage() {
                 {token && <MyPurchases sales={sales} />}
 
                 <section className="w-full">
-                    <h2 className="font-serif text-2xl text-gray-900 dark:text-white mb-4">For sale</h2>
+                    <h2 className="font-bold tracking-tight text-2xl text-gray-900 dark:text-white mb-4">For sale</h2>
                     {!loading && visibleBooks.length === 0 ? (
                         <p className="text-gray-500 dark:text-gray-400">No books match these filters.</p>
                     ) : (

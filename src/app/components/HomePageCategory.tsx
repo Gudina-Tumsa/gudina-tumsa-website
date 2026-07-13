@@ -53,10 +53,10 @@ const HomePageCategory = () => {
         <div className="bg-[#F2F2F2]">
             {/* Hero Section */}
             <div className="text-center py-8 sm:py-12 md:py-16 px-4">
-                <h1 className="font-instrument regula sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-1 sm:mb-1 ">
+                <h1 className="sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-black mb-1 sm:mb-1 ">
                     A world of legacy resources.
                 </h1>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#9407F2] font-instrument regula mb-2 sm:mb-2">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#9407F2] mb-2 sm:mb-2">
                     One membership.
                 </h2>
                 <p className="justify-center text-sm sm:text-2xl md:text-2xl text-gray-600  text-center block ">

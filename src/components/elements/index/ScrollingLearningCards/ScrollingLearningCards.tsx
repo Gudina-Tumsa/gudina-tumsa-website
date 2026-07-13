@@ -165,7 +165,7 @@ const LearningCardWithScroll = ({
         >
             {index === 0 && (
                 <div className="absolute top-[-3%] sm:top-[5%]  w-full px-4">
-                    <h1 className="font-instrument regula sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-4 text-center">
+                    <h1 className="sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-black mb-2 sm:mb-4 text-center">
                         {/*How will you level up?*/}
                         A world of legacy resources.
                     </h1>
@@ -187,7 +187,7 @@ const LearningCardWithScroll = ({
                     {/* Left Content */}
                     <div className="space-y-4 sm:space-y-6">
                         <div>
-                            <h2 className="font-instrument regula sm:text-4xl md:text-5xl font-bold text-[#9407F2] mb-1 sm:mb-2">
+                            <h2 className="sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#9407F2] mb-1 sm:mb-2">
                                 {method.title}
                             </h2>
                             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-800">

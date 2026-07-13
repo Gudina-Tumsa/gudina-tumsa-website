@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins , Instrument_Serif  } from "next/font/google";
+import { Geist, Geist_Mono, Poppins , Instrument_Serif, Plus_Jakarta_Sans } from "next/font/google";
 
 import { getLocale, getMessages } from 'next-intl/server'
 import { Providers } from './Providers'
@@ -30,6 +30,12 @@ const instrumentSerif = Instrument_Serif({
     style: ["normal", "italic"],
 });
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+    variable: "--font-plus-jakarta-sans",
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
     title: "GTL",
     description: "GTL",
@@ -50,7 +56,7 @@ export default async function RootLayout({
 
     return (
         <html lang={locale}>
-        <body className={`font-sans bg-white text-black ${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${instrumentSerif.variable}`}>
+        <body className={`font-sans bg-white text-black ${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${instrumentSerif.variable} ${plusJakartaSans.variable}`}>
         <Providers locale={locale} messages={messages}>
             {children}
         </Providers>

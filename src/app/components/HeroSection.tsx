@@ -31,24 +31,24 @@ const HeroSection = () => {
             <div className=" flex flex-col lg:flex-row justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
                 {/* Text Content */}
                 <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10">
-                    <div className="text-center lg:text-left font-instrument regula">
+                    <div className="text-center lg:text-left">
                         <motion.h1
                             variants={textSlideUp}
                             className="..."
                         >
-                            <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-snug mb-2">
+                            <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-snug mb-2">
                                 Knowledge{' '}
                             </h1>
 
                         </motion.h1>
 
-                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-2">
+                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-tight mb-2">
                             at the tip
                         </h1>
-                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-bold text-gray-900 leading-tight mb-4 sm:mb-6">
+                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-tight mb-4 sm:mb-6">
                             of your fingers
                         </h1>
-                        <p className="text-xl sm:text-xl tracking-tight text-gray-600 mb-6 sm:mb-8 leading-snug font-poppins">
+                        <p className="text-xl sm:text-xl tracking-tight text-gray-600 mb-6 sm:mb-8 leading-snug">
                             Get key insights from{' '}
                             <span className="text-[#9407F2] font-medium"> books</span>,{' '}
                             <span className="text-[#9407F2] font-medium">talks</span>, {' '}
@@ -63,13 +63,13 @@ const HeroSection = () => {
                             <br className="hidden sm:block" />
                             <span>the GTL app.</span>
                         </p>
-                        <div className=" justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16 font-poppins space-x-2">
+                        <div className=" justify-center lg:justify-start mb-8 sm:mb-12 lg:mb-16 space-x-2">
                             <a
                                 className="relative bg-black inline-flex items-center px-12  py-2  border border-gray-300 rounded-full text-white  hover:border-gray-400 transition-all duration-200 group"
                                 aria-label="Get Started"
                                 href={"/home"}
                             >
-                                <span className="font-medium mr-2">Get Started</span>
+                                <span className="font-bold mr-2">Get Started</span>
                             </a>
                             <a
                                 className="inline-flex space-x-2 items-center px-6 sm:px-8 sm:py-2 text-black  transition-all duration-200 group"

@@ -79,7 +79,7 @@ const TodaysSelectionHero = ({ todaysSelectionResponse }) => {
                         Today&apos;s selection
                     </span>
 
-                    <h2 className="font-serif text-2xl sm:text-3xl text-[#1C1B19] dark:text-white mt-3 leading-tight">
+                    <h2 className="font-extrabold tracking-tight text-2xl sm:text-3xl text-[#1C1B19] dark:text-white mt-3 leading-tight">
                         {book.title}
                     </h2>
                     <p className="text-sm text-[#8A8374] dark:text-gray-300 mt-1">by {book.author}</p>
@@ -143,7 +143,7 @@ const UpcomingEventsCard = ({ events }: { events: EventData[] }) => {
 
     return (
         <div className="rounded-2xl bg-white dark:bg-gray-700 border border-[#E8E1D3] dark:border-gray-600 p-6 h-full flex flex-col">
-            <h2 className="font-serif text-lg text-[#1C1B19] dark:text-white flex items-center gap-2 mb-5">
+            <h2 className="font-bold text-lg text-[#1C1B19] dark:text-white flex items-center gap-2 mb-5">
                 <CalendarIcon className="h-5 w-5 text-[#9407F2] dark:text-[#C084FC]" />
                 Upcoming events
             </h2>
@@ -159,7 +159,7 @@ const UpcomingEventsCard = ({ events }: { events: EventData[] }) => {
                         </div>
                     </div>
                     <div className="min-w-0">
-                        <h3 className="font-serif text-xl text-[#1C1B19] dark:text-white leading-tight line-clamp-2">
+                        <h3 className="font-bold text-xl text-[#1C1B19] dark:text-white leading-tight line-clamp-2">
                             {event.title}
                         </h3>
                         {event.location && (
@@ -350,7 +350,7 @@ export default function HomePage() {
                     {/* Greeting + search */}
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
                         <div>
-                            <h1 className="font-serif text-3xl sm:text-4xl text-[#1C1B19] dark:text-white">
+                            <h1 className="font-extrabold tracking-tight text-3xl sm:text-4xl text-[#1C1B19] dark:text-white">
                                 {getGreeting()}, {user?.user?.firstName || "reader"}
                             </h1>
                             <p className="text-[#8A8374] dark:text-gray-400 mt-1">
@@ -409,7 +409,7 @@ export default function HomePage() {
                     {/* Main Book List (Lazy Loaded) */}
                     {user.user?._id == null && (
                         <>
-                            <h2 className="font-serif text-2xl sm:text-3xl text-[#1C1B19] dark:text-white mb-1">
+                            <h2 className="font-extrabold tracking-tight text-2xl sm:text-3xl text-[#1C1B19] dark:text-white mb-1">
                                 Explore the library
                             </h2>
                             <p className="text-sm text-[#8A8374] dark:text-gray-400 mb-5">

@@ -176,7 +176,7 @@ const ContactPage = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center px-6 md:px-12">
 
                     <div>
-                        <h1 className="font-instrument regual text-6xl font-bold text-white mb-2">Contacts</h1>
+                        <h1 className="text-6xl font-black tracking-tighter text-white mb-2">Contacts</h1>
 
                     </div>
                 </div>
