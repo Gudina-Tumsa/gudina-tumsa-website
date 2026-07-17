@@ -70,6 +70,10 @@ const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRa
                                 writer={book.author}
                                 year={book.publicationYear}
                                 coverImage={`${process.env.NEXT_PUBLIC_BASE_URL}${book.coverImageUrl}`}
+                                category={book.category}
+                                rating={book.rating}
+                                pageCount={book.pageCount}
+                                hasAudio={!!book.audioSummarizationUrl}
                             />
                         )}
                     </div>

@@ -31,6 +31,10 @@ const BookGrid = ({ userId , title, books, showCurrentlyReading }: BookGridProps
                                 isCurrentlyReading={showCurrentlyReading}
                                 userId={userId}
                                 id={book._id}
+                                category={book.category}
+                                rating={book.rating}
+                                pageCount={book.pageCount}
+                                hasAudio={!!book.audioSummarizationUrl}
                             />
 
                     )

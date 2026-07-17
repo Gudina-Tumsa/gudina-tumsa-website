@@ -4,6 +4,23 @@ import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import { BookData } from "@/types/book";
 
+const BACKDROP_PALETTE = [
+    "bg-teal-50 dark:bg-teal-950/30",
+    "bg-rose-50 dark:bg-rose-950/30",
+    "bg-amber-50 dark:bg-amber-950/30",
+    "bg-indigo-50 dark:bg-indigo-950/30",
+    "bg-emerald-50 dark:bg-emerald-950/30",
+    "bg-sky-50 dark:bg-sky-950/30",
+    "bg-fuchsia-50 dark:bg-fuchsia-950/30",
+    "bg-orange-50 dark:bg-orange-950/30",
+];
+
+function paletteIndex(key: string) {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    return hash % BACKDROP_PALETTE.length;
+}
+
 // pageReached can be a PDF page number, an EPUB CFI string, or "end" —
 // only a numeric value paired with a known pageCount yields a percentage.
 export const getReadingProgress = (book: BookData): number | null => {
@@ -21,17 +38,20 @@ interface ProgressBookCardProps {
 const ProgressBookCard = ({ book, completed }: ProgressBookCardProps) => {
     const router = useRouter();
     const progress = completed ? 100 : getReadingProgress(book);
+    const idx = paletteIndex(book.category || book.title || "book");
 
     return (
         <div
             className="group flex flex-col cursor-pointer"
             onClick={() => router.push(`/bookdetail/${book._id}`)}
         >
-            <div className="rounded-2xl overflow-hidden relative aspect-[3/4] bg-gray-100 dark:bg-gray-700 shadow-sm">
+            <div
+                className={`relative aspect-[3/4] rounded-2xl overflow-hidden ${BACKDROP_PALETTE[idx]} ring-1 ring-black/5 dark:ring-white/10 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1`}
+            >
                 <img
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}${book.coverImageUrl}`}
                     alt={book.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="absolute inset-0 h-full w-full scale-[0.92] rounded-xl object-cover shadow-md transition-transform duration-300 group-hover:scale-[0.97]"
                     loading="lazy"
                 />
                 {completed && (
