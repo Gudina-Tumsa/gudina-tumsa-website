@@ -53,7 +53,7 @@ export interface HasPurchasedResponse {
 export interface MySaleEntry {
     _id: string;
     finalized: boolean;
-    method: PaymentMethod;
+    refunded: boolean;
     amountDue: number;
     createdAt: string;
     book: {
@@ -63,7 +63,15 @@ export interface MySaleEntry {
         coverImageUrl: string;
         price: number;
     };
-    payment?: Record<string, unknown>;
+    // The Sale document itself has no top-level `method` — it lives on the populated
+    // `payment` sub-document (a bank-transfer sale that failed before a Payment was ever
+    // created is the one case where this can still be absent).
+    payment?: {
+        method: PaymentMethod;
+        status?: string;
+        transactionRef?: string;
+        amount?: number;
+    };
 }
 
 export interface MySalesResponse {

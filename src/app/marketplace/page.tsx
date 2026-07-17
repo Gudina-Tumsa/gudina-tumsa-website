@@ -101,8 +101,14 @@ export default function MarketplacePage() {
                 if (token) {
                     const mySales = await getMySales(token);
                     if (cancelled) return;
-                    setSales(mySales.data.sales);
-                    setOwnedIds(new Set(mySales.data.sales.map((sale) => sale.book._id)));
+                    // /api/sales/my now also returns pending/refunded sales (for the purchase
+                    // history page) — only a finalized, non-refunded sale grants access, so
+                    // "owned"/"continue reading" here must stay scoped to those.
+                    const completedSales = mySales.data.sales.filter(
+                        (sale) => sale.finalized && !sale.refunded
+                    );
+                    setSales(completedSales);
+                    setOwnedIds(new Set(completedSales.map((sale) => sale.book._id)));
                 }
             } catch (err) {
                 console.error("Failed to load marketplace books:", err);

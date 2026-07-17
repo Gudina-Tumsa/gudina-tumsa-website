@@ -17,13 +17,17 @@ import {
     Laptop,
     Globe,
     LogOut,
+    Receipt,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import { getSessions, logoutSession } from "@/lib/api/sessions";
+import { getMySales } from "@/lib/api/sales";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { SessionResponse } from "@/types/sessions";
+import { MySaleEntry } from "@/types/sale";
 import { getMe, updateUser } from "@/lib/api/user";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";
@@ -115,6 +119,156 @@ const Sessions = () => {
                                         Log out
                                     </button>
                                 )}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+};
+
+const formatSaleDate = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+
+type PurchaseStatus = "pending" | "completed" | "refunded";
+
+const deriveSaleStatus = (sale: MySaleEntry): PurchaseStatus => {
+    if (sale.refunded) return "refunded";
+    if (sale.finalized) return "completed";
+    return "pending";
+};
+
+const STATUS_BADGE: Record<PurchaseStatus, { label: string; className: string }> = {
+    completed: {
+        label: "Paid",
+        className: "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400",
+    },
+    pending: {
+        label: "Pending",
+        className: "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400",
+    },
+    refunded: {
+        label: "Refunded",
+        className: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+    },
+};
+
+const STATUS_FILTERS: { key: "all" | PurchaseStatus; label: string }[] = [
+    { key: "all", label: "All" },
+    { key: "pending", label: "Pending" },
+    { key: "completed", label: "Completed" },
+    { key: "refunded", label: "Refunded" },
+];
+
+const Purchases = () => {
+    const user = useSelector((state: RootState) => state.user);
+    const [sales, setSales] = useState<MySaleEntry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [statusFilter, setStatusFilter] = useState<"all" | PurchaseStatus>("all");
+
+    useEffect(() => {
+        const fetchSales = async () => {
+            if (!user?.session?.token) return;
+            try {
+                const data = await getMySales(user.session.token);
+                setSales(data.data.sales);
+            } catch (error) {
+                console.error("Failed to fetch purchase history:", error);
+                toast.error("Could not load your purchase history.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchSales();
+    }, [user?.session?.token]);
+
+    const filteredSales =
+        statusFilter === "all" ? sales : sales.filter((sale) => deriveSaleStatus(sale) === statusFilter);
+
+    return (
+        <div className="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 p-6 dark:border-gray-800">
+                <div>
+                    <h2 className="text-base font-semibold text-gray-900 dark:text-white">
+                        Purchase history
+                    </h2>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        Books and audiobooks you&apos;ve bought, including payments still pending.
+                    </p>
+                </div>
+                <div className="flex gap-1 rounded-lg bg-gray-100 p-1 dark:bg-gray-800">
+                    {STATUS_FILTERS.map(({ key, label }) => (
+                        <button
+                            key={key}
+                            onClick={() => setStatusFilter(key)}
+                            className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+                                statusFilter === key
+                                    ? "bg-white text-gray-900 shadow-sm dark:bg-gray-700 dark:text-white"
+                                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                            }`}
+                        >
+                            {label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {isLoading ? (
+                <div className="flex items-center justify-center gap-2 p-10 text-sm text-gray-500 dark:text-gray-400">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Loading purchases...
+                </div>
+            ) : filteredSales.length === 0 ? (
+                <div className="p-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                    {sales.length === 0
+                        ? "You haven't purchased anything yet."
+                        : "No purchases match this filter."}
+                </div>
+            ) : (
+                <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                    {filteredSales.map((sale) => {
+                        const status = deriveSaleStatus(sale);
+                        const badge = STATUS_BADGE[status];
+                        const methodLabel = sale.payment?.method?.replace("_", " ") ?? "Unknown method";
+                        return (
+                            <div key={sale._id} className="flex items-center justify-between gap-4 p-5">
+                                <div className="flex min-w-0 items-center gap-4">
+                                    <div className="h-14 w-10 shrink-0 overflow-hidden rounded-md bg-gray-100 dark:bg-gray-800">
+                                        <img
+                                            src={`${process.env.NEXT_PUBLIC_BASE_URL}${sale.book.coverImageUrl}`}
+                                            alt={sale.book.title}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <Link
+                                            href={`/bookdetail/${sale.book._id}`}
+                                            className="truncate text-sm font-medium text-gray-900 hover:underline dark:text-white"
+                                        >
+                                            {sale.book.title}
+                                        </Link>
+                                        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                                            {sale.book.author}
+                                        </p>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                                            {formatSaleDate(sale.createdAt)} · {methodLabel}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex shrink-0 flex-col items-end gap-1">
+                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                        {sale.amountDue} ETB
+                                    </span>
+                                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.className}`}>
+                                        {badge.label}
+                                    </span>
+                                </div>
                             </div>
                         );
                     })}
@@ -235,12 +389,13 @@ const Preference = () => {
 
 const TABS = [
     { key: "account", label: "Account", icon: User },
+    { key: "purchases", label: "Purchases", icon: Receipt },
     { key: "preferences", label: "Preferences", icon: SlidersHorizontal },
     { key: "sessions", label: "Sessions", icon: Shield },
 ] as const;
 
 const Settings = () => {
-    const [activeTab, setActiveTab] = useState<"account" | "preferences" | "sessions">("account");
+    const [activeTab, setActiveTab] = useState<"account" | "purchases" | "preferences" | "sessions">("account");
     const user = useSelector((state: RootState) => state.user);
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -416,6 +571,8 @@ const Settings = () => {
                                 </div>
                             </div>
                         )}
+
+                        {activeTab === "purchases" && <Purchases />}
 
                         {activeTab === "preferences" && <Preference />}
 
