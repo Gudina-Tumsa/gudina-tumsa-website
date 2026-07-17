@@ -216,7 +216,7 @@ export default function HomePage() {
 
     // Fetch non-scrolling sections on mount
     useEffect(() => {
-        const token = user?.user?.token;
+        const token = user?.session?.token;
 
         const loadStaticData = async () => {
             try {
@@ -252,7 +252,7 @@ export default function HomePage() {
         };
 
         loadStaticData();
-    }, [user?.user?.token]);
+    }, [user?.session?.token]);
 
     // Fetch next page of books (main list)
     const fetchBooks = useCallback(async () => {
