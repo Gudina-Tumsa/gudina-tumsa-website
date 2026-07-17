@@ -22,7 +22,7 @@ interface MarketplaceSectionProps {
 const MarketplaceSection = ({ mode = "grid", title = "Marketplace", limit, filters }: MarketplaceSectionProps) => {
     const user = useSelector((state: RootState) => state.user);
     const router = useRouter();
-    const token = user?.user?.token;
+    const token = user?.session?.token;
 
     const [payableBooks, setPayableBooks] = useState<BookData[]>([]);
     const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());

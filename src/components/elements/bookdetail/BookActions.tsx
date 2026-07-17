@@ -54,12 +54,12 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
     const isAudioBook = bookData.contentType === "audio";
 
     useEffect(() => {
-        if (!bookData.payable || !user?.user?.token) return;
+        if (!bookData.payable || !user?.session?.token) return;
 
         hasPurchased(user.user.token, bookData._id)
             .then((response) => setIsOwned(response.data.purchased))
             .catch((err) => console.error("Failed to check purchase status:", err));
-    }, [bookData._id, bookData.payable, user?.user?.token]);
+    }, [bookData._id, bookData.payable, user?.session?.token]);
 
     // --- Interaction Handlers ---
 
@@ -349,7 +349,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
                 </div>
             )}
 
-            {showPurchaseModal && user?.user?.token && (
+            {showPurchaseModal && user?.session?.token && (
                 <PurchaseModal
                     book={bookData}
                     token={user.user.token}

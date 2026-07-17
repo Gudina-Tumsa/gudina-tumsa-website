@@ -35,6 +35,7 @@ export function NavMain() {
         { title: "My library", url: "/toread", requireLogin: true },
         { title: "Browse", url: "/browse", requireLogin: false },
         { title: "Marketplace", url: "/marketplace", requireLogin: true },
+        { title: "Shop", url: "/shop", requireLogin: false },
     ];
 
     useEffect(() => {

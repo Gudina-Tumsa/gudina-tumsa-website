@@ -3,14 +3,45 @@
 "use client"
 import React from 'react';
 import { useState , useEffect } from "react"
-import { ChevronDown,ChevronUp, Menu, X } from "lucide-react"
+import { ChevronDown,ChevronUp, Menu, X, ShoppingCart } from "lucide-react"
 import { Globe } from 'lucide-react';
+import { useSelector } from "react-redux";
 
 import {useTranslations} from 'next-intl'
 import {Locale, locales} from "@/i18n/config";
 import {setUserLocale} from "@/services/locale";
 import Link from 'next/link';
 import {getEvents} from "@/lib/api/events";
+import { getCart } from "@/lib/api/cart";
+import { RootState } from "@/app/store/store";
+import { useAppDispatch } from "@/lib/hooks";
+import { setCart } from "@/app/store/features/cartSlice";
+
+function CartLink() {
+    const dispatch = useAppDispatch();
+    const token = useSelector((state: RootState) => state.user?.session?.token);
+    const itemCount = useSelector(
+        (state: RootState) => state.cart.cart?.items?.reduce((sum, i) => sum + i.quantity, 0) ?? 0
+    );
+
+    useEffect(() => {
+        if (!token) return;
+        getCart(token)
+            .then((res) => dispatch(setCart(res.data)))
+            .catch(() => {});
+    }, [token, dispatch]);
+
+    return (
+        <Link href="/shop/cart" className="relative p-2 text-gray-700 hover:text-gray-900" aria-label="Cart">
+            <ShoppingCart className="w-5 h-5" />
+            {itemCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#C084FC] px-1 text-[10px] font-medium text-white">
+                    {itemCount}
+                </span>
+            )}
+        </Link>
+    );
+}
 
 
 const languageMap: Record<string, Locale> = {
@@ -217,7 +248,15 @@ const Header = () => {
                                 Events
                             </Link>
 
+                            <Link
+                                href="/shop"
+                                className="font-bold text-gray-700 hover:text-gray-900 transition-colors"
+                            >
+                                Shop
+                            </Link>
+
                             <div className="flex items-center space-x-4">
+                                <CartLink />
                                 <Link
                                     href="/login"
                                     className="border-[0.5px] bg-black text-white rounded-full border-black  px-6 py-2  transition-transform duration-200 hover:-translate-y-1"
@@ -250,6 +289,13 @@ const Header = () => {
                                 onClick={() => setMobileMenuOpen(false)}
                             >
                                 Get Started
+                            </Link>
+                            <Link
+                                href="/shop"
+                                className="block font-bold text-gray-700 hover:text-gray-900 transition-colors py-2"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Shop
                             </Link>
                             {/*<Link*/}
                             {/*    href="/login"*/}

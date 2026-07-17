@@ -18,12 +18,17 @@ import {
     Globe,
     LogOut,
     Receipt,
+    Package,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
 import { getSessions, logoutSession } from "@/lib/api/sessions";
 import { getMySales } from "@/lib/api/sales";
+import { getMyOrders, downloadOrderFile } from "@/lib/api/orders";
+import { OrderData } from "@/types/order";
+
+const DOWNLOAD_ACCESS_STATUSES = ["paid", "processing", "shipped", "delivered"];
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { SessionResponse } from "@/types/sessions";
@@ -278,6 +283,151 @@ const Purchases = () => {
     );
 };
 
+const formatOrderDate = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+
+const ORDER_STATUS_BADGE: Record<string, { label: string; className: string }> = {
+    pending_payment: {
+        label: "Pending payment",
+        className: "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400",
+    },
+    paid: {
+        label: "Paid",
+        className: "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400",
+    },
+    processing: {
+        label: "Processing",
+        className: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
+    },
+    shipped: {
+        label: "Shipped",
+        className: "bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400",
+    },
+    delivered: {
+        label: "Delivered",
+        className: "bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400",
+    },
+    cancelled: {
+        label: "Cancelled",
+        className: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+    },
+    refunded: {
+        label: "Refunded",
+        className: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+    },
+};
+
+const Orders = () => {
+    const user = useSelector((state: RootState) => state.user);
+    const [orders, setOrders] = useState<OrderData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            if (!user?.session?.token) return;
+            try {
+                const data = await getMyOrders(user.session.token);
+                setOrders(data.data.orders);
+            } catch (error) {
+                console.error("Failed to fetch order history:", error);
+                toast.error("Could not load your orders.");
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchOrders();
+    }, [user?.session?.token]);
+
+    const handleDownload = async (orderId: string, productId: string, name: string) => {
+        if (!user?.session?.token) return;
+        try {
+            const blob = await downloadOrderFile(user.session.token, orderId, productId);
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = name;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Failed to download file:", error);
+            toast.error("Could not download this file.");
+        }
+    };
+
+    return (
+        <div className="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <div className="border-b border-gray-100 p-6 dark:border-gray-800">
+                <h2 className="text-base font-semibold text-gray-900 dark:text-white">Orders</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Products you&apos;ve ordered from the shop, including delivery status and digital downloads.
+                </p>
+            </div>
+
+            {isLoading ? (
+                <div className="flex items-center justify-center gap-2 p-10 text-sm text-gray-500 dark:text-gray-400">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Loading orders...
+                </div>
+            ) : orders.length === 0 ? (
+                <div className="p-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                    You haven&apos;t placed any orders yet.
+                </div>
+            ) : (
+                <div className="divide-y divide-gray-100 dark:divide-gray-800">
+                    {orders.map((order) => {
+                        const badge = ORDER_STATUS_BADGE[order.status] ?? ORDER_STATUS_BADGE.pending_payment;
+                        return (
+                            <div key={order._id} className="flex items-center justify-between gap-4 p-5">
+                                <div className="min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{order.orderNumber}</p>
+                                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                                        {order.items.map((i) => `${i.name} ×${i.quantity}`).join(", ")}
+                                    </p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                                        {formatOrderDate(order.createdAt)}
+                                        {order.trackingNumber ? ` · Tracking: ${order.trackingNumber}` : ""}
+                                    </p>
+                                    {DOWNLOAD_ACCESS_STATUSES.includes(order.status) &&
+                                        order.items.some((i) => i.isDigital) && (
+                                            <div className="mt-2 flex flex-wrap gap-2">
+                                                {order.items
+                                                    .filter((i) => i.isDigital)
+                                                    .map((i) => (
+                                                        <button
+                                                            key={i.product}
+                                                            onClick={() => handleDownload(order._id, i.product, i.name)}
+                                                            className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                                        >
+                                                            Download {i.name}
+                                                        </button>
+                                                    ))}
+                                            </div>
+                                        )}
+                                </div>
+                                <div className="flex shrink-0 flex-col items-end gap-1">
+                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                        {order.totalAmount} ETB
+                                    </span>
+                                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.className}`}>
+                                        {badge.label}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+};
+
 const THEME_OPTIONS = [
     { value: "light", label: "Light", icon: Sun },
     { value: "dark", label: "Dark", icon: Moon },
@@ -390,12 +540,13 @@ const Preference = () => {
 const TABS = [
     { key: "account", label: "Account", icon: User },
     { key: "purchases", label: "Purchases", icon: Receipt },
+    { key: "orders", label: "Orders", icon: Package },
     { key: "preferences", label: "Preferences", icon: SlidersHorizontal },
     { key: "sessions", label: "Sessions", icon: Shield },
 ] as const;
 
 const Settings = () => {
-    const [activeTab, setActiveTab] = useState<"account" | "purchases" | "preferences" | "sessions">("account");
+    const [activeTab, setActiveTab] = useState<"account" | "purchases" | "orders" | "preferences" | "sessions">("account");
     const user = useSelector((state: RootState) => state.user);
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -573,6 +724,8 @@ const Settings = () => {
                         )}
 
                         {activeTab === "purchases" && <Purchases />}
+
+                        {activeTab === "orders" && <Orders />}
 
                         {activeTab === "preferences" && <Preference />}
 
