@@ -13,7 +13,7 @@ const MarketplaceBookCard = ({ book, isOwned, onBuyClick }: MarketplaceBookCardP
     const router = useRouter();
 
     return (
-        <div className="dark:text-white group rounded-lg overflow-hidden w-64 p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+        <div className="dark:text-white group rounded-lg overflow-hidden w-full p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
             <div
                 className="rounded-lg overflow-hidden relative aspect-[3/4] bg-gray-100 cursor-pointer"
                 onClick={() => router.push(`/bookdetail/${book._id}`)}

@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { InputHTMLAttributes, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 import SidebarLayout from "@/components/layout/sidebar/sidebar-layout";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getCart } from "@/lib/api/cart";
 import { createOrder, createBankTransferOrder, OrdersApiError } from "@/lib/api/orders";
 import { RootState } from "@/app/store/store";
@@ -23,6 +25,20 @@ const EMPTY_ADDRESS: ShippingAddress = {
     streetAddress: "",
     postalCode: "",
 };
+
+const inputClass =
+    "w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-[#C084FC]/50 focus:border-[#C084FC] placeholder:text-gray-400";
+
+const Field = ({
+    label,
+    className,
+    ...props
+}: InputHTMLAttributes<HTMLInputElement> & { label: string; className?: string }) => (
+    <label className={`block ${className ?? ""}`}>
+        <span className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">{label}</span>
+        <input {...props} className={inputClass} />
+    </label>
+);
 
 export default function CheckoutPage() {
     const user = useSelector((state: RootState) => state.user);
@@ -125,7 +141,16 @@ export default function CheckoutPage() {
     if (loadingCart) {
         return (
             <SidebarLayout>
-                <div className="py-20 text-center text-sm text-gray-500 dark:text-gray-400">Loading…</div>
+                <div className="mx-auto max-w-4xl">
+                    <Skeleton className="mb-8 h-10 w-48 rounded-full" />
+                    <div className="grid gap-8 lg:grid-cols-3">
+                        <div className="space-y-6 lg:col-span-2">
+                            <Skeleton className="h-64 w-full rounded-2xl" />
+                            <Skeleton className="h-40 w-full rounded-2xl" />
+                        </div>
+                        <Skeleton className="h-56 w-full rounded-2xl" />
+                    </div>
+                </div>
             </SidebarLayout>
         );
     }
@@ -140,79 +165,117 @@ export default function CheckoutPage() {
 
     return (
         <SidebarLayout>
-            <div className="mx-auto max-w-2xl">
-                <h1 className="mb-6 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Checkout</h1>
+            <div className="mx-auto max-w-4xl">
+                <div className="mb-8">
+                    <h1 className="font-extrabold tracking-tight text-4xl sm:text-5xl text-gray-900 dark:text-white mb-1">
+                        Checkout
+                    </h1>
+                    <p className="text-gray-500 dark:text-gray-300">Review your order and choose how you&apos;d like to pay</p>
+                </div>
 
-                {!allDigital && (
-                <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 mb-6">
-                    <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Shipping address</h2>
-                    <div className="grid grid-cols-2 gap-3">
-                        <input
-                            placeholder="Full name"
-                            value={address.fullName}
-                            onChange={(e) => handleAddressChange("fullName", e.target.value)}
-                            className="col-span-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="Phone"
-                            value={address.phone}
-                            onChange={(e) => handleAddressChange("phone", e.target.value)}
-                            className="col-span-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="Region"
-                            value={address.region}
-                            onChange={(e) => handleAddressChange("region", e.target.value)}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="City"
-                            value={address.city}
-                            onChange={(e) => handleAddressChange("city", e.target.value)}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="Sub-city (optional)"
-                            value={address.subCity}
-                            onChange={(e) => handleAddressChange("subCity", e.target.value)}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="Postal code (optional)"
-                            value={address.postalCode}
-                            onChange={(e) => handleAddressChange("postalCode", e.target.value)}
-                            className="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
-                        <input
-                            placeholder="Street address"
-                            value={address.streetAddress}
-                            onChange={(e) => handleAddressChange("streetAddress", e.target.value)}
-                            className="col-span-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-gray-900 dark:text-white"
-                        />
+                <div className="grid gap-8 lg:grid-cols-3 lg:items-start">
+                    <div className="space-y-6 lg:col-span-2">
+                        {!allDigital && (
+                            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                                <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Shipping address</h2>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Field
+                                        className="col-span-2"
+                                        label="Full name"
+                                        value={address.fullName}
+                                        onChange={(e) => handleAddressChange("fullName", e.target.value)}
+                                    />
+                                    <Field
+                                        className="col-span-2"
+                                        label="Phone"
+                                        value={address.phone}
+                                        onChange={(e) => handleAddressChange("phone", e.target.value)}
+                                    />
+                                    <Field
+                                        label="Region"
+                                        value={address.region}
+                                        onChange={(e) => handleAddressChange("region", e.target.value)}
+                                    />
+                                    <Field
+                                        label="City"
+                                        value={address.city}
+                                        onChange={(e) => handleAddressChange("city", e.target.value)}
+                                    />
+                                    <Field
+                                        label="Sub-city (optional)"
+                                        value={address.subCity}
+                                        onChange={(e) => handleAddressChange("subCity", e.target.value)}
+                                    />
+                                    <Field
+                                        label="Postal code (optional)"
+                                        value={address.postalCode}
+                                        onChange={(e) => handleAddressChange("postalCode", e.target.value)}
+                                    />
+                                    <Field
+                                        className="col-span-2"
+                                        label="Street address"
+                                        value={address.streetAddress}
+                                        onChange={(e) => handleAddressChange("streetAddress", e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                            <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Payment method</h2>
+                            <CheckoutPaymentMethod
+                                amount={subtotal}
+                                method={method}
+                                onMethodChange={setMethod}
+                                bankTransferSelection={bankTransferSelection}
+                                onBankTransferSelectionChange={setBankTransferSelection}
+                            />
+                        </div>
                     </div>
-                </div>
-                )}
 
-                <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 mb-6">
-                    <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Payment method</h2>
-                    <CheckoutPaymentMethod
-                        amount={subtotal}
-                        method={method}
-                        onMethodChange={setMethod}
-                        bankTransferSelection={bankTransferSelection}
-                        onBankTransferSelectionChange={setBankTransferSelection}
-                    />
-                </div>
-
-                <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 flex items-center justify-between">
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white">Total: {subtotal} ETB</p>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={submitting}
-                        className="rounded-lg bg-[#C084FC] text-white px-6 py-3 font-medium hover:bg-[#C084FC]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {submitting ? "Placing order…" : "Place order"}
-                    </button>
+                    <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm lg:sticky lg:top-6">
+                        <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-4">Order summary</h2>
+                        <div className="space-y-3 mb-4 max-h-64 overflow-y-auto pr-1">
+                            {items.map(
+                                (item) =>
+                                    item.product && (
+                                        <div key={item.product._id} className="flex items-center gap-3">
+                                            <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+                                                {item.product.images[0] && (
+                                                    <img
+                                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}${item.product.images[0]}`}
+                                                        alt={item.product.name}
+                                                        className="h-full w-full object-cover"
+                                                    />
+                                                )}
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="line-clamp-1 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {item.product.name}
+                                                </p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">Qty {item.quantity}</p>
+                                            </div>
+                                            <p className="shrink-0 text-sm font-semibold text-gray-900 dark:text-white">
+                                                {item.lineTotal} ETB
+                                            </p>
+                                        </div>
+                                    )
+                            )}
+                        </div>
+                        <div className="h-px bg-gray-100 dark:bg-gray-800 mb-4" />
+                        <div className="flex items-center justify-between mb-6">
+                            <span className="font-semibold text-gray-900 dark:text-white">Total</span>
+                            <span className="text-lg font-bold text-gray-900 dark:text-white">{subtotal} ETB</span>
+                        </div>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={submitting}
+                            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#9407F2] py-3 font-semibold text-white hover:bg-[#7d06cc] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                            {submitting ? "Placing order…" : "Place order"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </SidebarLayout>

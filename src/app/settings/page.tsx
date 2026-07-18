@@ -19,6 +19,7 @@ import {
     LogOut,
     Receipt,
     Package,
+    Download,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -40,6 +41,36 @@ import { loginSuccess } from "@/app/store/features/userSlice";
 
 const isMobileDevice = (deviceId: string) =>
     /mobile|android|iphone|ipad/i.test(deviceId ?? "");
+
+// deviceId is the raw User-Agent string captured at login — deviceInfo.browser/os are
+// always empty from the backend (see gudina-tumsa-backend/src/modules/user/controller.ts),
+// so we parse a friendly label out of the UA ourselves instead of showing it raw.
+const parseDeviceLabel = (ua: string) => {
+    if (!ua) return "Unknown device";
+
+    let browser = "Unknown browser";
+    if (/edg\//i.test(ua)) browser = "Edge";
+    else if (/opr\/|opera/i.test(ua)) browser = "Opera";
+    else if (/chrome\//i.test(ua)) browser = "Chrome";
+    else if (/firefox\//i.test(ua)) browser = "Firefox";
+    else if (/safari\//i.test(ua)) browser = "Safari";
+
+    let os = "";
+    if (/windows nt/i.test(ua)) os = "Windows";
+    else if (/iphone|ipad/i.test(ua)) os = "iOS";
+    else if (/mac os x/i.test(ua)) os = "macOS";
+    else if (/android/i.test(ua)) os = "Android";
+    else if (/linux/i.test(ua)) os = "Linux";
+
+    return os ? `${browser} on ${os}` : browser;
+};
+
+const formatDate = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
 
 const Sessions = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -104,10 +135,11 @@ const Sessions = () => {
                                     </div>
                                     <div className="min-w-0">
                                         <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                                            {session.deviceId}
+                                            {parseDeviceLabel(session.deviceId)}
                                         </p>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                                            Addis Ababa
+                                        <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                                            Signed in {formatDate(session.createdAt)}
+                                            {session.deviceInfo?.ipAddress ? ` · ${session.deviceInfo.ipAddress}` : ""}
                                         </p>
                                     </div>
                                 </div>
@@ -132,13 +164,6 @@ const Sessions = () => {
         </div>
     );
 };
-
-const formatSaleDate = (isoDate: string) =>
-    new Date(isoDate).toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    });
 
 type PurchaseStatus = "pending" | "completed" | "refunded";
 
@@ -244,7 +269,7 @@ const Purchases = () => {
                         return (
                             <div key={sale._id} className="flex items-center justify-between gap-4 p-5">
                                 <div className="flex min-w-0 items-center gap-4">
-                                    <div className="h-14 w-10 shrink-0 overflow-hidden rounded-md bg-gray-100 dark:bg-gray-800">
+                                    <div className="h-16 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_BASE_URL}${sale.book.coverImageUrl}`}
                                             alt={sale.book.title}
@@ -262,8 +287,16 @@ const Purchases = () => {
                                             {sale.book.author}
                                         </p>
                                         <p className="text-xs text-gray-400 dark:text-gray-500">
-                                            {formatSaleDate(sale.createdAt)} · {methodLabel}
+                                            {formatDate(sale.createdAt)} · {methodLabel}
                                         </p>
+                                        {status === "completed" && (
+                                            <Link
+                                                href={`/bookdetail/${sale.book._id}`}
+                                                className="mt-1 inline-block text-xs font-medium text-[#9407F2] hover:underline dark:text-[#C084FC]"
+                                            >
+                                                Continue reading
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="flex shrink-0 flex-col items-end gap-1">
@@ -282,13 +315,6 @@ const Purchases = () => {
         </div>
     );
 };
-
-const formatOrderDate = (isoDate: string) =>
-    new Date(isoDate).toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    });
 
 const ORDER_STATUS_BADGE: Record<string, { label: string; className: string }> = {
     pending_payment: {
@@ -325,6 +351,7 @@ const Orders = () => {
     const user = useSelector((state: RootState) => state.user);
     const [orders, setOrders] = useState<OrderData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [downloadingKey, setDownloadingKey] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -345,6 +372,8 @@ const Orders = () => {
 
     const handleDownload = async (orderId: string, productId: string, name: string) => {
         if (!user?.session?.token) return;
+        const key = `${orderId}:${productId}`;
+        setDownloadingKey(key);
         try {
             const blob = await downloadOrderFile(user.session.token, orderId, productId);
             const url = URL.createObjectURL(blob);
@@ -358,6 +387,8 @@ const Orders = () => {
         } catch (error) {
             console.error("Failed to download file:", error);
             toast.error("Could not download this file.");
+        } finally {
+            setDownloadingKey(null);
         }
     };
 
@@ -383,41 +414,58 @@ const Orders = () => {
                 <div className="divide-y divide-gray-100 dark:divide-gray-800">
                     {orders.map((order) => {
                         const badge = ORDER_STATUS_BADGE[order.status] ?? ORDER_STATUS_BADGE.pending_payment;
+                        const canDownload = DOWNLOAD_ACCESS_STATUSES.includes(order.status);
                         return (
-                            <div key={order._id} className="flex items-center justify-between gap-4 p-5">
-                                <div className="min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{order.orderNumber}</p>
-                                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
-                                        {order.items.map((i) => `${i.name} ×${i.quantity}`).join(", ")}
-                                    </p>
-                                    <p className="text-xs text-gray-400 dark:text-gray-500">
-                                        {formatOrderDate(order.createdAt)}
-                                        {order.trackingNumber ? ` · Tracking: ${order.trackingNumber}` : ""}
-                                    </p>
-                                    {DOWNLOAD_ACCESS_STATUSES.includes(order.status) &&
-                                        order.items.some((i) => i.isDigital) && (
-                                            <div className="mt-2 flex flex-wrap gap-2">
-                                                {order.items
-                                                    .filter((i) => i.isDigital)
-                                                    .map((i) => (
-                                                        <button
-                                                            key={i.product}
-                                                            onClick={() => handleDownload(order._id, i.product, i.name)}
-                                                            className="rounded-md bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                                                        >
-                                                            Download {i.name}
-                                                        </button>
-                                                    ))}
-                                            </div>
-                                        )}
+                            <div key={order._id} className="p-5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="min-w-0">
+                                        <p className="text-sm font-medium text-gray-900 dark:text-white">{order.orderNumber}</p>
+                                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                                            {formatDate(order.createdAt)}
+                                            {order.trackingNumber ? ` · Tracking: ${order.trackingNumber}` : ""}
+                                        </p>
+                                    </div>
+                                    <div className="flex shrink-0 flex-col items-end gap-1">
+                                        <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                            {order.totalAmount} ETB
+                                        </span>
+                                        <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.className}`}>
+                                            {badge.label}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex shrink-0 flex-col items-end gap-1">
-                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                                        {order.totalAmount} ETB
-                                    </span>
-                                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.className}`}>
-                                        {badge.label}
-                                    </span>
+
+                                <div className="mt-3 space-y-1.5 rounded-xl bg-gray-50 p-3 dark:bg-gray-800/60">
+                                    {order.items.map((item) => {
+                                        const key = `${order._id}:${item.product}`;
+                                        const downloading = downloadingKey === key;
+                                        return (
+                                            <div key={item.product} className="flex items-center justify-between gap-3 text-sm">
+                                                <span className="min-w-0 truncate text-gray-700 dark:text-gray-300">
+                                                    {item.name} <span className="text-gray-400 dark:text-gray-500">×{item.quantity}</span>
+                                                </span>
+                                                <div className="flex shrink-0 items-center gap-3">
+                                                    <span className="text-gray-500 dark:text-gray-400">
+                                                        {item.unitPrice * item.quantity} ETB
+                                                    </span>
+                                                    {canDownload && item.isDigital && (
+                                                        <button
+                                                            onClick={() => handleDownload(order._id, item.product, item.name)}
+                                                            disabled={downloading}
+                                                            className="flex items-center gap-1.5 rounded-md bg-gray-900 px-2.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+                                                        >
+                                                            {downloading ? (
+                                                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                                            ) : (
+                                                                <Download className="h-3.5 w-3.5" />
+                                                            )}
+                                                            {downloading ? "Downloading…" : "Download"}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         );

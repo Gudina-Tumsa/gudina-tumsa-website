@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { BookData } from "@/types/book";
 import BookCard from "./BookCard";
 import ProgressBookCard from "./ProgressBookCard";
@@ -16,19 +14,8 @@ interface BookRailProps {
     showProgress?: boolean;
 }
 
-const arrowClass =
-    "hidden sm:flex h-9 w-9 items-center justify-center rounded-full border border-[#E8E1D3] dark:border-gray-600 bg-white dark:bg-gray-700 text-[#1C1B19] dark:text-white transition-colors hover:bg-[#F5EEE0] dark:hover:bg-gray-600";
-
 const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRailProps) => {
-    const scrollerRef = useRef<HTMLDivElement>(null);
-
     if (!books || books.length === 0) return null;
-
-    const scroll = (direction: number) => {
-        const el = scrollerRef.current;
-        if (!el) return;
-        el.scrollBy({ left: direction * el.clientWidth * 0.8, behavior: "smooth" });
-    };
 
     return (
         <section className="mb-12">
@@ -54,12 +41,9 @@ const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRa
                 </div>
             </div>
 
-            <div
-                ref={scrollerRef}
-                className="flex gap-5 overflow-x-auto pb-2 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
+            <div className="flex flex-wrap gap-5">
                 {books.map((book) => (
-                    <div key={book._id} className="w-40 sm:w-44 lg:w-48 shrink-0 snap-start">
+                    <div key={book._id} className="w-40 sm:w-44 lg:w-48">
                         {showProgress ? (
                             <ProgressBookCard book={book} />
                         ) : (
