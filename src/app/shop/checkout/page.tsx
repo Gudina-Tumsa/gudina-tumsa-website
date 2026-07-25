@@ -26,6 +26,12 @@ const EMPTY_ADDRESS: ShippingAddress = {
     postalCode: "",
 };
 
+// Ethiopian mobile numbers: 9 digits after the +251 country code, starting with 7 or 9
+// (Ethio Telecom/Safaricom mobile prefixes) — matches the +251-prefixed input below, and is
+// the same "local 9 digits" shape the signup form (SignupForm.tsx) already collects.
+const ETHIOPIAN_PHONE_REGEX = /^[79]\d{8}$/;
+const isValidEthiopianPhone = (phone: string) => ETHIOPIAN_PHONE_REGEX.test(phone);
+
 const inputClass =
     "w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3.5 py-2.5 text-sm text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-[#C084FC]/50 focus:border-[#C084FC] placeholder:text-gray-400";
 
@@ -83,6 +89,10 @@ export default function CheckoutPage() {
         }
         if (!allDigital && (!address.fullName || !address.phone || !address.region || !address.city || !address.streetAddress)) {
             toast.error("Please fill in the full shipping address");
+            return;
+        }
+        if (!allDigital && !isValidEthiopianPhone(address.phone)) {
+            toast.error("Enter a valid phone number (9 digits, e.g. 912345678)");
             return;
         }
         if (method === "BANK_TRANSFER" && !bankTransferSelection) {
@@ -185,12 +195,27 @@ export default function CheckoutPage() {
                                         value={address.fullName}
                                         onChange={(e) => handleAddressChange("fullName", e.target.value)}
                                     />
-                                    <Field
-                                        className="col-span-2"
-                                        label="Phone"
-                                        value={address.phone}
-                                        onChange={(e) => handleAddressChange("phone", e.target.value)}
-                                    />
+                                    <label className="col-span-2 block">
+                                        <span className="mb-1 block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                            Phone *
+                                        </span>
+                                        <div className="flex">
+                                            <span className="inline-flex items-center rounded-l-xl border border-r-0 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 text-sm text-gray-500 dark:text-gray-300">
+                                                +251
+                                            </span>
+                                            <input
+                                                type="tel"
+                                                inputMode="numeric"
+                                                pattern="[0-9]{9}"
+                                                maxLength={9}
+                                                required
+                                                placeholder="912345678"
+                                                value={address.phone}
+                                                onChange={(e) => handleAddressChange("phone", e.target.value.replace(/\D/g, "").slice(0, 9))}
+                                                className={`${inputClass} rounded-l-none flex-1`}
+                                            />
+                                        </div>
+                                    </label>
                                     <Field
                                         label="Region"
                                         value={address.region}

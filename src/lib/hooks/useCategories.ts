@@ -9,7 +9,7 @@ export const useCategories = () => {
     useEffect(() => {
         let cancelled = false;
 
-        getCategories({ page: 1, limit: 50 })
+        getCategories({ page: 1, limit: 50, appliesTo: "book" })
             .then((response) => {
                 if (!cancelled) setCategories(response?.data?.categories ?? []);
             })

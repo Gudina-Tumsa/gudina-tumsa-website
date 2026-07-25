@@ -10,7 +10,6 @@ export interface ProductData {
     name: string;
     description: string;
     category: ProductCategorySummary | string;
-    sku: string;
     price: number;
     currency: string;
     images: string[];

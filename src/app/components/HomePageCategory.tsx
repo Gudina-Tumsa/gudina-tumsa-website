@@ -19,7 +19,7 @@ const HomePageCategory = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await getCategories({page: 1, limit: 20});
+                const response = await getCategories({page: 1, limit: 20, appliesTo: "book"});
                 dispatch(getCategoriesSuccess(response));
             } catch (err: unknown) {
                 console.error("Failed to fetch categories:", err);

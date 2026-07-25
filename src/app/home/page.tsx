@@ -28,6 +28,7 @@ import MarketplaceSection from "@/components/elements/marketplace/MarketplaceSec
 import FilterPillBar from "@/components/elements/filters/FilterPillBar";
 import { useCategories } from "@/lib/hooks/useCategories";
 import { CatalogFilters, defaultCatalogFilters } from "@/components/elements/filters/types";
+import NotificationBell from "@/components/elements/notifications/NotificationBell";
 
 // ------------------ Today's Selection Hero ------------------
 const TodaysSelectionHero = ({ todaysSelectionResponse }) => {
@@ -357,7 +358,10 @@ export default function HomePage() {
                                 What will you discover today?
                             </p>
                         </div>
-                        <SearchBar className="w-full sm:max-w-xs" />
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
+                            <SearchBar className="w-full sm:max-w-xs" />
+                            <NotificationBell />
+                        </div>
                     </div>
 
                     {/* Today's Selection + Upcoming Events */}
