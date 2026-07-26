@@ -84,28 +84,41 @@ const Index = () => {
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">4. Data Storage and Security</h2>
+                    <h2 className="text-3xl font-semibold mb-4">4. Payment Processing</h2>
+                    <p className="text-lg mb-4">
+                        When you purchase a book or other paid content through our Services, all financial and payment processing is securely handled by Chapa, our licensed third-party payment processor, and its supported local banks and mobile wallets (including Telebirr and CBE Birr).
+                    </p>
+                    <p className="text-lg mb-4">
+                        We do not collect, store, or have access to your full payment card numbers, mobile wallet PINs, or online banking credentials. This information is entered directly with the payment provider and is subject to their own privacy and security practices. We only receive limited transaction details necessary to confirm and record your purchase, such as the transaction reference, payment status, and amount.
+                    </p>
+                    <p className="text-lg">
+                        All payment transactions are encrypted and processed in accordance with applicable industry security standards.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 className="text-3xl font-semibold mb-4">5. Data Storage and Security</h2>
                     <p className="text-lg">
                         We use secure servers and protocols to protect your data. However, no method of transmission over the internet or electronic storage is 100% secure. We strive to use industry-standard measures to protect your personal information.
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">5. Cookies and Tracking Technologies</h2>
+                    <h2 className="text-3xl font-semibold mb-4">6. Cookies and Tracking Technologies</h2>
                     <p className="text-lg">
                         We may use cookies or similar technologies to personalize your experience, remember your preferences, and analyze usage. You can control cookies through your browser settings.
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">6. Children's Privacy</h2>
+                    <h2 className="text-3xl font-semibold mb-4">7. Children's Privacy</h2>
                     <p className="text-lg">
                         The GTL Library is not intended for children under the age of 13. We do not knowingly collect personal information from children.
                     </p>
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">7. Your Privacy Rights</h2>
+                    <h2 className="text-3xl font-semibold mb-4">8. Your Privacy Rights</h2>
                     <p className="text-lg mb-4">
                         You may:
                     </p>
@@ -120,7 +133,7 @@ const Index = () => {
                 </section>
 
                 <section>
-                    <h2 className="text-3xl font-semibold mb-4">8. Changes to This Policy</h2>
+                    <h2 className="text-3xl font-semibold mb-4">9. Changes to This Policy</h2>
                     <p className="text-lg">
                         We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Effective Date."
                     </p>
