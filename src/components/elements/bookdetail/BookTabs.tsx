@@ -19,65 +19,7 @@ import {CommentData} from "@/types/comments";
 import {UserResponse} from "@/types/auth";
 import {ThumbsUp , ThumbsDown } from "lucide-react";
 import {RateBook} from "@/lib/api/rating";
-
-const AudioPlayer = ({audioUrl, token, onPlayingChange}) => {
-    const audioRef = useRef(null);
-    const [loadError, setLoadError] = useState(false);
-
-    const fileName = audioUrl.split('/').pop();
-    // The stream endpoint is auth-gated and normally reads a Bearer header,
-    // but <audio src="..."> requests are issued by the browser itself and
-    // can't carry custom headers — so the token rides along as a query
-    // param instead. That lets the browser hit the URL directly and use
-    // native HTTP range requests (streaming + seeking) rather than us
-    // pre-fetching the whole file into memory, which is way too slow/heavy
-    // for large audiobooks.
-    const streamUrl = token
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/audio/stream/${fileName}?token=${encodeURIComponent(token)}`
-        : null;
-
-    useEffect(() => {
-        setLoadError(false);
-    }, [streamUrl]);
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio || !streamUrl) return;
-
-        audio.play().catch(() => {});
-
-        const handlePlay = () => onPlayingChange?.(true);
-        const handlePause = () => onPlayingChange?.(false);
-        const handleEnded = () => onPlayingChange?.(false);
-        const handleError = () => setLoadError(true);
-
-        audio.addEventListener('play', handlePlay);
-        audio.addEventListener('pause', handlePause);
-        audio.addEventListener('ended', handleEnded);
-        audio.addEventListener('error', handleError);
-
-        return () => {
-            audio.removeEventListener('play', handlePlay);
-            audio.removeEventListener('pause', handlePause);
-            audio.removeEventListener('ended', handleEnded);
-            audio.removeEventListener('error', handleError);
-        };
-    }, [streamUrl, onPlayingChange]);
-
-    if (!streamUrl) {
-        return <p className="text-sm text-gray-500 mt-2">Loading audio…</p>;
-    }
-
-    if (loadError) {
-        return <p className="text-sm text-red-600 mt-2">Unable to load audio. Please try again.</p>;
-    }
-
-    return (
-        <audio ref={audioRef} controls preload="metadata" className="mt-2 w-full" src={streamUrl}>
-            Your browser does not support the audio element.
-        </audio>
-    );
-};
+import {getAudioStreamUrl} from "@/lib/utils";
 
 
 interface StarRatingProps {
@@ -154,7 +96,10 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
     const [averageRating, setAverageRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [audioError, setAudioError] = useState(false);
     const token = useSelector((state: RootState) => state.user.session?.token);
+    const audioStreamUrl = getAudioStreamUrl(bookData?.audioSummarizationUrl, token);
 
     useEffect(() => {
         if (!bookData) return;
@@ -197,8 +142,44 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
         }
     }, [bookData?.description]);
 
-    const handleListenClick = async () => {
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+        const handleEnded = () => setIsPlaying(false);
+        const handleError = () => setAudioError(true);
+
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('pause', handlePause);
+        audio.addEventListener('ended', handleEnded);
+        audio.addEventListener('error', handleError);
+
+        return () => {
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
+            audio.removeEventListener('ended', handleEnded);
+            audio.removeEventListener('error', handleError);
+        };
+    }, []);
+
+    const handleListenClick = () => {
+        const audio = audioRef.current;
+        if (!audio || !audioStreamUrl) return;
+
+        setAudioError(false);
         setShowAudio(true);
+
+        if (audio.src !== audioStreamUrl) {
+            audio.src = audioStreamUrl;
+        }
+
+        // Call play() synchronously, in direct response to the click — if this
+        // were deferred to a useEffect after the state update above, browsers'
+        // autoplay/gesture policies silently block it (the promise rejects and
+        // nothing visibly happens, even though the audio loads fine).
+        audio.play().catch(() => setAudioError(true));
     };
 
    interface CreateBookRatingRequest {
@@ -295,15 +276,14 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                                         )}
                                     </button>
 
-                                    {showAudio && (
-                                        <div className="w-full sm:w-auto flex-1">
-                                            <AudioPlayer
-                                                audioUrl={bookData?.audioSummarizationUrl}
-                                                token={token}
-                                                onPlayingChange={setIsPlaying}
-                                            />
-                                        </div>
-                                    )}
+                                    <div className={`w-full sm:w-auto flex-1 ${showAudio ? '' : 'hidden'}`}>
+                                        <audio ref={audioRef} controls preload="none" className="mt-2 w-full">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                        {audioError && (
+                                            <p className="text-sm text-red-600 mt-2">Unable to load audio. Please try again.</p>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         )

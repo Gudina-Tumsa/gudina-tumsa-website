@@ -10,6 +10,7 @@ import { hasPurchased } from "@/lib/api/sales";
 import PurchaseModal from "@/components/elements/marketplace/PurchaseModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
+import { getAudioStreamUrl } from "@/lib/utils";
 import toast, { Toaster } from "react-hot-toast";
 import { useState, useRef, useEffect, useCallback } from "react";
 // Import simple icons for better aesthetics
@@ -207,7 +208,7 @@ const BookActions = ({ bookData }: { bookData: BookData }) => {
         };
     }, [isAudioModalOpen]); // Re-run when modal state changes to ensure cleanup
 
-    const audioUrl = bookData?.audioSummarizationUrl ? `${process.env.NEXT_PUBLIC_BASE_URL}${bookData.audioSummarizationUrl}` : null;
+    const audioUrl = getAudioStreamUrl(bookData?.audioSummarizationUrl, user?.session?.token);
 
     // --- JSX Rendering ---
     return (
