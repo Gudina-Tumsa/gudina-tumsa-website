@@ -20,12 +20,60 @@ import {UserResponse} from "@/types/auth";
 import {ThumbsUp , ThumbsDown } from "lucide-react";
 import {RateBook} from "@/lib/api/rating";
 
-const AudioPlayer = ({audioUrl, audioRef}) => {
+const AudioPlayer = ({audioUrl, token, onPlayingChange}) => {
+    const audioRef = useRef(null);
+    const [loadError, setLoadError] = useState(false);
+
     const fileName = audioUrl.split('/').pop();
-    const streamUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/audio/stream/${fileName}`;
+    // The stream endpoint is auth-gated and normally reads a Bearer header,
+    // but <audio src="..."> requests are issued by the browser itself and
+    // can't carry custom headers — so the token rides along as a query
+    // param instead. That lets the browser hit the URL directly and use
+    // native HTTP range requests (streaming + seeking) rather than us
+    // pre-fetching the whole file into memory, which is way too slow/heavy
+    // for large audiobooks.
+    const streamUrl = token
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/audio/stream/${fileName}?token=${encodeURIComponent(token)}`
+        : null;
+
+    useEffect(() => {
+        setLoadError(false);
+    }, [streamUrl]);
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio || !streamUrl) return;
+
+        audio.play().catch(() => {});
+
+        const handlePlay = () => onPlayingChange?.(true);
+        const handlePause = () => onPlayingChange?.(false);
+        const handleEnded = () => onPlayingChange?.(false);
+        const handleError = () => setLoadError(true);
+
+        audio.addEventListener('play', handlePlay);
+        audio.addEventListener('pause', handlePause);
+        audio.addEventListener('ended', handleEnded);
+        audio.addEventListener('error', handleError);
+
+        return () => {
+            audio.removeEventListener('play', handlePlay);
+            audio.removeEventListener('pause', handlePause);
+            audio.removeEventListener('ended', handleEnded);
+            audio.removeEventListener('error', handleError);
+        };
+    }, [streamUrl, onPlayingChange]);
+
+    if (!streamUrl) {
+        return <p className="text-sm text-gray-500 mt-2">Loading audio…</p>;
+    }
+
+    if (loadError) {
+        return <p className="text-sm text-red-600 mt-2">Unable to load audio. Please try again.</p>;
+    }
+
     return (
-        <audio ref={audioRef} controls className="mt-2 w-full">
-            <source src={streamUrl} type="audio/mpeg"/>
+        <audio ref={audioRef} controls preload="metadata" className="mt-2 w-full" src={streamUrl}>
             Your browser does not support the audio element.
         </audio>
     );
@@ -106,7 +154,7 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
     const [averageRating, setAverageRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
     const descriptionRef = useRef<HTMLParagraphElement>(null);
-    const audioRef = useRef<HTMLAudioElement>(null);
+    const token = useSelector((state: RootState) => state.user.session?.token);
 
     useEffect(() => {
         if (!bookData) return;
@@ -149,30 +197,8 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
         }
     }, [bookData?.description]);
 
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const handlePlay = () => setIsPlaying(true);
-        const handlePause = () => setIsPlaying(false);
-        const handleEnded = () => setIsPlaying(false);
-
-        audio.addEventListener('play', handlePlay);
-        audio.addEventListener('pause', handlePause);
-        audio.addEventListener('ended', handleEnded);
-
-        return () => {
-            audio.removeEventListener('play', handlePlay);
-            audio.removeEventListener('pause', handlePause);
-            audio.removeEventListener('ended', handleEnded);
-        };
-    }, [showAudio]);
-
     const handleListenClick = async () => {
         setShowAudio(true);
-        setTimeout(() => {
-            audioRef.current?.play();
-        }, 100);
     };
 
    interface CreateBookRatingRequest {
@@ -273,7 +299,8 @@ const BookDetail = ({bookData , userData}: { bookData: BookData | null ,  userDa
                                         <div className="w-full sm:w-auto flex-1">
                                             <AudioPlayer
                                                 audioUrl={bookData?.audioSummarizationUrl}
-                                                audioRef={audioRef}
+                                                token={token}
+                                                onPlayingChange={setIsPlaying}
                                             />
                                         </div>
                                     )}
