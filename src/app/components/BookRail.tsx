@@ -58,6 +58,7 @@ const BookRail = ({ title, subtitle, books, userId, href, showProgress }: BookRa
                                 rating={book.rating}
                                 pageCount={book.pageCount}
                                 hasAudio={!!book.audioSummarizationUrl}
+                                contentType={book.contentType}
                             />
                         )}
                     </div>

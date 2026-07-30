@@ -8,8 +8,10 @@ function StoreButtons() {
 
             <button
                 type="button"
-
-                className="px-3 flex items-center justify-center w-full sm:w-48 h-14 text-white bg-black rounded-xl"
+                disabled
+                aria-disabled="true"
+                title="Coming soon"
+                className="px-3 flex items-center justify-center w-full sm:w-48 h-14 text-white bg-black/60 rounded-xl cursor-not-allowed opacity-70"
             >
                 <div className="mr-3">
                     <svg viewBox="0 0 384 512" width="30">
@@ -20,14 +22,16 @@ function StoreButtons() {
                     </svg>
                 </div>
                 <div className="text-left">
-                    <div className="text-xs">Download on the</div>
+                    <div className="text-xs">Coming soon on the</div>
                     <div className="-mt-1 font-sans text-md font-semibold">App Store</div>
                 </div>
             </button>
 
             {/* Google Play Button */}
-            <button
-                type="button"
+            <a
+                href="https://play.google.com/store/apps/details?id=com.gtfmobile&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-3 flex items-center justify-center w-full sm:w-48 h-14 text-white bg-black rounded-xl"
             >
                 <div className="mr-3">
@@ -54,7 +58,7 @@ function StoreButtons() {
                     <div className="text-xs">GET IT ON</div>
                     <div className="-mt-1 font-sans text-md font-semibold">Google Play</div>
                 </div>
-            </button>
+            </a>
         </div>
     );
 }
@@ -75,7 +79,7 @@ const Footer = () => {
                         </div>
                         <div className="text-gray-600 space-y-1 mb-4 text-sm">
                             <p>Gudina and Tsehay Legacy Office</p>
-                            <p>Yerer, Leka Building, 3rd Floor</p>
+                            <p>Bole, Woreda 03</p>
                             <p>Addis Ababa, Ethiopia</p>
                             <p>Phone: +251-900916524</p>
                         </div>

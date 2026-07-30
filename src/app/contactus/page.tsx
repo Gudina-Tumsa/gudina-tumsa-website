@@ -208,8 +208,8 @@ const ContactPage = () => {
                             <div>
                                 <h3 className="font-semibold text-lg mb-2">Our Location</h3>
                                 <p className="text-gray-700">
-                                    Yerer, Leka Building<br />
-                                    3rd Floo
+                                    Bole, Woreda 03<br />
+                                    Addis Ababa, Ethiopia
                                 </p>
                             </div>
 

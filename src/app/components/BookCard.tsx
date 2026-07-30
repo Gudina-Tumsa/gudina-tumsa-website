@@ -16,6 +16,7 @@ interface BookCardProps {
     rating?: number;
     pageCount?: number;
     hasAudio?: boolean;
+    contentType?: string;
 }
 
 const CATEGORY_PALETTE = [
@@ -58,6 +59,7 @@ const BookCard = ({
     rating,
     pageCount,
     hasAudio,
+    contentType,
 }: BookCardProps) => {
     const router = useRouter();
 
@@ -66,7 +68,8 @@ const BookCard = ({
     }
 
     const idx = paletteIndex(category || title || "book");
-    const readMinutes = pageCount ? Math.max(5, Math.round(pageCount * 1.2)) : null;
+    const isAudio = contentType === "audio";
+    const readMinutes = isAudio && pageCount ? Math.max(5, Math.round(pageCount * 1.2)) : null;
 
     return (
         <div
@@ -118,6 +121,8 @@ const BookCard = ({
                                 <Clock className="h-3 w-3" />
                                 {readMinutes} min
                             </span>
+                        ) : pageCount ? (
+                            <span>{pageCount} pages</span>
                         ) : (
                             <span>{year}</span>
                         )}

@@ -27,25 +27,25 @@ const HeroSection = () => {
     };
 
     return (
-        <div className="flex flex-col justify-between min-h-screen">
+        <div className="relative min-h-screen">
             <div className=" flex flex-col lg:flex-row justify-between px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
                 {/* Text Content */}
-                <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10">
+                <div className="lg:w-1/2  flex flex-col justify-center sm:space-x-10 mt-6 sm:mt-10 lg:mt-14">
                     <div className="text-center lg:text-left">
                         <motion.h1
                             variants={textSlideUp}
                             className="..."
                         >
-                            <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-snug mb-2">
+                            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-gray-900 leading-snug mb-2">
                                 Knowledge{' '}
                             </h1>
 
                         </motion.h1>
 
-                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-tight mb-2">
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-gray-900 leading-tight mb-2">
                             at the tip
                         </h1>
-                        <h1 className="text-4xl sm:text-8xl lg:text-8xl font-black tracking-tighter text-gray-900 leading-tight mb-4 sm:mb-6">
+                        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tighter text-gray-900 leading-tight mb-4 sm:mb-6">
                             of your fingers
                         </h1>
                         <p className="text-xl sm:text-xl tracking-tight text-gray-600 mb-6 sm:mb-8 leading-snug">
@@ -105,7 +105,7 @@ const HeroSection = () => {
             {/* Scroll indicator */}
             <div
                 onClick={scrollToBottom}
-                className="text-center animate-bounce cursor-pointer inline-block mx-auto"
+                className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-center animate-bounce cursor-pointer"
                 role="button"
                 aria-label="Scroll to bottom"
             >
@@ -113,7 +113,6 @@ const HeroSection = () => {
                     <ChevronDown size={24} className="sm:size-[30px]" />
                 </p>
             </div>
-            <div></div>
         </div>
     );
 };
