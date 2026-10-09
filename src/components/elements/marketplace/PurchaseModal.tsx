@@ -182,7 +182,9 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
                     : await createSale(token, { bookId: book._id, method, returnUrl });
 
             if (response.data.checkoutUrl) {
-                window.location.href = response.data.checkoutUrl;
+                window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");
+                toast.success("Checkout opened in a new tab. We'll unlock the book once your payment is confirmed.");
+                onClose();
                 return;
             }
 

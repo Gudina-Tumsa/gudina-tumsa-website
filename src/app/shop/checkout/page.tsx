@@ -113,12 +113,14 @@ export default function CheckoutPage() {
                       })
                     : await createOrder(token, { shippingAddress: allDigital ? undefined : address, method, returnUrl });
 
+            dispatch(setCart({ cartId: cart?.cartId ?? "", items: [], subtotal: 0 }));
+
             if (response.data.checkoutUrl) {
-                window.location.href = response.data.checkoutUrl;
+                window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");
+                toast.success("Checkout opened in a new tab. We'll process your order once payment is confirmed.");
+                router.push(`/shop/orders/complete?orderId=${response.data.orderId}`);
                 return;
             }
-
-            dispatch(setCart({ cartId: cart?.cartId ?? "", items: [], subtotal: 0 }));
 
             const successMessages: Record<PaymentMethod, string> = {
                 BANK_TRANSFER: "Order placed! We'll confirm it once an admin reviews your receipt.",
