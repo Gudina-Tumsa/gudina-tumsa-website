@@ -54,6 +54,9 @@ export interface CreateOrderRequest {
     shippingAddress?: ShippingAddress;
     method: PaymentMethod;
     returnUrl?: string;
+    // TELEBIRR only — set when window.consumerapp is detected (page is running inside
+    // Telebirr's own app). See src/lib/telebirrBridge.ts.
+    inAppBridge?: boolean;
 }
 
 export interface CreateBankTransferOrderRequest {
@@ -73,6 +76,9 @@ export interface CreateOrderResponse {
         transactionRef: string;
         totalAmount: number;
         checkoutUrl?: string;
+        // TELEBIRR + inAppBridge only — signed preOrder request string to hand to Telebirr's
+        // native JS bridge (startTelebirrBridgePayment). Absent for every other case.
+        telebirrRawRequest?: string;
     };
 }
 

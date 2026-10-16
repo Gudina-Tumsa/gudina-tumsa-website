@@ -15,6 +15,7 @@ import { setCart } from "@/app/store/features/cartSlice";
 import { PaymentMethod } from "@/types/sale";
 import { ShippingAddress } from "@/types/order";
 import CheckoutPaymentMethod, { BankTransferSelection } from "@/components/elements/shop/CheckoutPaymentMethod";
+import { isTelebirrBridgeAvailable, startTelebirrBridgePayment } from "@/lib/telebirrBridge";
 
 const EMPTY_ADDRESS: ShippingAddress = {
     fullName: "",
@@ -103,6 +104,9 @@ export default function CheckoutPage() {
         setSubmitting(true);
         try {
             const returnUrl = `${window.location.origin}/shop/orders/complete`;
+            // Our page running inside Telebirr's own app (window.consumerapp present) uses its
+            // native JS bridge instead of the usual external-paygate redirect.
+            const useTelebirrBridge = method === "TELEBIRR" && isTelebirrBridgeAvailable();
             const response =
                 method === "BANK_TRANSFER" && bankTransferSelection
                     ? await createBankTransferOrder(token, {
@@ -111,9 +115,22 @@ export default function CheckoutPage() {
                           receiptImage: bankTransferSelection.receiptFile,
                           returnUrl,
                       })
-                    : await createOrder(token, { shippingAddress: allDigital ? undefined : address, method, returnUrl });
+                    : await createOrder(token, {
+                          shippingAddress: allDigital ? undefined : address,
+                          method,
+                          returnUrl,
+                          inAppBridge: useTelebirrBridge,
+                      });
 
             dispatch(setCart({ cartId: cart?.cartId ?? "", items: [], subtotal: 0 }));
+
+            if (useTelebirrBridge && response.data.telebirrRawRequest) {
+                startTelebirrBridgePayment(response.data.telebirrRawRequest, () => {
+                    router.push(`/shop/orders/complete?orderId=${response.data.orderId}`);
+                });
+                toast.success("Payment started in Telebirr. We'll process your order once it's confirmed.");
+                return;
+            }
 
             if (response.data.checkoutUrl) {
                 window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");

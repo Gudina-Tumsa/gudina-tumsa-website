@@ -10,6 +10,7 @@ import { BankAccount } from "@/types/bankAccount";
 import { createSale, createBankTransferSale, SalesApiError } from "@/lib/api/sales";
 import { getPaymentMethods } from "@/lib/api/paymentMethods";
 import { getBankAccounts } from "@/lib/api/bankAccounts";
+import { isTelebirrBridgeAvailable, startTelebirrBridgePayment } from "@/lib/telebirrBridge";
 
 interface PurchaseModalProps {
     book: BookData;
@@ -171,6 +172,9 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
         setSubmitting(true);
         try {
             const returnUrl = `${window.location.origin}/marketplace/purchase/complete?bookId=${book._id}`;
+            // Our page running inside Telebirr's own app (window.consumerapp present) uses its
+            // native JS bridge instead of the usual external-paygate redirect.
+            const useTelebirrBridge = method === "TELEBIRR" && isTelebirrBridgeAvailable();
             const response =
                 method === "BANK_TRANSFER" && bankTransferSelection
                     ? await createBankTransferSale(token, {
@@ -179,7 +183,16 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
                           receiptImage: bankTransferSelection.receiptFile,
                           returnUrl,
                       })
-                    : await createSale(token, { bookId: book._id, method, returnUrl });
+                    : await createSale(token, { bookId: book._id, method, returnUrl, inAppBridge: useTelebirrBridge });
+
+            if (useTelebirrBridge && response.data.telebirrRawRequest) {
+                startTelebirrBridgePayment(response.data.telebirrRawRequest, () => {
+                    window.location.href = returnUrl;
+                });
+                toast.success("Payment started in Telebirr. We'll unlock the book once it's confirmed.");
+                onClose();
+                return;
+            }
 
             if (response.data.checkoutUrl) {
                 window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");
