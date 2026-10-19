@@ -417,6 +417,11 @@ export default function Home() {
                         <Viewer
                             fileUrl={pdfUrl}
                             httpHeaders={{ Authorization: `Bearer ${user?.user?.token ?? ""}` }}
+                            // Only fetch the byte ranges for pages being viewed: no streaming the
+                            // whole file in the background (it competes with the range requests).
+                            transformGetDocumentParams={(options) =>
+                                ({ ...options, disableAutoFetch: true, disableStream: true } as typeof options)
+                            }
                             plugins={[defaultLayoutPluginInstance, jumpToPagePluginInstance]}
                             onDocumentLoad={() => {
                                 if (!hasJumped.current) {
