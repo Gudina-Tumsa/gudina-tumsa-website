@@ -249,9 +249,13 @@ export default function Home() {
             setPdfUrl(null);
             setBookData(null);
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${id}/pages?page=1&limit=1000`, {
+            const bookUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/book/${id}/pages`;
+            // Probe with a 1-byte range so we learn the format / access status without
+            // downloading the whole file; pdf.js then range-loads only the pages it needs.
+            const response = await fetch(bookUrl, {
                 headers: {
                     'Authorization': `Bearer ${user?.user?.token ?? ""}`,
+                    'Range': 'bytes=0-0',
                 },
             });
 
@@ -266,13 +270,18 @@ export default function Home() {
             const format = response.headers.get('X-Book-Format') as "pdf" | "epub" | null;
             setBookFormat(format);
 
-            const buffer = await response.arrayBuffer();
-
-            if (format === 'epub') {
-                setBookData(buffer);
-            } else if (format === 'pdf') {
-                const blobUrl = URL.createObjectURL(new Blob([buffer], { type: 'application/pdf' }));
-                setPdfUrl(blobUrl);
+            if (format === 'pdf') {
+                response.body?.cancel();
+                setPdfUrl(bookUrl);
+            } else if (format === 'epub') {
+                // epub.js needs the whole archive
+                const full = await fetch(bookUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${user?.user?.token ?? ""}`,
+                    },
+                });
+                if (!full.ok) throw new Error("Failed to fetch book");
+                setBookData(await full.arrayBuffer());
             }
         } catch (error) {
             console.error("Error loading book:", error);
@@ -407,6 +416,7 @@ export default function Home() {
                     <div style={{ height: "100vh" }}>
                         <Viewer
                             fileUrl={pdfUrl}
+                            httpHeaders={{ Authorization: `Bearer ${user?.user?.token ?? ""}` }}
                             plugins={[defaultLayoutPluginInstance, jumpToPagePluginInstance]}
                             onDocumentLoad={() => {
                                 if (!hasJumped.current) {
