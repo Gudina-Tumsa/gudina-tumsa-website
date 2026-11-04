@@ -133,7 +133,7 @@ export default function CheckoutPage() {
             }
 
             if (response.data.checkoutUrl) {
-                window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");
+                window.open(response.data.checkoutUrl, "_blank", "noopener");
                 toast.success("Checkout opened in a new tab. We'll process your order once payment is confirmed.");
                 router.push(`/shop/orders/complete?orderId=${response.data.orderId}`);
                 return;

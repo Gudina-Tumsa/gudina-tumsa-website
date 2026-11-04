@@ -195,7 +195,7 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
             }
 
             if (response.data.checkoutUrl) {
-                window.open(response.data.checkoutUrl, "_blank", "noopener,noreferrer");
+                window.open(response.data.checkoutUrl, "_blank", "noopener");
                 toast.success("Checkout opened in a new tab. We'll unlock the book once your payment is confirmed.");
                 onClose();
                 return;
