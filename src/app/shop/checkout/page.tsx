@@ -88,6 +88,11 @@ export default function CheckoutPage() {
             toast.error("Select a payment method");
             return;
         }
+        if (method !== "BANK_TRANSFER" && method !== "CASH" && !user?.user?.phone) {
+            toast.error("Please add your phone number in Settings before paying.");
+            router.push("/settings");
+            return;
+        }
         if (!allDigital && (!address.fullName || !address.phone || !address.region || !address.city || !address.streetAddress)) {
             toast.error("Please fill in the full shipping address");
             return;
@@ -128,7 +133,7 @@ export default function CheckoutPage() {
                 startTelebirrBridgePayment(response.data.telebirrRawRequest, () => {
                     router.push(`/shop/orders/complete?orderId=${response.data.orderId}`);
                 });
-                toast.success("Payment started in Telebirr. We'll process your order once it's confirmed.");
+                toast.success("Payment started in telebirr. We'll process your order once it's confirmed.");
                 return;
             }
 
@@ -149,7 +154,10 @@ export default function CheckoutPage() {
             toast.success(successMessages[method]);
             router.push(`/shop/orders/complete?orderId=${response.data.orderId}`);
         } catch (err) {
-            if (err instanceof OrdersApiError && err.statusCode === 502) {
+            if (err instanceof Error && err.message.includes("PHONE_REQUIRED")) {
+                toast.error("Please add your phone number in Settings before paying.");
+                router.push("/settings");
+            } else if (err instanceof OrdersApiError && err.statusCode === 502) {
                 toast.error("The payment gateway is unavailable right now. Please try again or pick another method.");
             } else {
                 toast.error(err instanceof Error ? err.message : "Failed to place order.");

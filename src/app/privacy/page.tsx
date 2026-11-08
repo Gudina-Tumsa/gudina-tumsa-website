@@ -86,7 +86,7 @@ const Index = () => {
                 <section>
                     <h2 className="text-3xl font-semibold mb-4">4. Payment Processing</h2>
                     <p className="text-lg mb-4">
-                        When you purchase a book or other paid content through our Services, all financial and payment processing is securely handled by Chapa, our licensed third-party payment processor, and its supported local banks and mobile wallets (including Telebirr and CBE Birr).
+                        When you purchase a book or other paid content through our Services, all financial and payment processing is securely handled by Chapa, our licensed third-party payment processor, and its supported local banks and mobile wallets (including telebirr and CBE Birr).
                     </p>
                     <p className="text-lg mb-4">
                         We do not collect, store, or have access to your full payment card numbers, mobile wallet PINs, or online banking credentials. This information is entered directly with the payment provider and is subject to their own privacy and security practices. We only receive limited transaction details necessary to confirm and record your purchase, such as the transaction reference, payment status, and amount.

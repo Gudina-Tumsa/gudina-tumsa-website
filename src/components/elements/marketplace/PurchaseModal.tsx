@@ -10,6 +10,9 @@ import { BankAccount } from "@/types/bankAccount";
 import { createSale, createBankTransferSale, SalesApiError } from "@/lib/api/sales";
 import { getPaymentMethods } from "@/lib/api/paymentMethods";
 import { getBankAccounts } from "@/lib/api/bankAccounts";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import type { RootState } from "@/app/store/store";
 import { isTelebirrBridgeAvailable, startTelebirrBridgePayment } from "@/lib/telebirrBridge";
 
 interface PurchaseModalProps {
@@ -132,6 +135,8 @@ function BankTransferPayment({
 }
 
 const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps) => {
+    const currentUser = useSelector((state: RootState) => state.user);
+    const router = useRouter();
     const [methods, setMethods] = useState<PaymentMethodOption[]>([]);
     const [methodsLoading, setMethodsLoading] = useState(true);
     const [method, setMethod] = useState<PaymentMethod | null>(null);
@@ -169,6 +174,12 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
         if (!method) return;
         if (method === "BANK_TRANSFER" && !bankTransferSelection) return;
 
+        if (method !== "BANK_TRANSFER" && method !== "CASH" && !currentUser?.user?.phone) {
+            toast.error("Please add your phone number in Settings before paying.");
+            router.push("/settings");
+            return;
+        }
+
         setSubmitting(true);
         try {
             const returnUrl = `${window.location.origin}/marketplace/purchase/complete?bookId=${book._id}`;
@@ -189,7 +200,7 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
                 startTelebirrBridgePayment(response.data.telebirrRawRequest, () => {
                     window.location.href = returnUrl;
                 });
-                toast.success("Payment started in Telebirr. We'll unlock the book once it's confirmed.");
+                toast.success("Payment started in telebirr. We'll unlock the book once it's confirmed.");
                 onClose();
                 return;
             }
@@ -218,7 +229,10 @@ const PurchaseModal = ({ book, token, onClose, onPurchased }: PurchaseModalProps
                 return;
             }
 
-            if (err instanceof SalesApiError && err.statusCode === 502) {
+            if (err instanceof Error && err.message.includes("PHONE_REQUIRED")) {
+                toast.error("Please add your phone number in Settings before paying.");
+                router.push("/settings");
+            } else if (err instanceof SalesApiError && err.statusCode === 502) {
                 toast.error("The payment gateway is unavailable right now. Please try again or pick another method.");
             } else {
                 toast.error(err instanceof Error ? err.message : "Failed to start purchase.");

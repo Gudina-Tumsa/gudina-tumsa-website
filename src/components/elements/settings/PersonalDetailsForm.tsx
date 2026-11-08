@@ -10,6 +10,7 @@ interface PersonalDetailsFormProps {
         lastName: string;
         email: string;
         username: string;
+        phone?: string;
     };
     onChange: (field: string, value: string) => void;
 }
@@ -30,6 +31,16 @@ export const PersonalDetailsForm = ({ formData, onChange }: PersonalDetailsFormP
                 onChange={(value) => onChange('lastName', value)}
                 maxLength={30}
             />
+
+            <div className="sm:col-span-2">
+                <FormInput
+                    label="Phone (9 digits, e.g. 912345678) — used for payments"
+                    value={formData.phone || ''}
+                    onChange={(value) => onChange('phone', value.replace(/\D/g, '').slice(0, 9))}
+                    type="tel"
+                    maxLength={9}
+                />
+            </div>
 
             <div className="sm:col-span-2">
                 <FormInput

@@ -265,7 +265,7 @@ const Purchases = () => {
                     {filteredSales.map((sale) => {
                         const status = deriveSaleStatus(sale);
                         const badge = STATUS_BADGE[status];
-                        const methodLabel = sale.payment?.method?.replace("_", " ") ?? "Unknown method";
+                        const methodLabel = sale.payment?.method?.replace("_", " ").replace("TELEBIRR", "telebirr") ?? "Unknown method";
                         return (
                             <div key={sale._id} className="flex items-center justify-between gap-4 p-5">
                                 <div className="flex min-w-0 items-center gap-4">
@@ -606,6 +606,7 @@ const Settings = () => {
         lastName: user?.user?.lastName || "",
         email: user?.user?.email || "",
         username: user?.user?.username || "",
+        phone: user?.user?.phone || "",
     });
 
     useEffect(() => {
@@ -614,6 +615,7 @@ const Settings = () => {
             lastName: user?.user?.lastName || "",
             email: user?.user?.email || "",
             username: user?.user?.username || "",
+            phone: user?.user?.phone || "",
         });
     }, [user]);
 
@@ -636,6 +638,14 @@ const Settings = () => {
             if (formData.lastName !== user.user.lastName) updates.lastName = formData.lastName;
             if (formData.email !== user.user.email) updates.email = formData.email;
             if (formData.username !== user.user.username) updates.username = formData.username;
+            if ((formData.phone || "") !== (user.user.phone || "")) {
+                if (formData.phone && !/^[79]\d{8}$/.test(formData.phone)) {
+                    toast.error("Enter a valid phone number (9 digits, e.g. 912345678)");
+                    setIsLoading(false);
+                    return;
+                }
+                updates.phone = formData.phone;
+            }
             if (password) {
                 updates.password = password;
             }
